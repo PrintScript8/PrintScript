@@ -2,53 +2,48 @@ package org.example.lexer
 
 import org.example.token.Token
 import org.example.token.TokenImpl
-import org.example.token.TokenType
 import java.io.File
 import java.util.Scanner
 
 class LexerImplementation : Lexer {
 
-    private var file: File? = null;
+    private var file: File? = null
 
     override fun setFile(input: File) {
-        file = input;
+        file = input
     }
 
     override fun getTokens(): List<Token> {
-
         if (file == null) {
             return emptyList()
         }
         return readText(file!!)
     }
 
-    private fun readText(file: File) : List<Token> {
-
+    private fun readText(file: File): List<Token> {
         val scanner = Scanner(file)
-        val stringBuilder: StringBuilder = StringBuilder()
-
+        val stringBuilder = StringBuilder()
         val tokenList = ArrayList<Token>()
+        var lineNumber = 1
+        val splitter = ElementSplitter()
 
-        var i = 1;
         while (scanner.hasNextLine()) {
             stringBuilder.append(scanner.nextLine())
-
-            val splitText: List<String> = splitText(stringBuilder);
-
+            val splitText = splitText(splitter, stringBuilder.toString())
             val provider = TypeProvider()
-            for (string in splitText) {
 
-                val tokenType: TokenType = provider.getTokenType(string)
-                tokenList.add(TokenImpl(tokenType, string, i))
+            for (string in splitText) {
+                val tokenType = provider.getTokenType(string)
+                tokenList.add(TokenImpl(tokenType, string, lineNumber))
                 stringBuilder.setLength(0)
             }
-            i += 1
+            lineNumber += 1
         }
         scanner.close()
         return tokenList
     }
 
-    private fun splitText(stringBuilder: StringBuilder) : List<String> {
-        return stringBuilder.toString().split(" ")
+    private fun splitText(splitter: ElementSplitter, text: String): List<String> {
+        return splitter.split(text)
     }
 }

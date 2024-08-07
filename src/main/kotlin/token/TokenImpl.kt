@@ -17,4 +17,8 @@ class TokenImpl(
     override fun getLine(): Int {
         return line
     }
+
+    override fun toString(): String {
+        return "$type | $representation | $line"
+    }
 }

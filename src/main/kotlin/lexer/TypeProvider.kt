@@ -4,29 +4,19 @@ import org.example.token.TokenType
 
 class TypeProvider {
 
-    private val typesMap: Map<String, TokenType> = mapOf(
-        "let" to TokenType.KEYWORD,
-        "cast" to TokenType.KEYWORD,
-        "var" to TokenType.KEYWORD,
-        "+" to TokenType.OPERAND,
-        "-" to TokenType.OPERAND,
-        "*" to TokenType.OPERAND,
-        "/" to TokenType.OPERAND,
-        "=" to TokenType.ASSIGNATION,
-        ";" to TokenType.ENDING,
-        "String" to TokenType.LITERAL_TYPE,
-        "Number" to TokenType.LITERAL_TYPE
-        //falta chequear por valores reales de string o numero
-    )
-
-    fun getTokenType(value: String): TokenType{
-        val type: TokenType? = typesMap.get(value)
-        if(type != null){
-            return type;
-        }
-        else{
-            //This should check obsecure types for
-            return TokenType.IDENTIFIER_VAR
+    fun getTokenType(value: String): TokenType {
+        return when {
+            value in listOf("let", "cast", "var") -> TokenType.KEYWORD
+            value in listOf("+", "-", "*", "/") -> TokenType.OPERAND
+            value in listOf("=", ":") -> TokenType.ASSIGNATION
+            value == ";" -> TokenType.ENDING
+            value in listOf("String", "string", "Number", "number") -> TokenType.IDENTIFIER_TYPE
+            value in listOf("println(") -> TokenType.NATIVE_METHOD
+            value in listOf("(", ")") -> TokenType.PARENTHESIS
+            value.matches(Regex("""^\w+\(""")) -> TokenType.USER_METHOD
+            value.matches(Regex("""^\d+$""")) -> TokenType.NUMBER_LITERAL
+            value.matches(Regex("""^["'].*["']?$""")) -> TokenType.STRING_LITERAL
+            else -> TokenType.IDENTIFIER_VAR
         }
     }
 }

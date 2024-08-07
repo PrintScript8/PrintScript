@@ -1,0 +1,69 @@
+@startuml
+
+interface Lexer {
++ setFile(input: File): void
++ getTokens(): List<Token>
+}
+
+interface Token {
++ getType(): TokenType
++ getString(): String
++ getLine(): Int
+}
+
+class TokenImpl {
+- type: TokenType
+- representation: String
+- line: Int
++ toString(): String
+}
+
+enum TokenType {
++ KEYWORD
++ OPERAND
++ IDENTIFIER_TYPE
++ ASSIGNATION
++ ENDING
++ STRING_LITERAL
++ NUMBER_LITERAL
++ UNKNOWN
++ NATIVE_METHOD
++ PARENTHESIS
++ USER_METHOD
++ IDENTIFIER_VAR
+}
+
+class TypeProvider {
++ getTokenType(value: String): TokenType
+}
+
+class LexerImplementation {
+- file: File
+- readText(file: File): List<Token>
+- splitText(splitter: ElementSplitter, text: String): List<Token>
+}
+
+class ElementSplitter {
+- input: String
++ split(text: String): List<String>
+- isQuote(c: Char): Boolean
+- handleQuote(c: Char): void
+- handleWhitespace(): void
+- isSeparator(c: Char): Boolean
+- handleSeparator(c: Char): void
+- handleOpeningParenthesis(c: Char): void
+- handleClosingParenthesis(c: Char): void
+- handleDefault(c: char): void
+- isDoubleCharOperator(): Boolean
+- addTokenIfNotEmpty(): void
+- addRemainingToken(): void
+}
+
+LexerImplementation ..> Lexer
+LexerImplementation --> ElementSplitter
+LexerImplementation --> TypeProvider
+LexerImplementation --> Token
+TokenImpl ..> Token
+Token -- TokenType
+
+@enduml
