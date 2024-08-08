@@ -59,11 +59,62 @@ class ElementSplitter {
 - addRemainingToken(): void
 }
 
+interface Parser {
+}
+
+interface Interpreter {
+}
+
+interface Linter {
+}
+
+interface Formatter {
+}
+
+interface Node {
++analyze(): Result
+}
+
+class Result {
+-valid: Boolean
+-typeList: List<ResultType>
+}
+
+class Operand {
+-left: Node
+-right: Node
+}
+
+class Add {
+-left: Node
+-right: Node
+}
+
+class FunctionDeclaration {
+-left: Node
+-right: Node
+}
+
+class Function {
+}
+
+class NumberLiteral {
+}
+class STRING_LITERAL {
+}
+
 LexerImplementation ..> Lexer
 LexerImplementation --> ElementSplitter
 LexerImplementation --> TypeProvider
 LexerImplementation --> Token
 TokenImpl ..> Token
 Token -- TokenType
+Node -- Result
+Operand ..> Node
+Add ..> Node
+FunctionDeclaration ..> Node
+Function ..> Node
+NumberLiteral ..> Node
+STRING_LITERAL ..> Node
 
 @enduml
