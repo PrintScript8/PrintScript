@@ -60,9 +60,18 @@ class ElementSplitter {
 }
 
 interface Parser {
++getAst(tkList: List<Token>): List<Node>
+}
+
+class ParserImpl {
+
 }
 
 interface Interpreter {
++interpret(astList: List<Node>): void
+}
+
+class InterpreterImpl {
 }
 
 interface Linter {
@@ -100,21 +109,25 @@ class Function {
 
 class NumberLiteral {
 }
-class STRING_LITERAL {
+class StringLiteral {
 }
 
 LexerImplementation ..> Lexer
 LexerImplementation --> ElementSplitter
 LexerImplementation --> TypeProvider
-LexerImplementation --> Token
+Lexer --> Token
 TokenImpl ..> Token
-Token -- TokenType
-Node -- Result
+Token --> TokenType
+Node --> Result
 Operand ..> Node
 Add ..> Node
 FunctionDeclaration ..> Node
 Function ..> Node
 NumberLiteral ..> Node
-STRING_LITERAL ..> Node
+StringLiteral ..> Node
+ParserImpl ..> Parser
+ParserImpl --> Node
+InterpreterImpl ..> Interpreter
+InterpreterImpl --> Node
 
 @enduml
