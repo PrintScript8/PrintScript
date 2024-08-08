@@ -13,3 +13,17 @@ enum class TokenType {
     USER_METHOD,
     IDENTIFIER_VAR /*Es un nombre de variable que la diferencia del resto*/
 }
+
+/**
+ *     KEYWORD, compisite
+ *     OPERAND, composite
+ *     IDENTIFIER_TYPE, leaf
+ *     ASSIGNATION, composite
+ *     ENDING, no tiene
+ *     STRING_LITERAL, NUMBER_LITERAL, leaf
+ *     UNKNOWN, no tiene
+ *     NATIVE_METHOD, leaf --> el nombre FunctionDeclaration si es composite
+ *     PARENTHESIS, no tiene
+ *     USER_METHOD, lo mismo que NATIVE_METHOD
+ *     IDENTIFIER_VAR leaf
+ */
