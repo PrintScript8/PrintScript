@@ -1,10 +1,9 @@
 package node
 
-import parser.PrimitiveType
+import type.PrimitiveType
 
 interface Node {
     fun getChildren(): List<Node>
+    fun addChildren(children: Node): Node
     fun getType(): PrimitiveType
-    fun apply(): Node
-    fun print(): String
 }
