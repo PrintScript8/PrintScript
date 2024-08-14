@@ -3,7 +3,6 @@ package type
 import node.Node
 
 interface PrimitiveType {
-    fun resultType(children: List<Node>): PrimitiveType
-    fun apply()
+    fun apply(children: List<Node>): PrimitiveType
     fun print(children: List<Node>): String
 }

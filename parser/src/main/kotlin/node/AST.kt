@@ -9,10 +9,10 @@ class AST(private val type: PrimitiveType, private val children: List<Node>) : N
     }
 
     override fun getType(): PrimitiveType {
-        return type.resultType(children)
+        return type.apply(children)
     }
 
-    override fun addChildren(child: Node): Node {
-        return AST(type, children + child)
+    override fun addChildren(children: Node): Node {
+        return AST(type, this.children + children)
     }
 }
