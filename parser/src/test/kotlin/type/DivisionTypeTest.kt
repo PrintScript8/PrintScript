@@ -1,7 +1,7 @@
 package type
 
-import node.AST
-import node.Node
+import node.dynamic.DivisionType
+import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -16,7 +16,7 @@ class DivisionTypeTest {
     @Test
     fun testNumberResult() {
         val divisionType = DivisionType()
-        val children = listOf<Node>(AST(NumberType(5), listOf()), AST(NumberType(5), listOf())) // Assuming Node is a valid class
+        val children = listOf<StaticNode>(AST(NumberType(5), listOf()), AST(NumberType(5), listOf())) // Assuming Node is a valid class
         assert(divisionType.apply(children) is NumberType)
         assert((divisionType.apply(children) as NumberType).print(listOf()) == "1")
     }
@@ -24,7 +24,7 @@ class DivisionTypeTest {
     @Test
     fun testSumTypePrint() {
         val divisionType = DivisionType()
-        val children = listOf<Node>(AST(StringType("5"), listOf()), AST(StringType("5"), listOf()),
+        val children = listOf<StaticNode>(AST(StringType("5"), listOf()), AST(StringType("5"), listOf()),
             AST(StringType("5"), listOf())) // Assuming Node is a valid class
         val expectedOutput = "5 / 5 / 5"
         assertEquals(expectedOutput, divisionType.print(children))

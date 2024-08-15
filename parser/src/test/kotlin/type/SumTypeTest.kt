@@ -1,7 +1,7 @@
 package type
 
-import node.AST
-import node.Node
+import node.staticpkg.StaticNode
+import node.dynamic.SumType
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -16,7 +16,7 @@ class SumTypeTest {
     @Test
     fun testNumberResult() {
         val sumType = SumType()
-        val children = listOf<Node>(AST(NumberType(5), listOf()), AST(NumberType(5), listOf())) // Assuming Node is a valid class
+        val children = listOf<StaticNode>(AST(NumberType(5), listOf()), AST(NumberType(5), listOf())) // Assuming Node is a valid class
         assert(sumType.apply(children) is NumberType)
         assert((sumType.apply(children) as NumberType).print(listOf()) == "10")
     }
@@ -24,7 +24,7 @@ class SumTypeTest {
     @Test
     fun testNumberStringResult() {
         val sumType = SumType()
-        val children = listOf<Node>(AST(NumberType(5), listOf()), AST(StringType("5"), listOf())) // Assuming Node is a valid class
+        val children = listOf<StaticNode>(AST(NumberType(5), listOf()), AST(StringType("5"), listOf())) // Assuming Node is a valid class
         assert(sumType.apply(children) is StringType)
         assert((sumType.apply(children) as StringType).print(listOf()) == "55")
     }
@@ -32,7 +32,7 @@ class SumTypeTest {
     @Test
     fun testStringResult() {
         val sumType = SumType()
-        val children = listOf<Node>(AST(StringType("Hello "), listOf()), AST(StringType("World!"), listOf())) // Assuming Node is a valid class
+        val children = listOf<StaticNode>(AST(StringType("Hello "), listOf()), AST(StringType("World!"), listOf())) // Assuming Node is a valid class
         assert(sumType.apply(children) is StringType)
         assert((sumType.apply(children) as StringType).print(listOf()) == "Hello World!")
     }
@@ -40,7 +40,7 @@ class SumTypeTest {
     @Test
     fun testSumTypePrint() {
         val sumType = SumType()
-        val children = listOf<Node>(AST(StringType("5"), listOf()), AST(StringType("5"), listOf())) // Assuming Node is a valid class
+        val children = listOf<StaticNode>(AST(StringType("5"), listOf()), AST(StringType("5"), listOf())) // Assuming Node is a valid class
         val expectedOutput = "5 + 5"
         assertEquals(expectedOutput, sumType.print(children))
     }
