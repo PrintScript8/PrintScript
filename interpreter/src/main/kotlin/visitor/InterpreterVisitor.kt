@@ -1,15 +1,11 @@
 package visitor
 
 import interpreter.InterpreterImpl
+import node.dynamic.*
 import node.staticpkg.*
-import node.dynamic.DivisionType
-import node.dynamic.MultiplyType
-import node.dynamic.SubtractType
-import node.dynamic.SumType
 import operations.DynamicVisitor
 import operations.StaticVisitor
 import type.LiteralType
-import type.LiteralValue
 
 class InterpreterVisitor(private val interpreter: InterpreterImpl) : StaticVisitor, DynamicVisitor {
     override fun acceptSum(node: SumType) {
@@ -43,7 +39,7 @@ class InterpreterVisitor(private val interpreter: InterpreterImpl) : StaticVisit
     override fun acceptAssignation(node: AssignationType) {
         if (node.declaration.modifier.canModify) {
             node.value.visit(this)
-            interpreter.addValue(node.declaration.value, Pair(node.declaration.modifier.canModify, node.value.result))
+            interpreter.addValue(node.declaration.name, Pair(node.declaration.modifier.canModify, node.value.result))
         } else {
             throw Exception("Cannot modify a constant")
         }
@@ -53,9 +49,17 @@ class InterpreterVisitor(private val interpreter: InterpreterImpl) : StaticVisit
         return
     }
 
+    override fun acceptVariable(node: VariableType) {
+        if (interpreter.checkValue(node.name)) {
+            node.result = interpreter.getValue(node.name).second
+        } else {
+            throw Exception("Variable not found")
+        }
+    }
+
     override fun acceptDeclaration(node: DeclarationType) {
-        if (interpreter.checkValue(node.value)) {
-            interpreter.addValue(node.value, Pair(node.modifier.canModify, null))
+        if (interpreter.checkValue(node.name)) {
+            interpreter.addValue(node.name, Pair(node.modifier.canModify, null))
         } else {
             throw Exception("Missing modifier!")
         }

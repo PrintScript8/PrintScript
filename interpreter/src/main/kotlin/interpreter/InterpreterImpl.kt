@@ -23,4 +23,8 @@ class InterpreterImpl : Intepreter {
         return valueMap.containsKey(key)
     }
 
+    fun getValue(key: String): Pair<Boolean, LiteralValue?> {
+        return valueMap[key] ?: Pair(false, null)
+    }
+
 }
