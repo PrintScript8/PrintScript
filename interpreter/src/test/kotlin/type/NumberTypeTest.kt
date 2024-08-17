@@ -1,7 +1,9 @@
 package type
 
 import interpreter.InterpreterImpl
-import node.staticpkg.StaticNode
+import node.dynamic.DivisionType
+import node.dynamic.VariableType
+import node.staticpkg.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import visitor.InterpreterVisitor
@@ -22,4 +24,5 @@ class NumberTypeTest {
         val result: LiteralValue = numberType.result!!
         assertEquals("5", result.toString())
     }
+
 }

@@ -1,8 +1,9 @@
 package type
 
 import interpreter.InterpreterImpl
-import node.staticpkg.StaticNode
 import node.dynamic.SumType
+import node.dynamic.VariableType
+import node.staticpkg.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import visitor.InterpreterVisitor
@@ -52,5 +53,26 @@ class SumTypeTest {
         sumType.visit(dynamicVisitor)
         val result: LiteralValue = sumType.result!!
         assertEquals("Hello World!", result.toString())
+    }
+
+    @Test
+    fun testWithVariable() {
+        val assignationType = AssignationType(
+            DeclarationType(
+                ModifierType("let", true),
+                IdentifierType(),
+                "a"
+            ),
+            LiteralType(LiteralValue.NumberValue(5))
+        )
+        val sumType = SumType(
+            LiteralType(LiteralValue.NumberValue(1)),
+            VariableType("a", null),
+            null)
+        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+        assignationType.visit(dynamicVisitor)
+        sumType.visit(dynamicVisitor)
+        val result: LiteralValue = sumType.result!!
+        assertEquals("6", result.toString())
     }
 }

@@ -34,21 +34,22 @@ class DivisionTypeTest {
 
     @Test
     fun testWithVariable() {
-        val divisionType = DivisionType(
-            LiteralType(LiteralValue.NumberValue(1)),
-            VariableType("a", null),
-            null)
         val assignationType = AssignationType(
             DeclarationType(
                 ModifierType("let", true),
                 IdentifierType(),
                 "a"
             ),
-            divisionType
+            LiteralType(LiteralValue.NumberValue(5))
         )
+        val divisionType = DivisionType(
+            LiteralType(LiteralValue.NumberValue(1)),
+            VariableType("a", null),
+            null)
         val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
         assignationType.visit(dynamicVisitor)
-        val result: LiteralValue = assignationType.value.result!!
+        divisionType.visit(dynamicVisitor)
+        val result: LiteralValue = divisionType.result!!
         assertEquals("0.2", result.toString())
     }
 }
