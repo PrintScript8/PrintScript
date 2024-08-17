@@ -4,7 +4,7 @@ import operations.DynamicVisitor
 import type.LiteralType
 import type.LiteralValue
 
-class SubtractType(val children: List<DynamicNode>, override var result: LiteralValue?): DynamicNode {
+class SubtractType(val left: DynamicNode, val right: DynamicNode, override var result: LiteralValue?): DynamicNode {
     override fun visit(visitor: DynamicVisitor) {
         visitor.acceptSubtract(this)
     }

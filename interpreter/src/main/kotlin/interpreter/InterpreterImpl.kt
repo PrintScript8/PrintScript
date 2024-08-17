@@ -1,11 +1,12 @@
 package interpreter
 
 import node.staticpkg.StaticNode
+import type.LiteralValue
 import visitor.InterpreterVisitor
 
 class InterpreterImpl : Intepreter {
 
-    private val valueMap: MutableMap<String, Pair<Boolean, ResultType?>> = mutableMapOf()
+    private val valueMap: MutableMap<String, Pair<Boolean, LiteralValue?>> = mutableMapOf()
     private val visitor = InterpreterVisitor(this)
 
     override fun excecute(list: List<StaticNode>) {
@@ -14,7 +15,7 @@ class InterpreterImpl : Intepreter {
         }
     }
 
-    fun addValue(key: String, value: Pair<Boolean, ResultType?>) {
+    fun addValue(key: String, value: Pair<Boolean, LiteralValue?>) {
         valueMap[key] = value
     }
 
