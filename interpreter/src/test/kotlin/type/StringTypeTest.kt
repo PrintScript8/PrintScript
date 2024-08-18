@@ -1,6 +1,8 @@
 package type
 
 import interpreter.InterpreterImpl
+import node.dynamic.MultiplyType
+import node.staticpkg.PrintLnType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -21,5 +23,14 @@ class StringTypeTest {
         stringType.visit(dynamicVisitor)
         val result: LiteralValue = stringType.result!!
         assertEquals("Hello", result.toString())
+    }
+
+    @Test
+    fun testPrint() {
+        val stringType = LiteralType(LiteralValue.StringValue("Hello!"))
+        val stringPrintLnType = PrintLnType(stringType)
+        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+        stringType.visit(dynamicVisitor)
+        stringPrintLnType.visit(dynamicVisitor)
     }
 }

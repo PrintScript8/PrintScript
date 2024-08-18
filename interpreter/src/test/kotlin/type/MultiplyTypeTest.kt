@@ -43,12 +43,24 @@ class MultiplyTypeTest {
         )
         val multiplyType = MultiplyType(
             LiteralType(LiteralValue.NumberValue(1)),
-            VariableType("a", null),
+            VariableType("a", null, false),
             null)
         val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
         assignationType.visit(dynamicVisitor)
         multiplyType.visit(dynamicVisitor)
         val result: LiteralValue = multiplyType.result!!
         assertEquals("5", result.toString())
+    }
+
+    @Test
+    fun testPrint() {
+        val multiplyType = MultiplyType(
+            LiteralType(LiteralValue.NumberValue(1)),
+            LiteralType(LiteralValue.NumberValue(5)),
+            null)
+        val printLnType = PrintLnType(multiplyType)
+        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+        multiplyType.visit(dynamicVisitor)
+        printLnType.visit(dynamicVisitor)
     }
 }

@@ -3,7 +3,7 @@ package node.dynamic
 import operations.DynamicVisitor
 import type.LiteralValue
 
-class VariableType(val name: String,override var result: LiteralValue?) : DynamicNode {
+class VariableType(val name: String, override var result: LiteralValue?, var canModify: Boolean) : DynamicNode {
     override fun visit(visitor: DynamicVisitor) {
         visitor.acceptVariable(this)
     }

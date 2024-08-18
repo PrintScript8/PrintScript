@@ -43,12 +43,24 @@ class SubtractTypeTest {
         )
         val subtractType = SubtractType(
             LiteralType(LiteralValue.NumberValue(1)),
-            VariableType("a", null),
+            VariableType("a", null, false),
             null)
         val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
         assignationType.visit(dynamicVisitor)
         subtractType.visit(dynamicVisitor)
         val result: LiteralValue = subtractType.result!!
         assertEquals("-4", result.toString())
+    }
+
+    @Test
+    fun testPrint() {
+        val subtractType = SubtractType(
+            LiteralType(LiteralValue.NumberValue(1)),
+            LiteralType(LiteralValue.NumberValue(5)),
+            null)
+        val printLnType = PrintLnType(subtractType)
+        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+        subtractType.visit(dynamicVisitor)
+        printLnType.visit(dynamicVisitor)
     }
 }

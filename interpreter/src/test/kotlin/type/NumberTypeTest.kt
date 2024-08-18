@@ -1,8 +1,6 @@
 package type
 
 import interpreter.InterpreterImpl
-import node.dynamic.DivisionType
-import node.dynamic.VariableType
 import node.staticpkg.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -25,4 +23,12 @@ class NumberTypeTest {
         assertEquals("5", result.toString())
     }
 
+    @Test
+    fun testPrint() {
+        val numberType = LiteralType(LiteralValue.NumberValue(1))
+        val numberPrintLnType = PrintLnType(numberType)
+        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+        numberType.visit(dynamicVisitor)
+        numberPrintLnType.visit(dynamicVisitor)
+    }
 }
