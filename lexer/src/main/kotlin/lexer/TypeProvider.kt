@@ -6,7 +6,7 @@ class TypeProvider {
 
     fun getTokenType(value: String): TokenType {
         return when {
-            value in listOf("let", "cast", "var") -> TokenType.KEYWORD
+            value in listOf("let", "const", "var") -> TokenType.MODIFIER
             value in listOf("+", "-", "*", "/") -> TokenType.OPERAND
             value in listOf("=", ":") -> TokenType.ASSIGNATION
             value == ";" -> TokenType.ENDING

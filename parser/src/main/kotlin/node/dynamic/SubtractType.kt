@@ -8,4 +8,8 @@ class SubtractType(val left: DynamicNode, val right: DynamicNode, override var r
     override fun visit(visitor: DynamicVisitor) {
         visitor.acceptSubtract(this)
     }
+
+    override fun toString(): String {
+        return "SubtractType(left='$left', right=$right)"
+    }
 }

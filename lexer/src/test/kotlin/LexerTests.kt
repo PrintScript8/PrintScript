@@ -16,8 +16,8 @@ class LexerTests {
         val tokens:List<Token> = lexer.getTokens();
 
         val typesList: List<TokenType> = listOf(
-            TokenType.KEYWORD, TokenType.IDENTIFIER_VAR, TokenType.ASSIGNATION, TokenType.IDENTIFIER_TYPE, TokenType.ASSIGNATION,
-            TokenType.STRING_LITERAL, TokenType.ENDING, TokenType.KEYWORD, TokenType.IDENTIFIER_VAR, TokenType.ASSIGNATION,
+            TokenType.MODIFIER, TokenType.IDENTIFIER_VAR, TokenType.ASSIGNATION, TokenType.IDENTIFIER_TYPE, TokenType.ASSIGNATION,
+            TokenType.STRING_LITERAL, TokenType.ENDING, TokenType.MODIFIER, TokenType.IDENTIFIER_VAR, TokenType.ASSIGNATION,
             TokenType.IDENTIFIER_TYPE, TokenType.ASSIGNATION, TokenType.STRING_LITERAL, TokenType.ENDING, TokenType.NATIVE_METHOD,
             TokenType.IDENTIFIER_VAR, TokenType.OPERAND, TokenType.STRING_LITERAL, TokenType.OPERAND, TokenType.IDENTIFIER_VAR,
             TokenType.PARENTHESIS, TokenType.ENDING);
@@ -38,9 +38,9 @@ class LexerTests {
         val tokens:List<Token> = lexer.getTokens();
 
         val typesList: List<TokenType> = listOf(
-            TokenType.KEYWORD, TokenType.IDENTIFIER_VAR, TokenType.ASSIGNATION, TokenType.IDENTIFIER_TYPE, TokenType.ASSIGNATION, TokenType.NUMBER_LITERAL,
-            TokenType.ENDING, TokenType.KEYWORD, TokenType.IDENTIFIER_VAR, TokenType.ASSIGNATION, TokenType.IDENTIFIER_TYPE, TokenType.ASSIGNATION,
-            TokenType.NUMBER_LITERAL, TokenType.ENDING, TokenType.KEYWORD, TokenType.IDENTIFIER_VAR, TokenType.ASSIGNATION, TokenType.IDENTIFIER_TYPE,
+            TokenType.MODIFIER, TokenType.IDENTIFIER_VAR, TokenType.ASSIGNATION, TokenType.IDENTIFIER_TYPE, TokenType.ASSIGNATION, TokenType.NUMBER_LITERAL,
+            TokenType.ENDING, TokenType.MODIFIER, TokenType.IDENTIFIER_VAR, TokenType.ASSIGNATION, TokenType.IDENTIFIER_TYPE, TokenType.ASSIGNATION,
+            TokenType.NUMBER_LITERAL, TokenType.ENDING, TokenType.MODIFIER, TokenType.IDENTIFIER_VAR, TokenType.ASSIGNATION, TokenType.IDENTIFIER_TYPE,
             TokenType.ASSIGNATION, TokenType.IDENTIFIER_VAR, TokenType.OPERAND, TokenType.IDENTIFIER_VAR, TokenType.ENDING, TokenType.NATIVE_METHOD
             , TokenType.STRING_LITERAL, TokenType.OPERAND, TokenType.IDENTIFIER_VAR, TokenType.PARENTHESIS, TokenType.ENDING)
 
@@ -60,7 +60,7 @@ class LexerTests {
         val tokens:List<Token> = lexer.getTokens();
 
         val typesList: List<TokenType> = listOf(
-            TokenType.KEYWORD, // let
+            TokenType.MODIFIER, // let
             TokenType.IDENTIFIER_VAR, // a
             TokenType.ASSIGNATION, // :
             TokenType.IDENTIFIER_TYPE, // number
@@ -68,7 +68,7 @@ class LexerTests {
             TokenType.NUMBER_LITERAL, // 12
             TokenType.ENDING, // ;
 
-            TokenType.KEYWORD, // let
+            TokenType.MODIFIER, // let
             TokenType.IDENTIFIER_VAR, // b
             TokenType.ASSIGNATION, // :
             TokenType.IDENTIFIER_TYPE, // number

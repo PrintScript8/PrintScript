@@ -6,4 +6,8 @@ class DeclarationType(val modifier: ModifierType, val type: IdentifierType, val 
     override fun visit(visitor: StaticVisitor) {
         visitor.acceptDeclaration(this)
     }
+
+    override fun toString(): String {
+        return "DeclarationType(modifier='$modifier', type=$type)"
+    }
 }

@@ -9,4 +9,8 @@ class ExpressionType(val variable: VariableType, val value: DynamicNode) : Stati
     override fun visit(visitor: StaticVisitor) {
         visitor.acceptExpression(this)
     }
+
+    override fun toString(): String {
+        return "ExpressionType(variable='$variable', value=$value)"
+    }
 }
