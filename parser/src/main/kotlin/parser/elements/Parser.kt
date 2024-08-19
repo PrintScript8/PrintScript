@@ -1,4 +1,4 @@
-package org.example.parser
+package parser.elements
 
 import node.staticpkg.StaticNode
 import org.example.token.Token

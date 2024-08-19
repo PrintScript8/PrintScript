@@ -8,6 +8,6 @@ class DeclarationType(val modifier: ModifierType, val type: IdentifierType, val 
     }
 
     override fun toString(): String {
-        return "DeclarationType(modifier='$modifier', type=$type)"
+        return "DeclarationType( \n modifier= '$modifier' , type= $type \n, name= $name \n)"
     }
 }

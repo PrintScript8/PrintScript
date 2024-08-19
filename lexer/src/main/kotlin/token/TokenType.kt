@@ -6,7 +6,7 @@ enum class TokenType {
     IDENTIFIER_TYPE, /*Identifica el tipo de lo que se trabaja String, Int*/
     ASSIGNATION, /*Indica la asignacion de una variable a otra*/
     ENDING, /*Por ahora solo incluye ';' e indica el final de una sentencia*/
-    DECLARATION, /*Incluye solamente el :*/
+    COLON, /*Incluye solamente el :*/
     STRING_LITERAL, NUMBER_LITERAL, /*el valor en si de las cosas "hola", 72*/
     UNKNOWN, /*Queda por las dudas*/
     NATIVE_METHOD, /*para los metodos nativos del lenguaje como*/
