@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import type.LiteralType
 import type.LiteralValue
-import kotlin.math.exp
 
 class AssignationTest {
 

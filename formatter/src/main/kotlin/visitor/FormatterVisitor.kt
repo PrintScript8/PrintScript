@@ -61,23 +61,26 @@ class FormatterVisitor(val formatter: FormatterImpl) : StaticVisitor, DynamicVis
     }
 
     override fun acceptMultiply(node: MultiplyType) {
-        if (node.left is LiteralType) {
-            output.append("(");
-            node.left.visit(this)
-            output.append(")");
-        }
-        else {
-            node.left.visit(this)
-        }
+        node.left.visit(this)
         output.append(" * ")
-        if (node.right is LiteralType) {
-            output.append("(");
-            node.right.visit(this)
-            output.append(")");
-        }
-        else {
-            node.right.visit(this)
-        }
+        node.right.visit(this)
+//        if (node.left is LiteralType) {
+//            output.append("(");
+//            node.left.visit(this)
+//            output.append(")");
+//        }
+//        else {
+//            node.left.visit(this)
+//        }
+//        output.append(" * ")
+//        if (node.right is LiteralType) {
+//            output.append("(");
+//            node.right.visit(this)
+//            output.append(")");
+//        }
+//        else {
+//            node.right.visit(this)
+//        }
     }
 
     override fun acceptDivision(node: DivisionType) {

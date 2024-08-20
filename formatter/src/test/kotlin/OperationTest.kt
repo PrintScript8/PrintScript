@@ -162,6 +162,11 @@ class OperationTest {
 
         val sumType = SumType(
             LiteralType(LiteralValue.NumberValue(1)),
+            VariableType("\"x\"", null, false),
+            null)
+
+        val sumType2 = SumType(
+            LiteralType(LiteralValue.NumberValue(1)),
             VariableType("a", null, false),
             null)
 
@@ -170,16 +175,27 @@ class OperationTest {
             LiteralType(LiteralValue.NumberValue(5)),
             null)
 
+        val multiplyType2 = MultiplyType(
+            sumType2,
+            LiteralType(LiteralValue.NumberValue(5)),
+            null)
+
         val assignation: StaticNode = AssignationType(
             declaration,
             multiplyType
         )
 
-        formatter.execute(listOf(assignation))
+        val assignation2: StaticNode = AssignationType(
+            declaration,
+            multiplyType2
+        )
+
+        formatter.execute(listOf(assignation, assignation2))
 
         val result = formatter.getOutput()
         val expected =
-            "let a: Identifier = (1 + \"a\") * 5);"
+            "let a: Identifier = 1 + \"x\" * 5;\n" +
+                    "let a: Identifier = 1 + a * 5;"
 
         assertEquals(expected, result)
     }
