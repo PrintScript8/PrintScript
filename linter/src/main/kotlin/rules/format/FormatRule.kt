@@ -1,7 +1,9 @@
 package rules.format
 
-import node.staticpkg.StaticNode
+import error.Error
+import node.staticpkg.DeclarationType
+
 
 interface FormatRule {
-    fun analyzeFormat(root: StaticNode)
+    fun analyzeFormat(root: DeclarationType): List<Error>
 }
