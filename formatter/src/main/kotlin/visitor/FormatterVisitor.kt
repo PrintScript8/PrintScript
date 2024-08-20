@@ -43,7 +43,7 @@ class FormatterVisitor(val formatter: FormatterImpl) : StaticVisitor, DynamicVis
     }
 
     override fun acceptExpression(node: ExpressionType) {
-        node.value.visit(this)
+        node.variable.visit(this)
         output.append(" = ")
         node.value.visit(this)
     }

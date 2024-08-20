@@ -29,9 +29,7 @@ class OperationTest {
             multiplyType
         )
 
-        formatter.execute(listOf(assignation))
-
-        val result = formatter.getOutput()
+        val result = formatter.execute(listOf(assignation))
         val expected = "let a: Identifier = 5 + 5;"
 
         assertEquals(expected, result)
@@ -56,9 +54,7 @@ class OperationTest {
             subtractType
         )
 
-        formatter.execute(listOf(assignation))
-
-        val result = formatter.getOutput()
+        val result = formatter.execute(listOf(assignation))
         val expected = "let a: Identifier = 5 - 5;"
 
         assertEquals(expected, result)
@@ -83,9 +79,7 @@ class OperationTest {
             multiplyType
         )
 
-        formatter.execute(listOf(assignation))
-
-        val result = formatter.getOutput()
+        val result = formatter.execute(listOf(assignation))
         val expected = "let a: Identifier = 5 * 5;"
 
         assertEquals(expected, result)
@@ -110,9 +104,7 @@ class OperationTest {
             divisionType
         )
 
-        formatter.execute(listOf(assignation))
-
-        val result = formatter.getOutput()
+        val result = formatter.execute(listOf(assignation))
         val expected = "let a: Identifier = 5 / 5;"
 
         assertEquals(expected, result)
@@ -142,9 +134,7 @@ class OperationTest {
             multiplyType
         )
 
-        formatter.execute(listOf(assignationType, assignation))
-
-        val result = formatter.getOutput()
+        val result = formatter.execute(listOf(assignationType, assignation))
         val expected = "let a: Identifier = 5;\n" +
                 "let a: Identifier = 1 + a;"
 
@@ -190,9 +180,7 @@ class OperationTest {
             multiplyType2
         )
 
-        formatter.execute(listOf(assignation, assignation2))
-
-        val result = formatter.getOutput()
+        val result = formatter.execute(listOf(assignation, assignation2))
         val expected =
             "let a: Identifier = 1 + \"x\" * 5;\n" +
                     "let a: Identifier = 1 + a * 5;"

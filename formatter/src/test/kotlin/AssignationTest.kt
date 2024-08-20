@@ -39,10 +39,9 @@ class AssignationTest {
                 numberZero,
             )
 
-        formatter.execute(listOf(assignationTree, assignationTree2))
-
-        val result: String = formatter.getOutput()
-        val expected = "val name: Identifier = Tomy;\nlet i: Identifier = 0;"
+        val result = formatter.execute(listOf(assignationTree, assignationTree2))
+        val expected = "val name: Identifier = \"Tomy\";\n" +
+                "let i: Identifier = 0;"
 
         assertEquals(expected, result)
     }
