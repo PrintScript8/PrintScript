@@ -3,6 +3,7 @@ package parser.elements
 import org.example.node.Node
 import org.example.token.Token
 import org.example.token.TokenType
+import parser.strategies.AssignationStrategy
 import parser.strategies.DeclarationStrategy
 import parser.strategies.ModifierStrategy
 import parser.strategies.ParseStrategy
@@ -13,7 +14,8 @@ class TokenHandler {
     init {
         strategies[TokenType.MODIFIER] = ModifierStrategy()
         strategies[TokenType.IDENTIFIER_VAR] = DeclarationStrategy() // IMPORTANTE: Tambien funciona para llamadas a variable, no solo declarasion
-        // Agrega más estrategias según sea necesario
+        strategies[TokenType.ASSIGNATION] = AssignationStrategy()
+        // todo: agregar todas las estrategias
     }
 
     fun handle(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {

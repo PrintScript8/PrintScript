@@ -28,11 +28,8 @@ class DeclarationStrategy: ParseStrategy {
             // Avanza el índice más allá del identificador, el ":" y el tipo
             return currentIndex + 3
         } else {
-            // Si no es una declaración, se maneja como una referencia de variable
-            /*
-            todo: Revisar nodo variable
-            statementNodes.add(VariableType(tokens[currentIndex].getString(), NO SE QUE PONER ACA, false))
-             */
+            // Si no es una declarasion agrega nodo de variable
+            statementNodes.add(VariableType(tokens[currentIndex].getString(), null, false))
             return currentIndex + 1
         }
     }
