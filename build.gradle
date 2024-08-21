@@ -17,5 +17,5 @@ test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(13)
+    jvmToolchain(21)
 }

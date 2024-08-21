@@ -11,7 +11,8 @@ class LexerTests {
     @Test
     fun testToken1(){
         val lexer = LexerImplementation()
-        lexer.setFile(File("C:\\Users\\hilul\\projects\\ingSis\\PrintScript\\lexer\\src\\test\\testfiles\\sample1.txt"))
+        //lexer.setFile(File("C:\\Users\\hilul\\projects\\ingSis\\PrintScript\\lexer\\src\\test\\testfiles\\sample1.txt"))
+        lexer.setFile(File("C:\\Users\\54911\\Desktop\\Tomy\\projects\\PrintScript\\lexer\\src\\test\\testfiles\\sample1.txt"))
 
         val tokens:List<Token> = lexer.getTokens();
 
@@ -33,7 +34,8 @@ class LexerTests {
     @Test
     fun testToken2(){
         val lexer = LexerImplementation()
-        lexer.setFile(File("C:\\Users\\hilul\\projects\\ingSis\\PrintScript\\lexer\\src\\test\\testfiles\\sample2.txt"))
+        //lexer.setFile(File("C:\\Users\\hilul\\projects\\ingSis\\PrintScript\\lexer\\src\\test\\testfiles\\sample2.txt"))
+        lexer.setFile(File("C:\\Users\\54911\\Desktop\\Tomy\\projects\\PrintScript\\lexer\\src\\test\\testfiles\\sample2.txt"))
 
         val tokens:List<Token> = lexer.getTokens();
 
@@ -55,7 +57,8 @@ class LexerTests {
     @Test
     fun testToken3(){
         val lexer = LexerImplementation()
-        lexer.setFile(File("C:\\Users\\hilul\\projects\\ingSis\\PrintScript\\lexer\\src\\test\\testfiles\\sample3.txt"))
+        //lexer.setFile(File("C:\\Users\\hilul\\projects\\ingSis\\PrintScript\\lexer\\src\\test\\testfiles\\sample3.txt"))
+        lexer.setFile(File("C:\\Users\\54911\\Desktop\\Tomy\\projects\\PrintScript\\lexer\\src\\test\\testfiles\\sample3.txt"))
 
         val tokens:List<Token> = lexer.getTokens();
 
