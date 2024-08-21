@@ -7,50 +7,16 @@ import operations.DynamicVisitor
 import operations.StaticVisitor
 import type.LiteralType
 
-class InterpreterVisitor(private val interpreter: InterpreterImpl) : StaticVisitor, DynamicVisitor {
-    override fun acceptSum(node: SumType) {
-        node.left.visit(this)
-        node.right.visit(this)
-        node.result = node.left.result!! + node.right.result!!
-    }
+class StaticInterpreterVisitor(private val interpreter: InterpreterImpl) : StaticVisitor {
 
-    override fun acceptSubtract(node: SubtractType) {
-        node.left.visit(this)
-        node.right.visit(this)
-        node.result = node.left.result!! - node.right.result!!
-    }
-
-    override fun acceptMultiply(node: MultiplyType) {
-        node.left.visit(this)
-        node.right.visit(this)
-        node.result = node.left.result!! * node.right.result!!
-    }
-
-    override fun acceptDivision(node: DivisionType) {
-        node.left.visit(this)
-        node.right.visit(this)
-        node.result = node.left.result!! / node.right.result!!
-    }
+    private val dynamicVisitor: DynamicVisitor  = DynamicInterpreterVisitor(interpreter)
 
     override fun acceptAssignation(node: AssignationType) {
         if (!interpreter.checkValue(node.declaration.name)) {
-            node.value.visit(this)
+            node.value.visit(dynamicVisitor)
             interpreter.addValue(node.declaration.name, Pair(node.declaration.modifier.canModify, node.value.result))
         } else {
             throw Exception("Cannot modify a constant")
-        }
-    }
-
-    override fun acceptLiteral(node: LiteralType) {
-        return
-    }
-
-    override fun acceptVariable(node: VariableType) {
-        if (interpreter.checkValue(node.name)) {
-            node.result = interpreter.getValue(node.name).second
-            node.canModify = interpreter.getValue(node.name).first
-        } else {
-            throw Exception("Variable not found")
         }
     }
 
@@ -67,13 +33,13 @@ class InterpreterVisitor(private val interpreter: InterpreterImpl) : StaticVisit
     }
 
     override fun acceptPrintLn(node: PrintLnType) {
-        node.argument.visit(this)
+        node.argument.visit(dynamicVisitor)
         println(node.argument.result)
     }
 
     override fun acceptExpression(node: ExpressionType) {
-        node.variable.visit(this)
-        node.value.visit(this)
+        node.variable.visit(dynamicVisitor)
+        node.value.visit(dynamicVisitor)
         val sameType = interpreter.getValue(node.variable.name).second!!.javaClass == node.value.result!!.javaClass
         val modifiable = interpreter.checkValue(node.variable.name) || node.variable.canModify
         if (modifiable && sameType) {

@@ -6,7 +6,8 @@ import node.dynamic.VariableType
 import node.staticpkg.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import visitor.InterpreterVisitor
+import visitor.DynamicInterpreterVisitor
+import visitor.StaticInterpreterVisitor
 
 class DivisionTypeTest {
 
@@ -23,7 +24,7 @@ class DivisionTypeTest {
             LiteralType(LiteralValue.NumberValue(1)),
             LiteralType(LiteralValue.NumberValue(5)),
          null)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
         divisionType.visit(dynamicVisitor)
         val result: LiteralValue = divisionType.result!!
         assertEquals("0.2", result.toString())
@@ -43,8 +44,9 @@ class DivisionTypeTest {
             LiteralType(LiteralValue.NumberValue(1)),
             VariableType("a", null, false),
             null)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
-        assignationType.visit(dynamicVisitor)
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
+        val staticVisitor = StaticInterpreterVisitor(InterpreterImpl())
+        assignationType.visit(staticVisitor)
         divisionType.visit(dynamicVisitor)
         val result: LiteralValue = divisionType.result!!
         assertEquals("0.2", result.toString())
@@ -57,8 +59,9 @@ class DivisionTypeTest {
             LiteralType(LiteralValue.NumberValue(5)),
             null)
         val printLnType = PrintLnType(divisionType)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
+        val staticVisitor = StaticInterpreterVisitor(InterpreterImpl())
         divisionType.visit(dynamicVisitor)
-        printLnType.visit(dynamicVisitor)
+        printLnType.visit(staticVisitor)
     }
 }

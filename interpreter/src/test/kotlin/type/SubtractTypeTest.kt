@@ -6,7 +6,8 @@ import node.dynamic.VariableType
 import node.staticpkg.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import visitor.InterpreterVisitor
+import visitor.DynamicInterpreterVisitor
+import visitor.StaticInterpreterVisitor
 
 class SubtractTypeTest {
 
@@ -25,7 +26,7 @@ class SubtractTypeTest {
             LiteralType(LiteralValue.NumberValue(5)),
             LiteralType(LiteralValue.NumberValue(5)),
             null)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
         subtractType.visit(dynamicVisitor)
         val result: LiteralValue = subtractType.result!!
         assertEquals("0", result.toString())
@@ -45,8 +46,9 @@ class SubtractTypeTest {
             LiteralType(LiteralValue.NumberValue(1)),
             VariableType("a", null, false),
             null)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
-        assignationType.visit(dynamicVisitor)
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
+        val staticVisitor = StaticInterpreterVisitor(InterpreterImpl())
+        assignationType.visit(staticVisitor)
         subtractType.visit(dynamicVisitor)
         val result: LiteralValue = subtractType.result!!
         assertEquals("-4", result.toString())
@@ -59,8 +61,9 @@ class SubtractTypeTest {
             LiteralType(LiteralValue.NumberValue(5)),
             null)
         val printLnType = PrintLnType(subtractType)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
+        val staticVisitor = StaticInterpreterVisitor(InterpreterImpl())
         subtractType.visit(dynamicVisitor)
-        printLnType.visit(dynamicVisitor)
+        printLnType.visit(staticVisitor)
     }
 }
