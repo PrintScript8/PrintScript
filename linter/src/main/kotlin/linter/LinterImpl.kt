@@ -1,12 +1,12 @@
 package linter
 
+import error.Error
 import node.staticpkg.StaticNode
 import rules.argument.ArgumentRule
 import rules.argument.LiteralRule
 import rules.format.CamelCaseRule
 import rules.format.FormatRule
 import visitor.LinterVisitor
-import error.Error
 
 class LinterImpl : Linter {
 
@@ -31,5 +31,4 @@ class LinterImpl : Linter {
     fun logError(errors: List<Error>) {
         log.addAll(errors)
     }
-
 }

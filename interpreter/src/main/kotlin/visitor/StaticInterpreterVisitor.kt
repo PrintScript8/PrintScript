@@ -1,31 +1,30 @@
 package visitor
 
 import interpreter.InterpreterImpl
-import node.dynamic.*
-import node.staticpkg.*
-import operations.DynamicVisitor
+import node.staticpkg.AssignationType
+import node.staticpkg.DeclarationType
+import node.staticpkg.ExpressionType
+import node.staticpkg.IdentifierType
+import node.staticpkg.ModifierType
+import node.staticpkg.PrintLnType
 import operations.StaticVisitor
-import type.LiteralType
 
 class StaticInterpreterVisitor(private val interpreter: InterpreterImpl) : StaticVisitor {
 
-    private val dynamicVisitor: DynamicVisitor  = DynamicInterpreterVisitor(interpreter)
+    private val dynamicVisitor: DynamicInterpreterVisitor = DynamicInterpreterVisitor(interpreter)
 
     override fun acceptAssignation(node: AssignationType) {
         if (!interpreter.checkValue(node.declaration.name)) {
             node.value.visit(dynamicVisitor)
             interpreter.addValue(node.declaration.name, Pair(node.declaration.modifier.canModify, node.value.result))
         } else {
-            throw Exception("Cannot modify a constant")
+            throw UnsupportedOperationException("Cannot modify a constant")
         }
     }
 
     override fun acceptDeclaration(node: DeclarationType) {
-        if (interpreter.checkValue(node.name) && node.modifier.canModify) {
-            interpreter.addValue(node.name, Pair(node.modifier.canModify, null))
-        } else {
-            throw Exception("Missing modifier!")
-        }
+        check(interpreter.checkValue(node.name) && node.modifier.canModify) { "Missing modifier!" }
+        interpreter.addValue(node.name, Pair(node.modifier.canModify, null))
     }
 
     override fun acceptIdentifier(node: IdentifierType) {
@@ -45,7 +44,7 @@ class StaticInterpreterVisitor(private val interpreter: InterpreterImpl) : Stati
         if (modifiable && sameType) {
             interpreter.addValue(node.variable.name, Pair(node.variable.canModify, node.value.result))
         } else {
-            throw Exception("Cannot modify a constant")
+            throw UnsupportedOperationException("Cannot modify a constant")
         }
     }
 

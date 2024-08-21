@@ -2,6 +2,3 @@ plugins {
     id 'application-conventions'
 }
 
-kotlin {
-    jvmToolchain(13)
-}

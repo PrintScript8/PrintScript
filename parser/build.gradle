@@ -5,7 +5,3 @@ plugins {
 dependencies {
     implementation project(':lexer')
 }
-
-kotlin {
-    jvmToolchain(13)
-}

@@ -3,7 +3,6 @@ package rules.format
 import error.Error
 import error.Type
 import node.staticpkg.DeclarationType
-import node.staticpkg.StaticNode
 
 class SnakeRule : FormatRule {
 

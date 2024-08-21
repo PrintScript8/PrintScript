@@ -2,7 +2,8 @@ package type
 
 import interpreter.InterpreterImpl
 import node.staticpkg.PrintLnType
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import visitor.DynamicInterpreterVisitor
 import visitor.StaticInterpreterVisitor

@@ -1,11 +1,15 @@
 package visitor
 
 import interpreter.InterpreterImpl
-import node.dynamic.*
+import node.dynamic.DivisionType
+import node.dynamic.MultiplyType
+import node.dynamic.SubtractType
+import node.dynamic.SumType
+import node.dynamic.VariableType
 import operations.DynamicVisitor
 import type.LiteralType
 
-class DynamicInterpreterVisitor(private val interpreter: InterpreterImpl) : DynamicVisitor {
+class DynamicInterpreterVisitor(private var interpreter: InterpreterImpl) : DynamicVisitor {
 
     override fun acceptLiteral(node: LiteralType) {
         return
@@ -16,7 +20,7 @@ class DynamicInterpreterVisitor(private val interpreter: InterpreterImpl) : Dyna
             node.result = interpreter.getValue(node.name).second
             node.canModify = interpreter.getValue(node.name).first
         } else {
-            throw Exception("Variable not found")
+            throw NoSuchElementException("Variable not found")
         }
     }
 

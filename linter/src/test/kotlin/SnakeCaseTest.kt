@@ -4,9 +4,9 @@ import node.staticpkg.DeclarationType
 import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import type.LiteralType
 import type.LiteralValue
-import kotlin.test.Test
 
 class SnakeCaseTest {
     private val linter = LinterProvider().provideLinter("{ \"case\": \"snakeCase\" , \"argument\": \"literal\" }")
@@ -35,8 +35,10 @@ class SnakeCaseTest {
             ),
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
-        assertEquals(linter.lint(listOf(root)).first().toString(),
-            "Error(type=TYPO, message='Declaration name myCreatedVariable is not in snake_case')")
+        assertEquals(
+            linter.lint(listOf(root)).first().toString(),
+            "Error(type=TYPO, message='Declaration name myCreatedVariable is not in snake_case')"
+        )
     }
 
     @Test
@@ -49,8 +51,10 @@ class SnakeCaseTest {
             ),
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
-        assertEquals(linter.lint(listOf(root)).first().toString(),
-            "Error(type=TYPO, message='Declaration name MyCreatedVariable is not in snake_case')")
+        assertEquals(
+            linter.lint(listOf(root)).first().toString(),
+            "Error(type=TYPO, message='Declaration name MyCreatedVariable is not in snake_case')"
+        )
     }
 
     @Test
@@ -63,7 +67,9 @@ class SnakeCaseTest {
             ),
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
-        assertEquals(linter.lint(listOf(root)).first().toString(),
-            "Error(type=TYPO, message='Declaration name my-created-variable is not in snake_case')")
+        assertEquals(
+            linter.lint(listOf(root)).first().toString(),
+            "Error(type=TYPO, message='Declaration name my-created-variable is not in snake_case')"
+        )
     }
 }

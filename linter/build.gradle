@@ -1,13 +1,10 @@
 plugins {
     id 'application-conventions'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.10' // Ensure the version matches your Kotlin version
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 dependencies {
     implementation project(':parser')
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0' // or your desired version
-}
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1'
 
-kotlin {
-    jvmToolchain(13)
 }

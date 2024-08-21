@@ -26,5 +26,4 @@ class InterpreterImpl : Interpreter {
     fun getValue(key: String): Pair<Boolean, LiteralValue?> {
         return valueMap[key] ?: Pair(false, null)
     }
-
 }
