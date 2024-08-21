@@ -32,10 +32,6 @@ class InterpreterVisitor(private val interpreter: InterpreterImpl) : StaticVisit
         node.result = node.left.result!! / node.right.result!!
     }
 
-    override fun acceptNone(node: NoneType) {
-        error("Cannot accept none")
-    }
-
     override fun acceptAssignation(node: AssignationType) {
         if (!interpreter.checkValue(node.declaration.name)) {
             node.value.visit(this)
