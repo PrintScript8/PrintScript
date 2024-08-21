@@ -16,18 +16,22 @@ class Parser2 : Parser {
 
         while (i < tokens.size) {
             i = tokenHandler.handle(tokens, i, statementNodes)
-            if (tokens[i].getType() == TokenType.ENDING) {
-                if (statementNodes.isNotEmpty()) {
-                    for (node in statementNodes.asReversed()) {
-                        if (node is StaticNode && node !is DynamicNode) {
-                            astList.add(node)
-                            break
+            if (i >= tokens.size) {
+                throw IllegalArgumentException("Expected ';' at end of statement")
+            } else {
+                if (tokens[i].getType() == TokenType.ENDING) {
+                    if (statementNodes.isNotEmpty()) {
+                        for (node in statementNodes.asReversed()) {
+                            if (node is StaticNode && node !is DynamicNode) {
+                                astList.add(node)
+                                break
+                            }
                         }
+                        statementNodes.clear()
+                        i += 1
+                    } else {
+                        throw IllegalArgumentException("Didn't expect ';'")
                     }
-                    statementNodes.clear()
-                    i += 1
-                } else {
-                    throw IllegalArgumentException("Didn't expect ';'")
                 }
             }
         }

@@ -29,7 +29,7 @@ class AssignationStrategy : ParseStrategy {
         val expressionNode = ExpressionType(variableNode, tuple.first)
         statementNodes.add(expressionNode)
         // aca se supone que debo devolver el indice corriendolo hasta la cantidad que se movio tras leer el lado derecho completo
-        return tuple.second + 1
+        return tuple.second
     }
 
     private fun parseAssignation(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
@@ -38,7 +38,7 @@ class AssignationStrategy : ParseStrategy {
         val assignationNode = AssignationType(declarationNode, tuple.first)
         statementNodes.add(assignationNode)
         // aca se supone que debo devolver el indice corriendolo hasta la cantidad que se movio tras leer el lado derecho completo
-        return tuple.second + 1
+        return tuple.second
     }
 
 

@@ -15,7 +15,7 @@ class TokenHandler {
         strategies[TokenType.MODIFIER] = ModifierStrategy()
         strategies[TokenType.IDENTIFIER_VAR] = DeclarationStrategy() // IMPORTANTE: Tambien funciona para llamadas a variable, no solo declarasion
         strategies[TokenType.ASSIGNATION] = AssignationStrategy()
-        // todo: agregar todas las estrategias
+        strategies[TokenType.NATIVE_METHOD] = MethodStrategy()
     }
 
     fun handle(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
