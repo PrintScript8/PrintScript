@@ -25,21 +25,20 @@ class AssignationStrategy : ParseStrategy {
 
     private fun parseExpression(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
         val variableNode = statementNodes[statementNodes.lastIndex] as VariableType
-        val rightNode = parseRightHandSide(tokens, currentIndex + 1)
-        val expressionNode = ExpressionType(variableNode, rightNode)
-        // La idea es que aca tome los dos valores del par devuelto para usarlos
+        val tuple: Pair<DynamicNode, Int> = parseRightHandSide(tokens, currentIndex + 1)
+        val expressionNode = ExpressionType(variableNode, tuple.first)
         statementNodes.add(expressionNode)
         // aca se supone que debo devolver el indice corriendolo hasta la cantidad que se movio tras leer el lado derecho completo
-        return currentIndex + rightNode.tokenCount() + 1
+        return tuple.second + 1
     }
 
     private fun parseAssignation(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
         val declarationNode = statementNodes[statementNodes.lastIndex] as DeclarationType
-        val rightNode = parseRightHandSide(tokens, currentIndex + 1)
-        val assignationNode = AssignationType(declarationNode, rightNode)
+        val tuple: Pair<DynamicNode, Int> = parseRightHandSide(tokens, currentIndex + 1)
+        val assignationNode = AssignationType(declarationNode, tuple.first)
         statementNodes.add(assignationNode)
         // aca se supone que debo devolver el indice corriendolo hasta la cantidad que se movio tras leer el lado derecho completo
-        return currentIndex + rightNode.tokenCount() + 1
+        return tuple.second + 1
     }
 
 
@@ -71,13 +70,15 @@ class AssignationStrategy : ParseStrategy {
                     }
                     currentOperator = token.getString()
                 }
-                else -> throw IllegalArgumentException("Unexpected token type: ${token.getType()}")
+                else -> throw IllegalArgumentException("Unexpected token type in assignment: ${token.getType()}")
             }
 
             currentIndex++
         }
-
-        return leftNode ?: throw IllegalArgumentException("Expression expected after '='")
+        if (leftNode == null) {
+            throw IllegalArgumentException("Expression expected after '='")
+        }
+        return Pair(leftNode, currentIndex)
     }
 
     private fun combineNodes(leftNode: DynamicNode?, rightNode: DynamicNode, operator: String?): DynamicNode {
