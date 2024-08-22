@@ -3,10 +3,7 @@ package parserTest
 import node.PrimType
 import node.dynamic.SubtractType
 import node.dynamic.SumType
-import node.staticpkg.AssignationType
-import node.staticpkg.DeclarationType
-import node.staticpkg.ExpressionType
-import node.staticpkg.StaticNode
+import node.staticpkg.*
 import parser.elements.Parser
 import org.example.token.Token
 import org.example.token.TokenImpl
@@ -136,4 +133,21 @@ class ParserTests {
         val stringNode: LiteralType = node2.value as LiteralType
         Assertions.assertEquals("Tomi", (stringNode.result as LiteralValue.StringValue).string)
     }
+
+    @Test
+    fun printLnTest(){
+        val tokenList: List<Token> = listOf(
+            TokenImpl(TokenType.NATIVE_METHOD, "printLn", 1),
+            TokenImpl(TokenType.STRING_LITERAL, "Hello World!", 1),
+            TokenImpl(TokenType.PARENTHESIS, ")", 1),
+            TokenImpl(TokenType.ENDING, ";", 1),
+        )
+        val parseList: List<StaticNode> = parser.parse(tokenList)
+        Assertions.assertEquals(1, parseList.size)
+        val headNode: PrintLnType = parseList[0] as PrintLnType;
+        Assertions.assertTrue(headNode.argument is LiteralType)
+        val stringNode: LiteralType = headNode.argument as LiteralType
+        Assertions.assertEquals("Hello World!", (stringNode.result as LiteralValue.StringValue).string)
+    }
+
 }

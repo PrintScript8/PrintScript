@@ -23,7 +23,11 @@ class Parser2 : Parser {
                     if (statementNodes.isNotEmpty()) {
                         for (node in statementNodes.asReversed()) {
                             if (node is StaticNode && node !is DynamicNode) {
-                                astList.add(node)
+                                if (verifyTypes(node)) {
+                                    astList.add(node)
+                                } else {
+                                    throw IllegalArgumentException("Type verification failed for node: $node")
+                                }
                                 break
                             }
                         }
@@ -36,5 +40,10 @@ class Parser2 : Parser {
             }
         }
         return astList
+    }
+
+
+    private fun verifyTypes(headNode: StaticNode): Boolean{
+        // todo: Implement method
     }
 }

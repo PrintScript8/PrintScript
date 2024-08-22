@@ -3,10 +3,7 @@ package parser.elements
 import org.example.node.Node
 import org.example.token.Token
 import org.example.token.TokenType
-import parser.strategies.AssignationStrategy
-import parser.strategies.DeclarationStrategy
-import parser.strategies.ModifierStrategy
-import parser.strategies.ParseStrategy
+import parser.strategies.*
 
 class TokenHandler {
     private val strategies: MutableMap<TokenType, ParseStrategy> = mutableMapOf()
