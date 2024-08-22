@@ -11,12 +11,13 @@ fun main() {
         NumberLiteralRule(),
         StringLiteralRule(),
         DeclarationRule(),
-        AssignmentRule(),
+        AssignationRule(),
         EndingRule(),
         OperationRule(listOf(PlusOperation, MinusOperation, MultiplyOperation, DivideOperation))
     )
     val lexer = Lexer(rules)
-    val inputs = listOf("let operation: String = \"a + b\";")
+    val inputs = listOf("let a:\n" +
+            "hola")
 
     for (input in inputs) {
         //println("Tokenizing input: \"$input\"")

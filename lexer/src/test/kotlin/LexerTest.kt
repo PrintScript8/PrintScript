@@ -13,7 +13,7 @@ class LexerTest {
         NumberLiteralRule(),
         StringLiteralRule(),
         DeclarationRule(),
-        AssignmentRule(),
+        AssignationRule(),
         EndingRule(),
         OperationRule(listOf(PlusOperation, MinusOperation, MultiplyOperation, DivideOperation))
     )

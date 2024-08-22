@@ -17,12 +17,22 @@ class Lexer(private val rules: List<TokenRule>) {
             for (rule in rules) {
                 val token = rule.match(currentInput, position)
                 if (token != null) {
-                    // Agrega el token si es diferente de Whitespace
+                    // Si el token no es Whitespace, lo agregamos
                     if (token.type != Whitespace) {
                         tokens.add(token as TokenImpl)
                     }
                     val tokenLength = token.text.length
-                    position = Position(position.row, position.startColumn + tokenLength, position.startColumn + tokenLength)
+
+                    // Actualizar posición
+                    val newRow = position.row + token.text.count { it == '\n' }
+                    val lastNewLineIndex = token.text.lastIndexOf('\n')
+                    val newStartColumn = if (lastNewLineIndex >= 0) {
+                        token.text.length - lastNewLineIndex
+                    } else {
+                        position.startColumn + tokenLength
+                    }
+
+                    position = Position(newRow, newStartColumn, newStartColumn)
                     currentInput = currentInput.drop(tokenLength)
                     matched = true
                     break
