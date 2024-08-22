@@ -10,7 +10,7 @@ class DeclarationTest {
     private val formatter = FormatterImpl()
 
     @Test
-    fun declarationTest() {
+    fun declaration() {
         val nameDeclaration = DeclarationType(
             ModifierType("val", false),
             IdentifierType(),
@@ -25,7 +25,7 @@ class DeclarationTest {
 
         val result = formatter.execute(listOf(nameDeclaration, variableDeclaration))
         val expected = "val name: Identifier;\n" +
-                "let i: Identifier;"
+            "let i: Identifier;"
 
         assertEquals(expected, result)
     }

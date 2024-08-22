@@ -17,7 +17,8 @@ class PrintTest {
     @Test
     fun printTestWithString() {
         val printType: StaticNode = PrintLnType(
-            LiteralType(LiteralValue.StringValue("Hello, World!")))
+            LiteralType(LiteralValue.StringValue("Hello, World!"))
+        )
         assertNotNull(printType)
 
         val result = formatter.execute(listOf(printType))
@@ -41,7 +42,6 @@ class PrintTest {
 
         assertEquals(expected, result)
     }
-
 
     @Test
     fun printTestWithVariable() {

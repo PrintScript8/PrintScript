@@ -1,5 +1,9 @@
 import formatter.FormatterImpl
-import node.staticpkg.*
+import node.staticpkg.AssignationType
+import node.staticpkg.DeclarationType
+import node.staticpkg.IdentifierType
+import node.staticpkg.ModifierType
+import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import type.LiteralType
@@ -11,7 +15,6 @@ class AssignationTest {
 
     @Test
     fun testAssignation() {
-
         val nameDeclaration = DeclarationType(
             ModifierType("val", false),
             IdentifierType(),
@@ -30,18 +33,18 @@ class AssignationTest {
         val assignationTree: StaticNode =
             AssignationType(
                 nameDeclaration,
-                stringName,
+                stringName
             )
 
         val assignationTree2: StaticNode =
             AssignationType(
                 variableDeclaration,
-                numberZero,
+                numberZero
             )
 
         val result = formatter.execute(listOf(assignationTree, assignationTree2))
         val expected = "val name: Identifier = \"Tomy\";\n" +
-                "let i: Identifier = 0;"
+            "let i: Identifier = 0;"
 
         assertEquals(expected, result)
     }

@@ -1,11 +1,11 @@
 package formatter
 
 import node.staticpkg.StaticNode
-import visitor.FormatterVisitor
+import visitor.StaticFormatterVisitor
 
 class FormatterImpl : Formatter {
 
-    private val visitor = FormatterVisitor(this)
+    private val visitor = StaticFormatterVisitor(this)
     private val output: MutableList<String> = mutableListOf()
 
     override fun execute(list: List<StaticNode>): String {
