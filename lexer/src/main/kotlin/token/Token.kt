@@ -1,8 +1,11 @@
-package org.example.token
+package lexer
 
+import token.Position
+import token.TokenType
+
+// Define la interfaz Token
 interface Token {
-
-    fun getType(): TokenType
-    fun getString(): String
-    fun getLine(): Int
+    val type: TokenType
+    val text: String
+    val position: Position
 }

@@ -1,29 +1,16 @@
-package org.example.token
+package token
 
-enum class TokenType {
-    KEYWORD, /*Definen cierto comportamiento extra como let o var*/
-    OPERAND, /*Operandos clasicos*/
-    IDENTIFIER_TYPE, /*Identifica el tipo de lo que se trabaja String, Int*/
-    ASSIGNATION, /*Indica la asignacion de una variable a otra*/
-    ENDING, /*Por ahora solo incluye ';' e indica el final de una sentencia*/
-    STRING_LITERAL, NUMBER_LITERAL, /*el valor en si de las cosas "hola", 72*/
-    UNKNOWN, /*Queda por las dudas*/
-    NATIVE_METHOD, /*para los metodos nativos del lenguaje como*/
-    PARENTHESIS,
-    USER_METHOD,
-    IDENTIFIER_VAR /*Es un nombre de variable que la diferencia del resto*/
-}
+// Define la sealed class TokenType
+sealed class TokenType(val name: String)
 
-/**
- *     KEYWORD, compisite
- *     OPERAND, composite
- *     IDENTIFIER_TYPE, leaf
- *     ASSIGNATION, composite
- *     ENDING, no tiene
- *     STRING_LITERAL, NUMBER_LITERAL, leaf
- *     UNKNOWN, no tiene
- *     NATIVE_METHOD, leaf --> el nombre FunctionDeclaration si es composite
- *     PARENTHESIS, no tiene
- *     USER_METHOD, lo mismo que NATIVE_METHOD
- *     IDENTIFIER_VAR leaf
- */
+object Identifier : TokenType("IDENTIFIER")
+object NumberLiteral : TokenType("NUMBER_LITERAL")
+object StringLiteral : TokenType("STRING_LITERAL")
+object Plus : TokenType("PLUS")
+object Minus : TokenType("MINUS")
+object Multiply : TokenType("MULTIPLY")
+object Divide : TokenType("DIVIDE")
+object Whitespace : TokenType("WHITESPACE")
+object Declaration : TokenType("DECLARATION")
+object Assignment : TokenType("ASSIGNMENT")
+object Ending : TokenType("ENDING")
