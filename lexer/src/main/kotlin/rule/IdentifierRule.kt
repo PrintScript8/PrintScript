@@ -2,8 +2,8 @@ package rule
 
 import token.Identifier
 import token.Position
-import lexer.Token
-import lexer.TokenImpl
+import token.Token
+import token.TokenImpl
 
 // Implementa una regla para identificar identificadores
 class IdentifierRule : TokenRule {

@@ -1,9 +1,9 @@
 package rule
 
-import token.StringLiteral
-import lexer.Token
-import lexer.TokenImpl
 import token.Position
+import token.StringLiteral
+import token.Token
+import token.TokenImpl
 
 // Implementa una regla para identificar literales de cadena
 class StringLiteralRule : TokenRule {

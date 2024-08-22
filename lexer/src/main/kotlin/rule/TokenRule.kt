@@ -1,7 +1,7 @@
 package rule
 
-import lexer.Token
 import token.Position
+import token.Token
 
 // Define la interfaz TokenRule
 interface TokenRule {

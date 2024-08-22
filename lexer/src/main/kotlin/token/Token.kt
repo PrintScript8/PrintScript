@@ -1,7 +1,4 @@
-package lexer
-
-import token.Position
-import token.TokenType
+package token
 
 // Define la interfaz Token
 interface Token {

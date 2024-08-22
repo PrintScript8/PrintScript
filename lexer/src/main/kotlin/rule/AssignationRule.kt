@@ -1,9 +1,9 @@
 package rule
 
-import lexer.Token
-import lexer.TokenImpl
 import token.Assignment
 import token.Position
+import token.Token
+import token.TokenImpl
 
 // Implementa una regla para identificar el token "="
 class AssignationRule : TokenRule {

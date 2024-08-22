@@ -6,13 +6,27 @@ import interpreter.Interpreter
 import interpreter.InterpreterImpl
 import linter.Linter
 import linter.LinterImpl
-import org.example.lexer.Lexer
-import org.example.lexer.LexerImplementation
-import java.io.File
+import lexer.Lexer
+import lexer.LexerImpl
+import rule.StringLiteralRule
+import rule.IdentifierRule
+import rule.NumberLiteralRule
+import rule.OperationRule
+import rule.PlusOperation
+import rule.MinusOperation
+import rule.MultiplyOperation
+import rule.DivideOperation
 
 class Operations {
 
-    private val lexer: Lexer = LexerImplementation()
+    private val lexerRules = listOf(
+        StringLiteralRule(),
+        IdentifierRule(),
+        NumberLiteralRule(),
+        OperationRule(listOf(PlusOperation, MinusOperation, MultiplyOperation, DivideOperation))
+    )
+
+    private val lexer: Lexer = LexerImpl(lexerRules)
     private val interpreter: Interpreter = InterpreterImpl()
     private val linter: Linter = LinterImpl()
     private val formatter: Formatter = FormatterImpl()
@@ -20,8 +34,7 @@ class Operations {
     fun validate(sourceFile: String) {
         println("Validating $sourceFile...")
         try {
-            lexer.setFile(File(sourceFile))
-            val tokens = lexer.getTokens()
+            val tokens = lexer.tokenize(sourceFile)
             //use parser
         }
         catch (e: Exception) {
@@ -32,8 +45,7 @@ class Operations {
     fun execute(sourceFile: String, version: String) {
         println("Executing $sourceFile with version $version...")
         try {
-            lexer.setFile(File(sourceFile))
-            val tokens = lexer.getTokens()
+            val tokens = lexer.tokenize(sourceFile)
             //use parser
             //use interpreter with parser result
         }
@@ -45,8 +57,7 @@ class Operations {
     fun format(sourceFile: String, configFile: String?) {
         println("Formatting $sourceFile with config file $configFile...")
         try {
-            lexer.setFile(File(sourceFile))
-            val tokens = lexer.getTokens()
+            val tokens = lexer.tokenize(sourceFile)
             //use parser
             //use formatter with parser result
         }
@@ -58,8 +69,7 @@ class Operations {
     fun analyze(sourceFile: String) {
         println("Analyzing $sourceFile...")
         try {
-            lexer.setFile(File(sourceFile))
-            val tokens = lexer.getTokens()
+            val tokens = lexer.tokenize(sourceFile)
             //use parser
             //use linter with parser result
         }

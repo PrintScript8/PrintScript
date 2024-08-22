@@ -1,9 +1,9 @@
 package rule
 
-import token.Position
 import token.NumberLiteral
-import lexer.Token
-import lexer.TokenImpl
+import token.Position
+import token.Token
+import token.TokenImpl
 
 // Implementa una regla para identificar números
 class NumberLiteralRule : TokenRule {
