@@ -2,7 +2,7 @@ package org.example.lexer
 
 class ElementSplitter {
 
-    private var input: String = "";
+    private var input: String = ""
     private val separators = setOf("=", "+", "-", "*", "/", ":", ";")
     private var result = mutableListOf<String>()
     private var sb = StringBuilder()
@@ -11,7 +11,7 @@ class ElementSplitter {
     private var i = 0
 
     fun split(text: String): List<String> {
-        input = text;
+        input = text
         while (i < input.length) {
             val c = input[i]
 
@@ -28,13 +28,13 @@ class ElementSplitter {
         }
 
         addRemainingToken()
-        val rs: List<String> = result;
-        reset();
+        val rs: List<String> = result
+        reset()
         return rs
     }
 
     private fun isQuote(c: Char): Boolean {
-        return c == '"' || c == '\'';
+        return c == '"' || c == '\''
     }
 
     private fun handleQuote(c: Char) {
@@ -108,7 +108,7 @@ class ElementSplitter {
     }
 
     private fun reset() {
-        input = "";
+        input = ""
         result = mutableListOf()
         sb = StringBuilder()
         inQuotes = false

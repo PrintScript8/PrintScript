@@ -5,7 +5,6 @@ import java.io.File
 
 interface Lexer {
 
-    fun setFile(input: File);
-    fun getTokens(): List<Token>;
-
+    fun setFile(input: File)
+    fun getTokens(): List<Token>
 }
