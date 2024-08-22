@@ -5,6 +5,7 @@ import node.staticpkg.StaticNode
 import org.example.node.Node
 import org.example.token.Token
 import org.example.token.TokenType
+import parser.visitor.TypeVisitor
 
 class Parser2 : Parser {
     private val tokenHandler = TokenHandler()
@@ -43,7 +44,15 @@ class Parser2 : Parser {
     }
 
 
-    private fun verifyTypes(headNode: StaticNode): Boolean{
-        // todo: Implement method
+    private fun verifyTypes(headNode: StaticNode): Boolean {
+        val visitor = TypeVisitor()
+
+        return try {
+            headNode.visit(visitor)
+            true // Si el visitante no lanza ninguna excepción, los tipos son correctos
+        } catch (e: Exception) {
+            false // Si se lanza una excepción, la verificación de tipos falló
+        }
     }
+
 }
