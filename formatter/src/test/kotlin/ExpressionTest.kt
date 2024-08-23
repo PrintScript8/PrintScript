@@ -1,11 +1,11 @@
 import formatter.FormatterImpl
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.dynamic.VariableType
 import node.staticpkg.ExpressionType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import type.LiteralType
-import type.LiteralValue
 
 class ExpressionTest {
 

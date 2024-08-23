@@ -1,7 +1,7 @@
 package interpreter
 
+import node.dynamic.LiteralValue
 import node.staticpkg.StaticNode
-import type.LiteralValue
 import visitor.StaticInterpreterVisitor
 
 class InterpreterImpl : Interpreter {

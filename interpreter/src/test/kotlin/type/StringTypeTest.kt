@@ -1,6 +1,8 @@
 package type
 
 import interpreter.InterpreterImpl
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull

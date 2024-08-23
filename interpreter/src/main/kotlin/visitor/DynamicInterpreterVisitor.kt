@@ -2,12 +2,12 @@ package visitor
 
 import interpreter.InterpreterImpl
 import node.dynamic.DivisionType
+import node.dynamic.LiteralType
 import node.dynamic.MultiplyType
 import node.dynamic.SubtractType
 import node.dynamic.SumType
 import node.dynamic.VariableType
 import operations.DynamicVisitor
-import type.LiteralType
 
 class DynamicInterpreterVisitor(private var interpreter: InterpreterImpl) : DynamicVisitor {
 

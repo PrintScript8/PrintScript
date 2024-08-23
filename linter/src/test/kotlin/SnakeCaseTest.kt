@@ -1,12 +1,12 @@
 import linter.LinterProvider
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.staticpkg.AssignationType
 import node.staticpkg.DeclarationType
 import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import type.LiteralType
-import type.LiteralValue
 
 class SnakeCaseTest {
     private val linter = LinterProvider().provideLinter("{ \"case\": \"snakeCase\" , \"argument\": \"literal\" }")

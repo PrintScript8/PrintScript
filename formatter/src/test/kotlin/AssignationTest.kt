@@ -1,4 +1,6 @@
 import formatter.FormatterImpl
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.staticpkg.AssignationType
 import node.staticpkg.DeclarationType
 import node.staticpkg.IdentifierType
@@ -6,8 +8,6 @@ import node.staticpkg.ModifierType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import type.LiteralType
-import type.LiteralValue
 
 class AssignationTest {
 

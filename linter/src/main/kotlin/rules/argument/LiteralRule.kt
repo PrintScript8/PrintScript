@@ -2,8 +2,8 @@ package rules.argument
 
 import error.Error
 import error.Type
+import node.dynamic.LiteralType
 import node.staticpkg.PrintLnType
-import type.LiteralType
 
 class LiteralRule : ArgumentRule {
     override fun analyzeArguments(printLnType: PrintLnType): List<Error> {

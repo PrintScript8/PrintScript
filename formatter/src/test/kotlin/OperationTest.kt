@@ -1,5 +1,7 @@
 import formatter.FormatterImpl
 import node.dynamic.DivisionType
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.dynamic.MultiplyType
 import node.dynamic.SubtractType
 import node.dynamic.SumType
@@ -10,8 +12,6 @@ import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Test
-import type.LiteralType
-import type.LiteralValue
 import kotlin.test.assertEquals
 
 class OperationTest {

@@ -2,6 +2,8 @@ package type
 
 import interpreter.InterpreterImpl
 import node.dynamic.DivisionType
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.dynamic.VariableType
 import node.staticpkg.AssignationType
 import node.staticpkg.DeclarationType
