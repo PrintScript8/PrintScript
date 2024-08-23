@@ -1,4 +1,4 @@
-package cli.src.main.kotlin
+package cli
 
 import formatter.Formatter
 import formatter.FormatterImpl

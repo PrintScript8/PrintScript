@@ -1,4 +1,4 @@
-package cli.src.main.kotlin
+package cli
 
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType

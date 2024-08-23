@@ -18,16 +18,13 @@ class LexerImpl(private val rules: List<TokenRule>) : Lexer {
                     "Unexpected character at row ${position.row}, column ${position.startColumn}"
                 )
 
-            if (token != null) {
-                if (token.type != Whitespace) {
-                    tokens.add(token)
-                }
+            if (token!!.type != Whitespace) {
+                tokens.add(token)
             }
 
             position = newPosition
             currentInput = remainingInput
         }
-
         return tokens
     }
 
