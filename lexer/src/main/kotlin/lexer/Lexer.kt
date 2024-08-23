@@ -1,11 +1,7 @@
-package org.example.lexer
+package lexer
 
-import org.example.token.Token
-import java.io.File
+import token.Token
 
 interface Lexer {
-
-    fun setFile(input: File);
-    fun getTokens(): List<Token>;
-
+    fun tokenize(input: String): List<Token>
 }
