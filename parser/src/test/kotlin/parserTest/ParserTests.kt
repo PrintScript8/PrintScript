@@ -47,7 +47,7 @@ class ParserTests {
             TokenImpl(TokenType.IDENTIFIER_TYPE, "String", 1),
             TokenImpl(TokenType.ASSIGNATION, "=", 1),
             TokenImpl(TokenType.NUMBER_LITERAL, "1", 1),
-            TokenImpl(TokenType.OPERAND, "+", 1),
+            TokenImpl(TokenType.SUM, "+", 1),
             TokenImpl(TokenType.NUMBER_LITERAL, "2", 1),
             TokenImpl(TokenType.ENDING, ";", 1),
         )
@@ -77,9 +77,9 @@ class ParserTests {
             TokenImpl(TokenType.IDENTIFIER_TYPE, "String", 1),
             TokenImpl(TokenType.ASSIGNATION, "=", 1),
             TokenImpl(TokenType.NUMBER_LITERAL, "1", 1),
-            TokenImpl(TokenType.OPERAND, "+", 1),
+            TokenImpl(TokenType.SUM, "+", 1),
             TokenImpl(TokenType.NUMBER_LITERAL, "2", 1),
-            TokenImpl(TokenType.OPERAND, "-", 1),
+            TokenImpl(TokenType.SUB, "-", 1),
             TokenImpl(TokenType.NUMBER_LITERAL, "3", 1),
             TokenImpl(TokenType.ENDING, ";", 1),
         )
@@ -94,12 +94,12 @@ class ParserTests {
         Assertions.assertEquals("name" ,leftNode.name)
         Assertions.assertEquals(PrimType.STRING ,leftNode.type.type)
 
-        Assertions.assertTrue(assignNode.value is SubtractType)
-        val subNode: SubtractType = headNode.value as SubtractType
-        Assertions.assertTrue(subNode.left is SumType)
-        val sumNode: SumType = subNode.left as SumType
+        Assertions.assertTrue(assignNode.value is SumType)
+        val sumNode: SumType = headNode.value as SumType
+        Assertions.assertTrue(sumNode.right is SubtractType)
+        val subNode: SubtractType = sumNode.right as SubtractType
         Assertions.assertEquals(1.0, (sumNode.left.result as LiteralValue.NumberValue).number)
-        Assertions.assertEquals(2.0, (sumNode.right.result as LiteralValue.NumberValue).number)
+        Assertions.assertEquals(2.0, (subNode.left.result as LiteralValue.NumberValue).number)
         Assertions.assertEquals(3.0, (subNode.right.result as LiteralValue.NumberValue).number)
     }
 
@@ -139,7 +139,7 @@ class ParserTests {
         val tokenList: List<Token> = listOf(
             TokenImpl(TokenType.NATIVE_METHOD, "printLn", 1),
             TokenImpl(TokenType.STRING_LITERAL, "Hello World!", 1),
-            TokenImpl(TokenType.PARENTHESIS, ")", 1),
+            TokenImpl(TokenType.PARENTHESIS_CLOSE, ")", 1),
             TokenImpl(TokenType.ENDING, ";", 1),
         )
         val parseList: List<StaticNode> = parser.parse(tokenList)

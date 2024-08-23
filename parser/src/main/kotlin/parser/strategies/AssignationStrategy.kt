@@ -7,102 +7,40 @@ import node.staticpkg.ExpressionType
 import org.example.node.Node
 import org.example.token.Token
 import org.example.token.TokenType
-import type.LiteralType
-import type.LiteralValue
+
 
 class AssignationStrategy : ParseStrategy {
 
+    private val rightSideParser:RightSideParser = RightSideParser()
+
     override fun parse(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
-        if (statementNodes.isEmpty()) {
-            throw IllegalArgumentException("'=' cannot be used alone, missing previous argument")
-        }
-        return when (val lastNode: Node = statementNodes[statementNodes.lastIndex]) {
+        validatePreviousNode(statementNodes)
+        return when (val lastNode = statementNodes.last()) {
             is VariableType -> parseExpression(tokens, currentIndex, statementNodes)
             is DeclarationType -> parseAssignation(tokens, currentIndex, statementNodes)
             else -> throw IllegalArgumentException("'=' cannot be used with first argument ${lastNode.javaClass}")
         }
     }
 
+    private fun validatePreviousNode(statementNodes: MutableList<Node>) {
+        if (statementNodes.isEmpty()) {
+            throw IllegalArgumentException("'=' cannot be used alone, missing previous argument")
+        }
+    }
+
     private fun parseExpression(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
-        val variableNode = statementNodes[statementNodes.lastIndex] as VariableType
-        val tuple: Pair<DynamicNode, Int> = parseRightHandSide(tokens, currentIndex + 1)
-        val expressionNode = ExpressionType(variableNode, tuple.first)
+        val variableNode = statementNodes.last() as VariableType
+        val (rightHandSideNode, nextIndex) = rightSideParser.parseRightHandSide(tokens, currentIndex + 1, TokenType.ENDING)
+        val expressionNode = ExpressionType(variableNode, rightHandSideNode)
         statementNodes.add(expressionNode)
-        // aca se supone que debo devolver el indice corriendolo hasta la cantidad que se movio tras leer el lado derecho completo
-        return tuple.second
+        return nextIndex
     }
 
     private fun parseAssignation(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
-        val declarationNode = statementNodes[statementNodes.lastIndex] as DeclarationType
-        val tuple: Pair<DynamicNode, Int> = parseRightHandSide(tokens, currentIndex + 1)
-        val assignationNode = AssignationType(declarationNode, tuple.first)
+        val declarationNode = statementNodes.last() as DeclarationType
+        val (rightHandSideNode, nextIndex) = rightSideParser.parseRightHandSide(tokens, currentIndex + 1, TokenType.ENDING)
+        val assignationNode = AssignationType(declarationNode, rightHandSideNode)
         statementNodes.add(assignationNode)
-        // aca se supone que debo devolver el indice corriendolo hasta la cantidad que se movio tras leer el lado derecho completo
-        return tuple.second
+        return nextIndex
     }
-
-
-    // Considerar sacar esto a una clase con la logica de parsear nodos del lado derecho (Nodos dinamicos)
-    private fun parseRightHandSide(tokens: List<Token>, startIndex: Int): Pair<DynamicNode, Int> {
-        var currentIndex = startIndex
-        var leftNode: DynamicNode? = null
-        var currentOperator: String? = null
-
-        while (currentIndex < tokens.size && tokens[currentIndex].getType() != TokenType.ENDING) {
-            val token = tokens[currentIndex]
-
-            when (token.getType()) {
-                TokenType.NUMBER_LITERAL -> {
-                    val literalNode = LiteralType(LiteralValue.NumberValue(token.getString().toDouble()))
-                    leftNode = combineNodes(leftNode, literalNode, currentOperator)
-                }
-                TokenType.STRING_LITERAL -> {
-                    val literalNode = LiteralType(LiteralValue.StringValue(token.getString()))
-                    leftNode = combineNodes(leftNode, literalNode, currentOperator)
-                }
-                TokenType.IDENTIFIER_VAR -> {
-                    val variableNode = VariableType(token.getString(), null, false)
-                    leftNode = combineNodes(leftNode, variableNode, currentOperator)
-                }
-                TokenType.OPERAND -> {
-                    if (leftNode == null) {
-                        throw IllegalArgumentException("Operator '${token.getString()}' used without left operand")
-                    }
-                    currentOperator = token.getString()
-                }
-                else -> throw IllegalArgumentException("Unexpected token type in assignment: ${token.getType()}")
-            }
-
-            currentIndex++
-        }
-        if (leftNode == null) {
-            throw IllegalArgumentException("Expression expected after '='")
-        }
-        return Pair(leftNode, currentIndex)
-    }
-
-    private fun combineNodes(leftNode: DynamicNode?, rightNode: DynamicNode, operator: String?): DynamicNode {
-        return if (leftNode == null) {
-            rightNode
-        } else {
-            when (operator) {
-                "+" -> SumType(leftNode, rightNode, null)
-                "-" -> SubtractType(leftNode, rightNode, null)
-                "*" -> MultiplyType(leftNode, rightNode, null)
-                "/" -> DivisionType(leftNode, rightNode, null)
-                else -> throw IllegalArgumentException("Unsupported operator or missing operator between operands")
-            }
-        }
-    }
-
-
-    /*
-    La idea seria aca que, si no hay un leftNode, lo setea.
-    En caso de que haya, trata de convinar el que tiene con el left, cosa que solo se puede con operaciones.
-    Esto nos restringe para no poder poner dos numeros seguidos ni un operador suelto sin nada antes.
-
-    Habria que ver que hacer con el nodo derecho si el nodo izquierdo que ya existe tiene la posibilidad de tener un nodo derecho que no tiene.
-    Pensando en esto, "leftNode" se podria entender como previous node.
-     */
-
 }
