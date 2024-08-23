@@ -1,0 +1,10 @@
+name: Verify CI
+
+on:
+    push:
+        branches:
+          - '*'
+
+jobs:
+  call_workflow:
+    uses: /ezequielrickert/ingsis-library/blob/main/.github/workflows/release-package.yml

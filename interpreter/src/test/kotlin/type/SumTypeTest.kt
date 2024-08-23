@@ -1,12 +1,20 @@
 package type
 
 import interpreter.InterpreterImpl
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.dynamic.SumType
 import node.dynamic.VariableType
-import node.staticpkg.*
-import org.junit.jupiter.api.Assertions.*
+import node.staticpkg.AssignationType
+import node.staticpkg.DeclarationType
+import node.staticpkg.IdentifierType
+import node.staticpkg.ModifierType
+import node.staticpkg.PrintLnType
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
-import visitor.InterpreterVisitor
+import visitor.DynamicInterpreterVisitor
+import visitor.StaticInterpreterVisitor
 
 class SumTypeTest {
 
@@ -15,7 +23,8 @@ class SumTypeTest {
         val sumType = SumType(
             LiteralType(LiteralValue.NumberValue(5)),
             LiteralType(LiteralValue.NumberValue(5)),
-            null)
+            null
+        )
         assertNotNull(sumType)
     }
 
@@ -24,8 +33,9 @@ class SumTypeTest {
         val sumType = SumType(
             LiteralType(LiteralValue.NumberValue(5)),
             LiteralType(LiteralValue.NumberValue(5)),
-            null)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+            null
+        )
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
         sumType.visit(dynamicVisitor)
         val result: LiteralValue = sumType.result!!
         assertEquals("10", result.toString())
@@ -36,8 +46,9 @@ class SumTypeTest {
         val sumType = SumType(
             LiteralType(LiteralValue.NumberValue(5)),
             LiteralType(LiteralValue.StringValue("5")),
-            null)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+            null
+        )
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
         sumType.visit(dynamicVisitor)
         val result: LiteralValue = sumType.result!!
         assertEquals("55", result.toString())
@@ -48,8 +59,9 @@ class SumTypeTest {
         val sumType = SumType(
             LiteralType(LiteralValue.StringValue("Hello ")),
             LiteralType(LiteralValue.StringValue("World!")),
-            null)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+            null
+        )
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
         sumType.visit(dynamicVisitor)
         val result: LiteralValue = sumType.result!!
         assertEquals("Hello World!", result.toString())
@@ -68,9 +80,12 @@ class SumTypeTest {
         val sumType = SumType(
             LiteralType(LiteralValue.NumberValue(1)),
             VariableType("a", null, false),
-            null)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
-        assignationType.visit(dynamicVisitor)
+            null
+        )
+        val interpreter = InterpreterImpl()
+        val dynamicVisitor = DynamicInterpreterVisitor(interpreter)
+        val staticVisitor = StaticInterpreterVisitor(interpreter)
+        assignationType.visit(staticVisitor)
         sumType.visit(dynamicVisitor)
         val result: LiteralValue = sumType.result!!
         assertEquals("6", result.toString())
@@ -81,10 +96,13 @@ class SumTypeTest {
         val sumType = SumType(
             LiteralType(LiteralValue.NumberValue(1)),
             LiteralType(LiteralValue.NumberValue(5)),
-            null)
+            null
+        )
         val printLnType = PrintLnType(sumType)
-        val dynamicVisitor = InterpreterVisitor(InterpreterImpl())
+        val interpreter = InterpreterImpl()
+        val dynamicVisitor = DynamicInterpreterVisitor(interpreter)
+        val staticVisitor = StaticInterpreterVisitor(interpreter)
         sumType.visit(dynamicVisitor)
-        printLnType.visit(dynamicVisitor)
+        printLnType.visit(staticVisitor)
     }
 }

@@ -1,6 +1,5 @@
-package type
+package node.dynamic
 
-import node.dynamic.DynamicNode
 import operations.DynamicVisitor
 
 sealed class LiteralValue {
@@ -37,27 +36,24 @@ sealed class LiteralValue {
     }
 
     operator fun minus(other: LiteralValue): LiteralValue {
-        if (this is NumberValue && other is NumberValue) {
-            return NumberValue(this.number.toDouble() - other.number.toDouble())
-        } else {
-            throw IllegalArgumentException("Subtraction is only supported for Number values")
+        require(this is NumberValue && other is NumberValue) {
+            "Subtraction is only supported for Number values"
         }
+        return NumberValue(this.number.toDouble() - other.number.toDouble())
     }
 
     operator fun div(other: LiteralValue): LiteralValue {
-        if (this is NumberValue && other is NumberValue) {
-            return NumberValue(this.number.toDouble() / other.number.toDouble())
-        } else {
-            throw IllegalArgumentException("Division is only supported for Number values")
+        require(this is NumberValue && other is NumberValue) {
+            "Division is only supported for Number values"
         }
+        return NumberValue(this.number.toDouble() / other.number.toDouble())
     }
 
     operator fun times(other: LiteralValue): LiteralValue {
-        if (this is NumberValue && other is NumberValue) {
-            return NumberValue(this.number.toDouble() * other.number.toDouble())
-        } else {
-            throw IllegalArgumentException("Multiplication is only supported for Number values")
+        require(this is NumberValue && other is NumberValue) {
+            "Multiplication is only supported for Number values"
         }
+        return NumberValue(this.number.toDouble() * other.number.toDouble())
     }
 }
 

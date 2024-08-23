@@ -1,14 +1,22 @@
 package visitor
 
-import node.dynamic.*
-import node.staticpkg.*
+import error.Error
+import linter.LinterImpl
+import node.staticpkg.AssignationType
+import node.staticpkg.DeclarationType
+import node.staticpkg.ExpressionType
+import node.staticpkg.IdentifierType
+import node.staticpkg.ModifierType
+import node.staticpkg.PrintLnType
 import operations.StaticVisitor
 import rules.argument.ArgumentRule
 import rules.format.FormatRule
-import error.Error
-import linter.LinterImpl
 
-class LinterVisitor(var argumentRules: ArgumentRule, var formatRules: FormatRule, val linter: LinterImpl) :  StaticVisitor {
+class LinterVisitor(
+    var argumentRules: ArgumentRule,
+    var formatRules: FormatRule,
+    private val linter: LinterImpl
+) : StaticVisitor {
 
     override fun acceptAssignation(node: AssignationType) {
         node.declaration.visit(this)
