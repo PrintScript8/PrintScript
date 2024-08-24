@@ -2,7 +2,7 @@ package parser.strategies
 
 import node.staticpkg.ModifierType
 import org.example.node.Node
-import org.example.token.Token
+import token.Token
 
 class ModifierStrategy: ParseStrategy {
 
@@ -12,7 +12,7 @@ class ModifierStrategy: ParseStrategy {
     }
     
     private fun parseModifier(tokens: List<Token>, index: Int): ModifierType{
-        val modifier: String = tokens[index].getString()
+        val modifier: String = tokens[index].text
         return ModifierType(modifier, modifier != "const")
     }
 }

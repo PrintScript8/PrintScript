@@ -5,8 +5,8 @@ import node.staticpkg.AssignationType
 import node.staticpkg.DeclarationType
 import node.staticpkg.ExpressionType
 import org.example.node.Node
-import org.example.token.Token
-import org.example.token.TokenType
+import token.Ending
+import token.Token
 
 
 class AssignationStrategy : ParseStrategy {
@@ -30,7 +30,7 @@ class AssignationStrategy : ParseStrategy {
 
     private fun parseExpression(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
         val variableNode = statementNodes.last() as VariableType
-        val (rightHandSideNode, nextIndex) = rightSideParser.parseRightHandSide(tokens, currentIndex + 1, TokenType.ENDING)
+        val (rightHandSideNode, nextIndex) = rightSideParser.parseRightHandSide(tokens, currentIndex + 1, Ending)
         val expressionNode = ExpressionType(variableNode, rightHandSideNode)
         statementNodes.add(expressionNode)
         return nextIndex
@@ -38,7 +38,7 @@ class AssignationStrategy : ParseStrategy {
 
     private fun parseAssignation(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
         val declarationNode = statementNodes.last() as DeclarationType
-        val (rightHandSideNode, nextIndex) = rightSideParser.parseRightHandSide(tokens, currentIndex + 1, TokenType.ENDING)
+        val (rightHandSideNode, nextIndex) = rightSideParser.parseRightHandSide(tokens, currentIndex + 1, Ending)
         val assignationNode = AssignationType(declarationNode, rightHandSideNode)
         statementNodes.add(assignationNode)
         return nextIndex

@@ -55,9 +55,7 @@ class TypeVisitor : DynamicVisitor, StaticVisitor{
         // No es posible parsear variables segun su tipo en esta instancia ya que no se tiene memoria de su tipo
     }
 
-    override fun acceptNone(node: NoneType) {
-        // No requiere ser parseado
-    }
+
 
     override fun acceptAssignation(node: AssignationType) {
         val declarationType = node.declaration.type.type

@@ -1,8 +1,7 @@
 package parser.strategies
 
 import node.dynamic.*
-import org.example.token.Token
-import org.example.token.TokenType
+import token.*
 import type.LiteralType
 import type.LiteralValue
 import java.util.*
@@ -17,36 +16,36 @@ class RightSideParser {
 
         while (expressionQueue.isNotEmpty()) {
             val currentToken: Token = expressionQueue.remove()
-            when (currentToken.getType()) {
-                TokenType.NUMBER_LITERAL -> {
-                    val node = LiteralType(LiteralValue.NumberValue(currentToken.getString().toDouble()))
+            when (currentToken.type) {
+                NumberLiteral -> {
+                    val node = LiteralType(LiteralValue.NumberValue(currentToken.text.toDouble()))
                     opStack.add(node)
                 }
-                TokenType.STRING_LITERAL -> {
-                    val node = LiteralType(LiteralValue.StringValue(currentToken.getString()))
+                StringLiteral -> {
+                    val node = LiteralType(LiteralValue.StringValue(currentToken.text))
                     opStack.add(node)
                 }
-                TokenType.IDENTIFIER_VAR -> {
-                    val node = VariableType(currentToken.getString(), null, false)
+                Identifier -> {
+                    val node = VariableType(currentToken.text, null, false)
                     opStack.add(node)
                 }
-                TokenType.MULT -> {
+                Multiply -> {
                     val node = parseBinaryOperation(opStack) { left, right -> MultiplyType(left, right, null) }
                     opStack.add(node)
                 }
-                TokenType.DIV -> {
+                Divide -> {
                     val node = parseBinaryOperation(opStack) { left, right -> DivisionType(left, right, null) }
                     opStack.add(node)
                 }
-                TokenType.SUM -> {
+                Plus -> {
                     val node = parseBinaryOperation(opStack) { left, right -> SumType(left, right, null) }
                     opStack.add(node)
                 }
-                TokenType.SUB -> {
+                Minus -> {
                     val node = parseBinaryOperation(opStack) { left, right -> SubtractType(left, right, null) }
                     opStack.add(node)
                 }
-                else -> throw IllegalArgumentException("Unexpected token type: ${currentToken.getType()}")
+                else -> throw IllegalArgumentException("Unexpected token type: ${currentToken.type}")
             }
         }
         return Pair(opStack.pop(), index)
@@ -67,17 +66,17 @@ class RightSideParser {
         val stack: Stack<Token> = Stack()
         val queue: Queue<Token> = LinkedList()
 
-        while (currentIndex < tokens.size && tokens[currentIndex].getType() != endTokenType) {
+        while (currentIndex < tokens.size && tokens[currentIndex].type != endTokenType) {
             val token = tokens[currentIndex]
 
-            when (token.getType()) {
-                TokenType.NUMBER_LITERAL, TokenType.STRING_LITERAL, TokenType.IDENTIFIER_VAR, TokenType.PARENTHESIS_OPEN -> {
+            when (token.type) {
+                NumberLiteral, StringLiteral, Identifier, CloseParenthesis -> {
                     queue.add(tokens[currentIndex])
                 }
-                TokenType.PARENTHESIS_CLOSE -> {
+                CloseParenthesis -> {
                     while (stack.isNotEmpty()) {
                         val poppedToken = stack.pop()
-                        if (poppedToken.getType() == TokenType.PARENTHESIS_OPEN) {
+                        if (poppedToken.type == OpenParenthesis) {
                             break
                         }
                         queue.add(poppedToken)
@@ -86,24 +85,24 @@ class RightSideParser {
                         }
                     }
                 }
-                TokenType.MULT, TokenType.DIV -> {
+                Multiply, Divide -> {
                     stack.add(tokens[currentIndex])
                 }
-                TokenType.SUM, TokenType.SUB -> {
-                    if (stack.isEmpty() || ((stack.peek().getType() != TokenType.MULT) && (stack.peek().getType() != TokenType.DIV))) {
+                Plus, Minus -> {
+                    if (stack.isEmpty() || ((stack.peek().type != Multiply) && (stack.peek().type != Divide))) {
                         stack.add(tokens[currentIndex])
                     } else {
                         queue.add(stack.pop())
                         stack.add(tokens[currentIndex])
                     }
                 }
-                else -> throw IllegalArgumentException("Unexpected token type in queue builder: ${token.getType()}")
+                else -> throw IllegalArgumentException("Unexpected token type in queue builder: ${token.type}")
             }
 
             currentIndex++
         }
         while (stack.isNotEmpty()) {
-            if (queue.peek().getType() == TokenType.PARENTHESIS_OPEN) {
+            if (queue.peek().type == OpenParenthesis) {
                 throw IllegalArgumentException("Parenthesis was opened and never closed")
             }
             queue.add(stack.pop())

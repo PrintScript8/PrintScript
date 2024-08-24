@@ -1,22 +1,21 @@
 package parser.elements
 
 import org.example.node.Node
-import org.example.token.Token
-import org.example.token.TokenType
 import parser.strategies.*
+import token.*
 
 class TokenHandler {
     private val strategies: MutableMap<TokenType, ParseStrategy> = mutableMapOf()
 
     init {
-        strategies[TokenType.MODIFIER] = ModifierStrategy()
-        strategies[TokenType.IDENTIFIER_VAR] = DeclarationStrategy() // IMPORTANTE: Tambien funciona para llamadas a variable, no solo declarasion
-        strategies[TokenType.ASSIGNATION] = AssignationStrategy()
-        strategies[TokenType.NATIVE_METHOD] = MethodStrategy()
+        strategies[Modifier] = ModifierStrategy()
+        strategies[Identifier] = DeclarationStrategy() // IMPORTANTE: Tambien funciona para llamadas a variable, no solo declarasion
+        strategies[Assignment] = AssignationStrategy()
+        strategies[NativeMethod] = MethodStrategy()
     }
 
     fun handle(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
-        val tokenType = tokens[currentIndex].getType()
+        val tokenType = tokens[currentIndex].type
         val strategy = strategies[tokenType]
         return strategy?.parse(tokens, currentIndex, statementNodes) ?: (currentIndex + 1)
     }

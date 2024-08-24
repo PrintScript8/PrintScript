@@ -16,6 +16,9 @@ data object Assignment : TokenType("ASSIGNMENT") // =
 data object Ending : TokenType("ENDING") // ;
 data object OpenParenthesis : TokenType("OPEN_PARENTHESIS") // (
 data object CloseParenthesis : TokenType("CLOSE_PARENTHESIS") // )
+data object TypeId : TokenType("TYPE_ID") // String Number
+data object NativeMethod : TokenType("NATIVE_METHOD") // String Number
+data object Modifier : TokenType("MODIFIER") // let const
 // data object OpenBracket : TokenType("OPEN_BRACKET") // [
 // data object CloseBracket : TokenType("CLOSE_BRACKET") // ]
 // data object OpenBrace : TokenType("OPEN_BRACE") // {

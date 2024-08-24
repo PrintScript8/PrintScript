@@ -3,9 +3,9 @@ package parser.elements
 import node.dynamic.DynamicNode
 import node.staticpkg.StaticNode
 import org.example.node.Node
-import org.example.token.Token
-import org.example.token.TokenType
 import parser.visitor.TypeVisitor
+import token.Ending
+import token.Token
 
 class Parser2 : Parser {
     private val tokenHandler = TokenHandler()
@@ -20,7 +20,7 @@ class Parser2 : Parser {
             if (i >= tokens.size) {
                 throw IllegalArgumentException("Expected ';' at end of statement")
             } else {
-                if (tokens[i].getType() == TokenType.ENDING) {
+                if (tokens[i].type == Ending) {
                     if (statementNodes.isNotEmpty()) {
                         for (node in statementNodes.asReversed()) {
                             if (node is StaticNode && node !is DynamicNode) {

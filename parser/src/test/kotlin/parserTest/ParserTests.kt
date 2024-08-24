@@ -5,12 +5,10 @@ import node.dynamic.SubtractType
 import node.dynamic.SumType
 import node.staticpkg.*
 import parser.elements.Parser
-import org.example.token.Token
-import org.example.token.TokenImpl
-import org.example.token.TokenType
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import parser.elements.Parser2
+import token.*
 import type.LiteralType
 import type.LiteralValue
 
@@ -21,11 +19,11 @@ class ParserTests {
     @Test
     fun testDeclaration(){
         val tokenList: List<Token> = listOf(
-            TokenImpl(TokenType.MODIFIER, "let", 1),
-            TokenImpl(TokenType.IDENTIFIER_VAR, "name", 1),
-            TokenImpl(TokenType.COLON, ":", 1),
-            TokenImpl(TokenType.IDENTIFIER_TYPE, "String", 1),
-            TokenImpl(TokenType.ENDING, ";", 1)
+            TokenImpl(Modifier, "let", Position(1, 1, 1)),
+            TokenImpl(Identifier, "name", Position(1, 1, 1)),
+            TokenImpl(Declaration, ":", Position(1, 1, 1)),
+            TokenImpl(TypeId, "String", Position(1, 1, 1)),
+            TokenImpl(Ending, ";", Position(1, 1, 1))
         )
         val parseList: List<StaticNode> = parser.parse(tokenList)
         Assertions.assertEquals(1, parseList.size)
@@ -41,15 +39,15 @@ class ParserTests {
     @Test
     fun testAssignation(){
         val tokenList: List<Token> = listOf(
-            TokenImpl(TokenType.MODIFIER, "let", 1),
-            TokenImpl(TokenType.IDENTIFIER_VAR, "name", 1),
-            TokenImpl(TokenType.COLON, ":", 1),
-            TokenImpl(TokenType.IDENTIFIER_TYPE, "String", 1),
-            TokenImpl(TokenType.ASSIGNATION, "=", 1),
-            TokenImpl(TokenType.NUMBER_LITERAL, "1", 1),
-            TokenImpl(TokenType.SUM, "+", 1),
-            TokenImpl(TokenType.NUMBER_LITERAL, "2", 1),
-            TokenImpl(TokenType.ENDING, ";", 1),
+            TokenImpl(Modifier, "let", Position(1, 1, 1)),
+            TokenImpl(Identifier, "name", Position(1, 1, 1)),
+            TokenImpl(Declaration, ":", Position(1, 1, 1)),
+            TokenImpl(TypeId, "String", Position(1, 1, 1)),
+            TokenImpl(Assignment, "=", Position(1, 1, 1)),
+            TokenImpl(NumberLiteral, "1", Position(1, 1, 1)),
+            TokenImpl(Plus, "+", Position(1, 1, 1)),
+            TokenImpl(NumberLiteral, "2", Position(1, 1, 1)),
+            TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
         val parseList: List<StaticNode> = parser.parse(tokenList)
         Assertions.assertEquals(1, parseList.size)
@@ -71,17 +69,17 @@ class ParserTests {
     @Test
     fun testComplexAssignation(){
         val tokenList: List<Token> = listOf(
-            TokenImpl(TokenType.MODIFIER, "let", 1),
-            TokenImpl(TokenType.IDENTIFIER_VAR, "name", 1),
-            TokenImpl(TokenType.COLON, ":", 1),
-            TokenImpl(TokenType.IDENTIFIER_TYPE, "String", 1),
-            TokenImpl(TokenType.ASSIGNATION, "=", 1),
-            TokenImpl(TokenType.NUMBER_LITERAL, "1", 1),
-            TokenImpl(TokenType.SUM, "+", 1),
-            TokenImpl(TokenType.NUMBER_LITERAL, "2", 1),
-            TokenImpl(TokenType.SUB, "-", 1),
-            TokenImpl(TokenType.NUMBER_LITERAL, "3", 1),
-            TokenImpl(TokenType.ENDING, ";", 1),
+            TokenImpl(Modifier, "let", Position(1, 1, 1)),
+            TokenImpl(Identifier, "name", Position(1, 1, 1)),
+            TokenImpl(Declaration, ":", Position(1, 1, 1)),
+            TokenImpl(TypeId, "String", Position(1, 1, 1)),
+            TokenImpl(Assignment, "=", Position(1, 1, 1)),
+            TokenImpl(NumberLiteral, "1", Position(1, 1, 1)),
+            TokenImpl(Plus, "+", Position(1, 1, 1)),
+            TokenImpl(NumberLiteral, "2", Position(1, 1, 1)),
+            TokenImpl(Minus, "-", Position(1, 1, 1)),
+            TokenImpl(NumberLiteral, "3", Position(1, 1, 1)),
+            TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
         val parseList: List<StaticNode> = parser.parse(tokenList)
         Assertions.assertEquals(1, parseList.size)
@@ -106,15 +104,15 @@ class ParserTests {
     @Test
     fun multipleSentence(){
         val tokenList: List<Token> = listOf(
-            TokenImpl(TokenType.MODIFIER, "let", 1),
-            TokenImpl(TokenType.IDENTIFIER_VAR, "name", 1),
-            TokenImpl(TokenType.COLON, ":", 1),
-            TokenImpl(TokenType.IDENTIFIER_TYPE, "String", 1),
-            TokenImpl(TokenType.ENDING, ";", 1),
-            TokenImpl(TokenType.IDENTIFIER_VAR, "name", 1),
-            TokenImpl(TokenType.ASSIGNATION, "=", 1),
-            TokenImpl(TokenType.STRING_LITERAL, "Tomi", 1),
-            TokenImpl(TokenType.ENDING, ";", 1),
+            TokenImpl(Modifier, "let", Position(1, 1, 1)),
+            TokenImpl(Identifier, "name", Position(1, 1, 1)),
+            TokenImpl(Declaration, ":", Position(1, 1, 1)),
+            TokenImpl(TypeId, "String", Position(1, 1, 1)),
+            TokenImpl(Ending, ";", Position(1, 1, 1)),
+            TokenImpl(Identifier, "name", Position(1, 1, 1)),
+            TokenImpl(Assignment, "=", Position(1, 1, 1)),
+            TokenImpl(StringLiteral, "Tomi", Position(1, 1, 1)),
+            TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
         val parseList: List<StaticNode> = parser.parse(tokenList)
         Assertions.assertEquals(2, parseList.size)
@@ -137,10 +135,10 @@ class ParserTests {
     @Test
     fun printLnTest(){
         val tokenList: List<Token> = listOf(
-            TokenImpl(TokenType.NATIVE_METHOD, "printLn", 1),
-            TokenImpl(TokenType.STRING_LITERAL, "Hello World!", 1),
-            TokenImpl(TokenType.PARENTHESIS_CLOSE, ")", 1),
-            TokenImpl(TokenType.ENDING, ";", 1),
+            TokenImpl(NativeMethod, "printLn", Position(1, 1, 1)),
+            TokenImpl(StringLiteral, "Hello World!", Position(1, 1, 1)),
+            TokenImpl(CloseParenthesis, ")", Position(1, 1, 1)),
+            TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
         val parseList: List<StaticNode> = parser.parse(tokenList)
         Assertions.assertEquals(1, parseList.size)

@@ -6,8 +6,9 @@ import node.staticpkg.DeclarationType
 import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import org.example.node.Node
-import org.example.token.Token
-import org.example.token.TokenType
+import token.Declaration
+import token.Modifier
+import token.Token
 
 class DeclarationStrategy: ParseStrategy {
 
@@ -22,23 +23,23 @@ class DeclarationStrategy: ParseStrategy {
             // Obtiene el token del tipo de dato que sigue al identificador
             val typeToken = tokens[currentIndex + 2]
             // Crea un nodo de declaración con el modificador, identificador y tipo
-            val declarationNode = DeclarationType(modifier, IdentifierType(getPrim(typeToken)), identifierToken.getString())
+            val declarationNode = DeclarationType(modifier, IdentifierType(getPrim(typeToken)), identifierToken.text)
             // Agrega el nodo de declaración a la lista de nodos
             statementNodes.add(declarationNode)
             // Avanza el índice más allá del identificador, el ":" y el tipo
             return currentIndex + 3
         } else {
             // Si no es una declarasion agrega nodo de variable
-            statementNodes.add(VariableType(tokens[currentIndex].getString(), null, false))
+            statementNodes.add(VariableType(tokens[currentIndex].text, null, false))
             return currentIndex + 1
         }
     }
 
     private fun isDeclaration(tokens: List<Token>, currentIndex: Int): Boolean {
         // Verifica si el token anterior es un modificador como 'let'
-        if (currentIndex > 0 && tokens[currentIndex - 1].getType() == TokenType.MODIFIER) {
+        if (currentIndex > 0 && tokens[currentIndex - 1].type == Modifier) {
             // Verifica si el próximo token es un colon, indicando que es una declaración
-            if (currentIndex + 1 < tokens.size && tokens[currentIndex + 1].getType() == TokenType.COLON) {
+            if (currentIndex + 1 < tokens.size && tokens[currentIndex + 1].type == Declaration) {
                 return true
             }
         }
@@ -46,7 +47,7 @@ class DeclarationStrategy: ParseStrategy {
     }
 
     private fun getPrim(token: Token): PrimType{
-        if(token.getString() == "String"){
+        if(token.text == "String"){
             return PrimType.STRING
         }
         else{
