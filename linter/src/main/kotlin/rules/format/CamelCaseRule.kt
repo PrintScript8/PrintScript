@@ -2,9 +2,7 @@ package rules.format
 
 import error.Error
 import error.Type
-import node.dynamic.VariableType
 import node.staticpkg.DeclarationType
-import node.staticpkg.StaticNode
 
 class CamelCaseRule : FormatRule {
     override fun analyzeFormat(root: DeclarationType): List<Error> {

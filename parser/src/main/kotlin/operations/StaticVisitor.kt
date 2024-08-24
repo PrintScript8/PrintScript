@@ -1,6 +1,11 @@
 package operations
 
-import node.staticpkg.*
+import node.staticpkg.AssignationType
+import node.staticpkg.DeclarationType
+import node.staticpkg.ExpressionType
+import node.staticpkg.IdentifierType
+import node.staticpkg.ModifierType
+import node.staticpkg.PrintLnType
 
 interface StaticVisitor {
 

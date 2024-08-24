@@ -1,7 +1,7 @@
 import linter.LinterImpl
 import linter.LinterProvider
 import org.junit.jupiter.api.Assertions.assertEquals
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 class LinterProviderTest {
     @Test

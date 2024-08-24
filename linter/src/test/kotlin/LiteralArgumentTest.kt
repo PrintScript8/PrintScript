@@ -1,10 +1,10 @@
 import linter.LinterProvider
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.dynamic.SumType
-import node.staticpkg.*
+import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Assertions.assertEquals
-import type.LiteralType
-import type.LiteralValue
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 class LiteralArgumentTest {
     private val linter = LinterProvider().provideLinter("{ \"case\": \"camelCase\" , \"argument\": \"literal\" }")
@@ -28,7 +28,7 @@ class LiteralArgumentTest {
     }
 
     @Test
-    fun testInvalidExpression(){
+    fun testInvalidExpression() {
         val root = PrintLnType(
             SumType(
                 LiteralType(LiteralValue.NumberValue(5)),
@@ -37,7 +37,9 @@ class LiteralArgumentTest {
             )
         )
 
-        assertEquals(linter.lint(listOf(root)).first().toString(),
-            "Error(type=ERROR, message='Only literal is allowed as argument')")
+        assertEquals(
+            linter.lint(listOf(root)).first().toString(),
+            "Error(type=ERROR, message='Only literal is allowed as argument')"
+        )
     }
 }
