@@ -11,7 +11,6 @@ on:
 jobs:
   call_workflow:
     uses: ezequielrickert/ingsis-library/.github/workflows/release-package.yml@main
-    continue-on-error: false
 
   publish_package:
     runs-on: ubuntu-latest
