@@ -9,6 +9,9 @@ plugins {
     id 'maven-publish'
 }
 
+group = 'edu.austral.ingsis'
+version = '1.0.1'
+
 dependencies {
     implementation 'io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.6'
     implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0'
