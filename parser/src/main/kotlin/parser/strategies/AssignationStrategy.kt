@@ -14,19 +14,16 @@ class AssignationStrategy : ParseStrategy {
     private val rightSideParser:RightSideParser = RightSideParser()
 
     override fun parse(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
-        validatePreviousNode(statementNodes)
+        if (statementNodes.isEmpty()) {
+            throw IllegalArgumentException("'=' cannot be used alone, missing previous argument at: ${tokens[currentIndex].position}")
+        }
         return when (val lastNode = statementNodes.last()) {
             is VariableType -> parseExpression(tokens, currentIndex, statementNodes)
             is DeclarationType -> parseAssignation(tokens, currentIndex, statementNodes)
-            else -> throw IllegalArgumentException("'=' cannot be used with first argument ${lastNode.javaClass}")
+            else -> throw IllegalArgumentException("'=' cannot be used with first argument ${lastNode.javaClass} at: ${tokens[currentIndex].position}")
         }
     }
 
-    private fun validatePreviousNode(statementNodes: MutableList<Node>) {
-        if (statementNodes.isEmpty()) {
-            throw IllegalArgumentException("'=' cannot be used alone, missing previous argument")
-        }
-    }
 
     private fun parseExpression(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
         val variableNode = statementNodes.last() as VariableType

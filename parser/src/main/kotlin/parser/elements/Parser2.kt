@@ -18,7 +18,7 @@ class Parser2 : Parser {
         while (i < tokens.size) {
             i = tokenHandler.handle(tokens, i, statementNodes)
             if (i >= tokens.size) {
-                throw IllegalArgumentException("Expected ';' at end of statement")
+                throw IllegalArgumentException("Expected ';' at end of statement. At: ${tokens[tokens.lastIndex].position}")
             } else {
                 if (tokens[i].type == Ending) {
                     if (statementNodes.isNotEmpty()) {
@@ -35,7 +35,7 @@ class Parser2 : Parser {
                         statementNodes.clear()
                         i += 1
                     } else {
-                        throw IllegalArgumentException("Didn't expect ';'")
+                        throw IllegalArgumentException("Didn't expect ';' At: ${tokens[i].position}")
                     }
                 }
             }

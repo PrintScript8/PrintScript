@@ -148,4 +148,72 @@ class ParserTests {
         Assertions.assertEquals("Hello World!", (stringNode.result as LiteralValue.StringValue).string)
     }
 
+    @Test
+    fun missingEndingSemicolon() {
+        val tokenList: List<Token> = listOf(
+            TokenImpl(Modifier, "let", Position(1, 1, 1)),
+            TokenImpl(Identifier, "name", Position(1, 1, 1)),
+            TokenImpl(Declaration, ":", Position(1, 1, 1)),
+            TokenImpl(TypeId, "String", Position(1, 1, 1))
+        )
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            parser.parse(tokenList)
+        }
+    }
+
+    @Test
+    fun missingTypeInDeclaration() {
+        val tokenList: List<Token> = listOf(
+            TokenImpl(Modifier, "let", Position(1, 1, 1)),
+            TokenImpl(Identifier, "name", Position(1, 1, 1)),
+            TokenImpl(Declaration, ":", Position(1, 1, 1)),
+            TokenImpl(Ending, ";", Position(1, 1, 1))
+        )
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            parser.parse(tokenList)
+        }
+    }
+
+    @Test
+    fun invalidAssignationWithoutRightHandSide() {
+        val tokenList: List<Token> = listOf(
+            TokenImpl(Modifier, "let", Position(1, 1, 1)),
+            TokenImpl(Identifier, "name", Position(1, 1, 1)),
+            TokenImpl(Declaration, ":", Position(1, 1, 1)),
+            TokenImpl(TypeId, "String", Position(1, 1, 1)),
+            TokenImpl(Assignment, "=", Position(1, 1, 1)),
+            TokenImpl(Ending, ";", Position(1, 1, 1))
+        )
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            parser.parse(tokenList)
+        }
+    }
+
+    @Test
+    fun invalidTokenSequence() {
+        val tokenList: List<Token> = listOf(
+            TokenImpl(Modifier, "let", Position(1, 1, 1)),
+            TokenImpl(Assignment, "=", Position(1, 1, 1)),
+            TokenImpl(Identifier, "name", Position(1, 1, 1)),
+            TokenImpl(Declaration, ":", Position(1, 1, 1)),
+            TokenImpl(TypeId, "String", Position(1, 1, 1)),
+            TokenImpl(Ending, ";", Position(1, 1, 1))
+        )
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            parser.parse(tokenList)
+        }
+    }
+
+    @Test
+    fun missingClosingParenthesisInNativeMethod() {
+        val tokenList: List<Token> = listOf(
+            TokenImpl(NativeMethod, "printLn", Position(1, 1, 1)),
+            TokenImpl(StringLiteral, "Hello World!", Position(1, 1, 1)),
+            TokenImpl(Ending, ";", Position(1, 1, 1))
+        )
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            parser.parse(tokenList)
+        }
+    }
+
 }

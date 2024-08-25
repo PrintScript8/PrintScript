@@ -13,11 +13,11 @@ class MethodStrategy : ParseStrategy {
 
     override fun parse(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
         if(statementNodes.isNotEmpty()){
-            throw IllegalArgumentException("Can't call nativeMethod '${tokens[currentIndex].text}' with other arguments before it")
+            throw IllegalArgumentException("Can't call nativeMethod '${tokens[currentIndex].text}' with other arguments before it at ${tokens[currentIndex].position}")
         }
         else{
             if(currentIndex + 1 >= tokens.size || tokens[currentIndex+1].type == CloseParenthesis){
-                throw IllegalArgumentException("Expected arguments for method")
+                throw IllegalArgumentException("Expected arguments for method at ${tokens[currentIndex].position}")
             }
             else{
                 val tuple: Pair<DynamicNode, Int> = rightSideParser.parseRightHandSide(tokens, currentIndex + 1, CloseParenthesis)

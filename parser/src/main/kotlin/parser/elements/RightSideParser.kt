@@ -13,6 +13,7 @@ class RightSideParser {
         val expressionQueue: Queue<Token> = tuple.first
         val index: Int = tuple.second
         val opStack: Stack<DynamicNode> = Stack()
+        if (expressionQueue.isEmpty()) throw IllegalArgumentException("Missing assignee in assignment! at ${tokens[index].position}")
 
         while (expressionQueue.isNotEmpty()) {
             val currentToken: Token = expressionQueue.remove()
@@ -45,7 +46,7 @@ class RightSideParser {
                     val node = parseBinaryOperation(opStack) { left, right -> SubtractType(left, right, null) }
                     opStack.add(node)
                 }
-                else -> throw IllegalArgumentException("Unexpected token type: ${currentToken.type}")
+                else -> throw IllegalArgumentException("Unexpected token type: ${currentToken.type} at ${tokens[index].position}")
             }
         }
         return Pair(opStack.pop(), index)
@@ -81,7 +82,7 @@ class RightSideParser {
                         }
                         queue.add(poppedToken)
                         if (stack.isEmpty()) {
-                            throw IllegalArgumentException("Missing opening parenthesis for ')'")
+                            throw IllegalArgumentException("Missing opening parenthesis for ')' at ${tokens[currentIndex].position}")
                         }
                     }
                 }
@@ -96,14 +97,14 @@ class RightSideParser {
                         stack.add(tokens[currentIndex])
                     }
                 }
-                else -> throw IllegalArgumentException("Unexpected token type in queue builder: ${token.type}")
+                else -> throw IllegalArgumentException("Unexpected token type in queue builder: ${token.type} at at ${tokens[currentIndex].position}")
             }
 
             currentIndex++
         }
         while (stack.isNotEmpty()) {
             if (queue.peek().type == OpenParenthesis) {
-                throw IllegalArgumentException("Parenthesis was opened and never closed")
+                throw IllegalArgumentException("Parenthesis was opened and never closed at at ${tokens[currentIndex].position}")
             }
             queue.add(stack.pop())
         }
