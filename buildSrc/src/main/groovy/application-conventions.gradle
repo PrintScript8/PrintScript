@@ -26,7 +26,8 @@ repositories {
 // Code formatting configuration
 spotless {
     kotlin {
-        ktlint()
+        target '**/*.kt'
+        ktlint('0.41.0').userData(['indent_size': '4', 'continuation_indent_size': '4'])
     }
 }
 

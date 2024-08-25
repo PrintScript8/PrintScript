@@ -1,6 +1,8 @@
 package type
 
 import interpreter.InterpreterImpl
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.dynamic.SubtractType
 import node.dynamic.VariableType
 import node.staticpkg.AssignationType

@@ -1,4 +1,6 @@
 import formatter.FormatterImpl
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.dynamic.MultiplyType
 import node.dynamic.SumType
 import node.dynamic.VariableType
@@ -7,8 +9,6 @@ import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
-import type.LiteralType
-import type.LiteralValue
 
 class PrintTest {
 
