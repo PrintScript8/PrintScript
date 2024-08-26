@@ -4,9 +4,7 @@
 
 plugins {
     // Support convention plugins written in Groovy. Convention plugins are build scripts in 'src/main' that automatically become available as plugins in the main build.
-    id 'java-library'
     id 'groovy-gradle-plugin'
-    id 'maven-publish'
 }
 
 dependencies {
@@ -28,24 +26,3 @@ repositories {
     mavenCentral()
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/HiluLagos/PrintScript")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-
-    publications {
-        maven(MavenPublication) {
-            groupId = 'edu.austral.ingsis'
-            artifactId = 'PrintScript'
-            version = '1.0.0'
-            from components.java
-        }
-    }
-}
