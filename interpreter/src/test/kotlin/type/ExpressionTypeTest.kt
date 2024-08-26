@@ -1,6 +1,7 @@
 package type
 
 import interpreter.InterpreterImpl
+import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.VariableType
@@ -24,7 +25,7 @@ class ExpressionTypeTest {
                     "val",
                     false
                 ),
-                IdentifierType(),
+                IdentifierType(PrimType.STRING),
                 "a"
             ),
             LiteralType(LiteralValue.NumberValue(1))
@@ -35,7 +36,7 @@ class ExpressionTypeTest {
                     "var",
                     true
                 ),
-                IdentifierType(),
+                IdentifierType(PrimType.STRING),
                 "b"
             ),
             LiteralType(LiteralValue.NumberValue(1))
@@ -60,7 +61,7 @@ class ExpressionTypeTest {
                     "var",
                     true
                 ),
-                IdentifierType(),
+                IdentifierType(PrimType.STRING),
                 "a"
             ),
             LiteralType(LiteralValue.NumberValue(1))
@@ -71,7 +72,7 @@ class ExpressionTypeTest {
                     "var",
                     true
                 ),
-                IdentifierType(),
+                IdentifierType(PrimType.STRING),
                 "b"
             ),
             LiteralType(LiteralValue.NumberValue(1))

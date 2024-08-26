@@ -1,4 +1,5 @@
 import formatter.FormatterImpl
+import node.PrimType
 import node.staticpkg.DeclarationType
 import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
@@ -13,13 +14,13 @@ class DeclarationTest {
     fun declaration() {
         val nameDeclaration = DeclarationType(
             ModifierType("val", false),
-            IdentifierType(),
+            IdentifierType(PrimType.STRING),
             "name"
         )
 
         val variableDeclaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(),
+            IdentifierType(PrimType.STRING),
             "i"
         )
 

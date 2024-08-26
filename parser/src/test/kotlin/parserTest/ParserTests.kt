@@ -1,6 +1,8 @@
 package parserTest
 
 import node.PrimType
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
 import node.dynamic.SubtractType
 import node.dynamic.SumType
 import node.staticpkg.*
@@ -9,8 +11,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import parser.elements.Parser2
 import token.*
-import type.LiteralType
-import type.LiteralValue
 
 class ParserTests {
 

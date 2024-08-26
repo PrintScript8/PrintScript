@@ -3,7 +3,6 @@ package parser.elements
 import node.dynamic.DynamicNode
 import node.staticpkg.StaticNode
 import org.example.node.Node
-import parser.visitor.TypeVisitor
 import token.Ending
 import token.Token
 
@@ -24,11 +23,7 @@ class Parser2 : Parser {
                     if (statementNodes.isNotEmpty()) {
                         for (node in statementNodes.asReversed()) {
                             if (node is StaticNode && node !is DynamicNode) {
-                                //if (verifyTypes(node)) {
-                                    astList.add(node)
-                                //} else {
-                                //    throw IllegalArgumentException("Type verification failed for node: $node")
-                                //}
+                                astList.add(node)
                                 break
                             }
                         }
@@ -42,17 +37,4 @@ class Parser2 : Parser {
         }
         return astList
     }
-
-
-    private fun verifyTypes(headNode: StaticNode): Boolean {
-        val visitor = TypeVisitor()
-
-        return try {
-            headNode.visit(visitor)
-            true // Si el visitante no lanza ninguna excepción, los tipos son correctos
-        } catch (e: Exception) {
-            false // Si se lanza una excepción, la verificación de tipos falló
-        }
-    }
-
 }

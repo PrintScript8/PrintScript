@@ -2,8 +2,6 @@ package parser.strategies
 
 import node.dynamic.*
 import token.*
-import type.LiteralType
-import type.LiteralValue
 import java.util.*
 
 class RightSideParser {
