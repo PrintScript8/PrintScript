@@ -6,10 +6,6 @@ plugins{
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'edu.austral.ingsis'
-            artifactId = 'lib'
-            version = '1.0.0'
-
             from(components.java)
         }
     }
