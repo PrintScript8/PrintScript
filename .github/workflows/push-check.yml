@@ -1,13 +1,10 @@
 name: Verify CI
 
 on:
-    push:
-        branches:
-          - 'master'
-    pull_request:
-        branches:
-          - 'master'
+  push:
+    branches:
+      - 'master'
 
 jobs:
   call_workflow:
-    uses: ezequielrickert/ingsis-library/.github/workflows/release-package.yml@main
+    uses: ezequielrickert/ingsis-library/.github/workflows/on-push.yml@main
