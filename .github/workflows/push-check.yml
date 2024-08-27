@@ -11,11 +11,3 @@ on:
 jobs:
   call_workflow:
     uses: ezequielrickert/ingsis-library/.github/workflows/release-package.yml@main
-    continue-on-error: false
-
-  steps:
-    - name: Publish package
-      run: gradle publish
-      env:
-        GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
