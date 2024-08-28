@@ -8,13 +8,16 @@ import rule.DivideOperation
 import rule.EndingRule
 import rule.IdentifierRule
 import rule.MinusOperation
+import rule.ModifierRule
 import rule.MultiplyOperation
+import rule.NativeMethodRule
 import rule.NumberLiteralRule
 import rule.OpenParenthesisRule
 import rule.OperationRule
 import rule.ParenthesisRule
 import rule.PlusOperation
 import rule.StringLiteralRule
+import rule.TypeIdRule
 import rule.WhiteSpaceRule
 import token.Assignment
 import token.CloseParenthesis
@@ -38,7 +41,10 @@ class LexerImplTest {
         AssignationRule(),
         EndingRule(),
         OperationRule(listOf(PlusOperation, MinusOperation, MultiplyOperation, DivideOperation)),
-        ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule))
+        ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule)),
+        ModifierRule(),
+        NativeMethodRule(),
+        TypeIdRule(),
     )
     private val lexerImpl = LexerImpl(rules)
 

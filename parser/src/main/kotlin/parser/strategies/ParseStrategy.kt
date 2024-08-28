@@ -1,6 +1,6 @@
 package parser.strategies
 
-import org.example.node.Node
+import node.Node
 import token.Token
 
 interface ParseStrategy {

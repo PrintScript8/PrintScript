@@ -1,6 +1,5 @@
-package org.example.rule
+package rule
 
-import rule.TokenRule
 import token.Position
 import token.Token
 import token.TokenImpl
@@ -11,7 +10,14 @@ class TypeIdRule : TokenRule {
         val typeIdKeywords = listOf("String", "Number")
         for (keyword in typeIdKeywords) {
             if (input.startsWith(keyword)) {
-                return TokenImpl(TypeId, keyword, Position(position.row, position.startColumn, position.startColumn + keyword.length - 1))
+                return TokenImpl(
+                    TypeId, keyword,
+                    Position(
+                        position.row,
+                        position.startColumn,
+                        position.startColumn + keyword.length - 1
+                    )
+                )
             }
         }
         return null

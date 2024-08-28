@@ -1,8 +1,27 @@
-package parser.strategies
+package elements
 
-import node.dynamic.*
-import token.*
-import java.util.*
+import node.dynamic.DivisionType
+import node.dynamic.DynamicNode
+import node.dynamic.LiteralType
+import node.dynamic.LiteralValue
+import node.dynamic.MultiplyType
+import node.dynamic.SubtractType
+import node.dynamic.SumType
+import node.dynamic.VariableType
+import token.CloseParenthesis
+import token.Divide
+import token.Identifier
+import token.Minus
+import token.Multiply
+import token.NumberLiteral
+import token.OpenParenthesis
+import token.Plus
+import token.StringLiteral
+import token.Token
+import token.TokenType
+import java.util.LinkedList
+import java.util.Queue
+import java.util.Stack
 
 class RightSideParser {
 
@@ -11,7 +30,7 @@ class RightSideParser {
         val expressionQueue: Queue<Token> = tuple.first
         val index: Int = tuple.second
         val opStack: Stack<DynamicNode> = Stack()
-        if (expressionQueue.isEmpty()) throw IllegalArgumentException("Missing assignee in assignment! at ${tokens[index].position}")
+        require(expressionQueue.isNotEmpty()) { "Missing assignee in assignment! at ${tokens[index].position}" }
 
         while (expressionQueue.isNotEmpty()) {
             val currentToken: Token = expressionQueue.remove()
@@ -44,7 +63,9 @@ class RightSideParser {
                     val node = parseBinaryOperation(opStack) { left, right -> SubtractType(left, right, null) }
                     opStack.add(node)
                 }
-                else -> throw IllegalArgumentException("Unexpected token type: ${currentToken.type} at ${tokens[index].position}")
+                else -> throw IllegalArgumentException(
+                    "Unexpected token type: ${currentToken.type} at ${tokens[index].position}"
+                )
             }
         }
         return Pair(opStack.pop(), index)
@@ -54,7 +75,7 @@ class RightSideParser {
         opStack: Stack<DynamicNode>,
         operation: (DynamicNode, DynamicNode) -> DynamicNode
     ): DynamicNode {
-        if (opStack.size < 2) throw IllegalArgumentException("Operation is missing arguments")
+        require(opStack.size >= 2) { "Operation is missing arguments" }
         val rightNode = opStack.pop()
         val leftNode = opStack.pop()
         return operation(leftNode, rightNode)
@@ -67,45 +88,70 @@ class RightSideParser {
 
         while (currentIndex < tokens.size && tokens[currentIndex].type != endTokenType) {
             val token = tokens[currentIndex]
-
-            when (token.type) {
-                NumberLiteral, StringLiteral, Identifier, CloseParenthesis -> {
-                    queue.add(tokens[currentIndex])
-                }
-                CloseParenthesis -> {
-                    while (stack.isNotEmpty()) {
-                        val poppedToken = stack.pop()
-                        if (poppedToken.type == OpenParenthesis) {
-                            break
-                        }
-                        queue.add(poppedToken)
-                        if (stack.isEmpty()) {
-                            throw IllegalArgumentException("Missing opening parenthesis for ')' at ${tokens[currentIndex].position}")
-                        }
-                    }
-                }
-                Multiply, Divide -> {
-                    stack.add(tokens[currentIndex])
-                }
-                Plus, Minus -> {
-                    if (stack.isEmpty() || ((stack.peek().type != Multiply) && (stack.peek().type != Divide))) {
-                        stack.add(tokens[currentIndex])
-                    } else {
-                        queue.add(stack.pop())
-                        stack.add(tokens[currentIndex])
-                    }
-                }
-                else -> throw IllegalArgumentException("Unexpected token type in queue builder: ${token.type} at at ${tokens[currentIndex].position}")
-            }
-
+            handleToken(token, stack, queue, tokens, currentIndex)
             currentIndex++
         }
         while (stack.isNotEmpty()) {
-            if (queue.peek().type == OpenParenthesis) {
-                throw IllegalArgumentException("Parenthesis was opened and never closed at at ${tokens[currentIndex].position}")
+            require(queue.peek().type != OpenParenthesis) {
+                "Parenthesis was opened and never closed at at ${tokens[currentIndex].position}"
             }
             queue.add(stack.pop())
         }
         return Pair(queue, currentIndex)
+    }
+
+    private fun handleToken(
+        token: Token,
+        stack: Stack<Token>,
+        queue: Queue<Token>,
+        tokens: List<Token>,
+        currentIndex: Int
+    ) {
+        when (token.type) {
+            NumberLiteral, StringLiteral, Identifier, CloseParenthesis -> {
+                queue.add(token)
+            }
+            CloseParenthesis -> {
+                handleCloseParenthesis(stack, queue, tokens, currentIndex)
+            }
+            Multiply, Divide -> {
+                stack.add(token)
+            }
+            Plus, Minus -> {
+                handlePlusMinus(stack, queue, token)
+            }
+            else -> throw IllegalArgumentException(
+                "Unexpected token type in queue builder: ${token.type} at at ${tokens[currentIndex].position}"
+            )
+        }
+    }
+
+    private fun handleCloseParenthesis(
+        stack: Stack<Token>,
+        queue: Queue<Token>,
+        tokens: List<Token>,
+        currentIndex: Int
+    ) {
+        while (stack.isNotEmpty()) {
+            val poppedToken = stack.pop()
+            if (poppedToken.type == OpenParenthesis) {
+                break
+            }
+            queue.add(poppedToken)
+            require(stack.isNotEmpty()) { "Missing opening parenthesis for ')' at ${tokens[currentIndex].position}" }
+        }
+    }
+
+    private fun handlePlusMinus(
+        stack: Stack<Token>,
+        queue: Queue<Token>,
+        token: Token
+    ) {
+        if (stack.isEmpty() || ((stack.peek().type != Multiply) && (stack.peek().type != Divide))) {
+            stack.add(token)
+        } else {
+            queue.add(stack.pop())
+            stack.add(token)
+        }
     }
 }

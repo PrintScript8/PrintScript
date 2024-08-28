@@ -1,8 +1,8 @@
+// Parser2.kt
 package parser.elements
 
-import node.dynamic.DynamicNode
+import node.Node
 import node.staticpkg.StaticNode
-import org.example.node.Node
 import token.Ending
 import token.Token
 
@@ -16,25 +16,37 @@ class Parser2 : Parser {
 
         while (i < tokens.size) {
             i = tokenHandler.handle(tokens, i, statementNodes)
-            if (i >= tokens.size) {
-                throw IllegalArgumentException("Expected ';' at end of statement. At: ${tokens[tokens.lastIndex].position}")
-            } else {
-                if (tokens[i].type == Ending) {
-                    if (statementNodes.isNotEmpty()) {
-                        for (node in statementNodes.asReversed()) {
-                            if (node is StaticNode && node !is DynamicNode) {
-                                astList.add(node)
-                                break
-                            }
-                        }
-                        statementNodes.clear()
-                        i += 1
-                    } else {
-                        throw IllegalArgumentException("Didn't expect ';' At: ${tokens[i].position}")
-                    }
-                }
-            }
+            require(i < tokens.size) { "Expected ';' at end of statement. At: ${tokens[tokens.lastIndex].position}" }
+            i = handleEnding(tokens, i, statementNodes, astList)
         }
         return astList
+    }
+
+    private fun handleEnding(
+        tokens: List<Token>,
+        i: Int,
+        statementNodes: MutableList<Node>,
+        astList: MutableList<StaticNode>
+    ): Int {
+        var i1 = i
+        if (tokens[i1].type == Ending) {
+            require(statementNodes.isNotEmpty()) { "Didn't expect ';' At: ${tokens[i1].position}" }
+            addStaticNodeToAstList(statementNodes, astList)
+            statementNodes.clear()
+            i1 += 1
+        }
+        return i1
+    }
+
+    private fun addStaticNodeToAstList(
+        statementNodes: MutableList<Node>,
+        astList: MutableList<StaticNode>
+    ) {
+        for (node in statementNodes.asReversed()) {
+            if (node is StaticNode) {
+                astList.add(node)
+                break
+            }
+        }
     }
 }

@@ -1,6 +1,5 @@
-package org.example.rule
+package rule
 
-import rule.TokenRule
 import token.NativeMethod
 import token.Position
 import token.Token
@@ -11,7 +10,14 @@ class NativeMethodRule : TokenRule {
         val nativeMethodKeywords = listOf("println")
         for (keyword in nativeMethodKeywords) {
             if (input.startsWith(keyword)) {
-                return TokenImpl(NativeMethod, keyword, Position(position.row, position.startColumn, position.startColumn + keyword.length - 1))
+                return TokenImpl(
+                    NativeMethod, keyword,
+                    Position(
+                        position.row,
+                        position.startColumn,
+                        position.startColumn + keyword.length - 1
+                    )
+                )
             }
         }
         return null

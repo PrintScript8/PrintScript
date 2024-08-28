@@ -1,6 +1,5 @@
-package org.example.rule
+package rule
 
-import rule.TokenRule
 import token.Modifier
 import token.Position
 import token.Token
@@ -11,7 +10,14 @@ class ModifierRule : TokenRule {
         val modifierKeywords = listOf("let", "const")
         for (keyword in modifierKeywords) {
             if (input.startsWith(keyword)) {
-                return TokenImpl(Modifier, keyword, Position(position.row, position.startColumn, position.startColumn + keyword.length - 1))
+                return TokenImpl(
+                    Modifier, keyword,
+                    Position(
+                        position.row,
+                        position.startColumn,
+                        position.startColumn + keyword.length - 1
+                    )
+                )
             }
         }
         return null

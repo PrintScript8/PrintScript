@@ -1,7 +1,7 @@
 package node.staticpkg
 
+import node.Node
 import operations.StaticVisitor
-import org.example.node.Node
 
 interface StaticNode : Node {
     fun visit(visitor: StaticVisitor)

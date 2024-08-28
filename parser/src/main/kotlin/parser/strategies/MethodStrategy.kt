@@ -1,31 +1,30 @@
 package parser.strategies
 
-import node.dynamic.*
+import elements.RightSideParser
+import node.Node
+import node.dynamic.DynamicNode
 import node.staticpkg.PrintLnType
-import org.example.node.Node
 import token.CloseParenthesis
 import token.Token
 
-
 class MethodStrategy : ParseStrategy {
 
-    private val rightSideParser:RightSideParser = RightSideParser()
+    private val rightSideParser: RightSideParser = RightSideParser()
 
     override fun parse(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
-        if(statementNodes.isNotEmpty()){
-            throw IllegalArgumentException("Can't call nativeMethod '${tokens[currentIndex].text}' with other arguments before it at ${tokens[currentIndex].position}")
+        require(statementNodes.isEmpty()) {
+            "Can't call nativeMethod '${tokens[currentIndex].text}' " +
+                "with other arguments before it at ${tokens[currentIndex].position}"
         }
-        else{
-            if(currentIndex + 1 >= tokens.size || tokens[currentIndex+1].type == CloseParenthesis){
-                throw IllegalArgumentException("Expected arguments for method at ${tokens[currentIndex].position}")
-            }
-            else{
-                val tuple: Pair<DynamicNode, Int> = rightSideParser.parseRightHandSide(tokens, currentIndex + 1, CloseParenthesis)
-                val argument: DynamicNode = tuple.first
-                val resultIndex: Int = tuple.second
-                statementNodes.add(PrintLnType(argument))
-                return resultIndex
-            }
+        require(!(currentIndex + 1 >= tokens.size || tokens[currentIndex+1].type == CloseParenthesis)) {
+            "Expected arguments for method at ${tokens[currentIndex].position}"
         }
+        val tuple: Pair<DynamicNode, Int> = rightSideParser.parseRightHandSide(
+            tokens, currentIndex + 1, CloseParenthesis
+        )
+        val argument: DynamicNode = tuple.first
+        val resultIndex: Int = tuple.second
+        statementNodes.add(PrintLnType(argument))
+        return resultIndex
     }
 }

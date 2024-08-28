@@ -1,15 +1,25 @@
 package parser.elements
 
-import org.example.node.Node
-import parser.strategies.*
-import token.*
+import node.Node
+import parser.strategies.AssignationStrategy
+import parser.strategies.DeclarationStrategy
+import parser.strategies.MethodStrategy
+import parser.strategies.ModifierStrategy
+import parser.strategies.ParseStrategy
+import token.Assignment
+import token.Identifier
+import token.Modifier
+import token.NativeMethod
+import token.Token
+import token.TokenType
 
 class TokenHandler {
     private val strategies: MutableMap<TokenType, ParseStrategy> = mutableMapOf()
 
     init {
         strategies[Modifier] = ModifierStrategy()
-        strategies[Identifier] = DeclarationStrategy() // IMPORTANTE: Tambien funciona para llamadas a variable, no solo declarasion
+        // IMPORTANTE: Tambien funciona para llamadas a variable, no solo declarasion
+        strategies[Identifier] = DeclarationStrategy()
         strategies[Assignment] = AssignationStrategy()
         strategies[NativeMethod] = MethodStrategy()
     }
