@@ -8,7 +8,7 @@ import lexer.Lexer
 import lexer.LexerImpl
 import linter.LinterProvider
 import parser.elements.Parser
-import parser.elements.Parser2
+import parser.elements.ParserProvider
 import rule.AssignationRule
 import rule.CloseParenthesisRule
 import rule.DeclarationRule
@@ -30,6 +30,8 @@ import rule.WhiteSpaceRule
 
 class Operations {
 
+    val parserProvider: ParserProvider = ParserProvider()
+
     private val lexerRules = listOf(
         ModifierRule(),
         NativeMethodRule(),
@@ -46,7 +48,7 @@ class Operations {
     )
 
     private val lexer: Lexer = LexerImpl(lexerRules)
-    private val parser: Parser = Parser2()
+    private val parser: Parser = parserProvider.getParser("1.0")
     private val interpreter: Interpreter = InterpreterImpl()
     private val formatter: Formatter = FormatterImpl()
 
