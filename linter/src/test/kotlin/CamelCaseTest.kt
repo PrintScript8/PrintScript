@@ -1,4 +1,5 @@
 import linter.LinterProvider
+import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.staticpkg.AssignationType
@@ -16,7 +17,7 @@ class CamelCaseTest {
         val root = AssignationType(
             DeclarationType(
                 ModifierType("val", false),
-                IdentifierType(),
+                IdentifierType(PrimType.STRING),
                 "myCreatedVariable"
             ),
             LiteralType(LiteralValue.StringValue("camelCase"))
@@ -30,7 +31,7 @@ class CamelCaseTest {
         val root = AssignationType(
             DeclarationType(
                 ModifierType("val", false),
-                IdentifierType(),
+                IdentifierType(PrimType.STRING),
                 "my_created_variable"
             ),
             LiteralType(LiteralValue.StringValue("camelCase"))
@@ -46,7 +47,7 @@ class CamelCaseTest {
         val root = AssignationType(
             DeclarationType(
                 ModifierType("val", false),
-                IdentifierType(),
+                IdentifierType(PrimType.STRING),
                 "MyCreatedVariable"
             ),
             LiteralType(LiteralValue.StringValue("camelCase"))
@@ -62,7 +63,7 @@ class CamelCaseTest {
         val root = AssignationType(
             DeclarationType(
                 ModifierType("val", false),
-                IdentifierType(),
+                IdentifierType(PrimType.STRING),
                 "my-created-variable"
             ),
             LiteralType(LiteralValue.StringValue("camelCase"))

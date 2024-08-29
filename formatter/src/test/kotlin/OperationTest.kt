@@ -1,4 +1,5 @@
 import formatter.FormatterImpl
+import node.PrimType
 import node.dynamic.DivisionType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -22,7 +23,7 @@ class OperationTest {
     fun testSum() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(),
+            IdentifierType(PrimType.STRING),
             "a"
         )
 
@@ -47,7 +48,7 @@ class OperationTest {
     fun testSubtract() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(),
+            IdentifierType(PrimType.STRING),
             "a"
         )
 
@@ -72,7 +73,7 @@ class OperationTest {
     fun testMultiply() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(),
+            IdentifierType(PrimType.STRING),
             "a"
         )
 
@@ -97,7 +98,7 @@ class OperationTest {
     fun testDivision() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(),
+            IdentifierType(PrimType.STRING),
             "a"
         )
 
@@ -122,7 +123,7 @@ class OperationTest {
     fun testSumWithVariable() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(),
+            IdentifierType(PrimType.STRING),
             "a"
         )
 
@@ -153,7 +154,7 @@ class OperationTest {
     fun multipleOperation() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(),
+            IdentifierType(PrimType.STRING),
             "a"
         )
 
