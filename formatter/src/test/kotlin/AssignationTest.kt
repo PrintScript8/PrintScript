@@ -24,7 +24,7 @@ class AssignationTest {
 
         val variableDeclaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(PrimType.STRING),
+            IdentifierType(PrimType.NUMBER),
             "i"
         )
 
@@ -44,8 +44,8 @@ class AssignationTest {
             )
 
         val result = formatter.execute(listOf(assignationTree, assignationTree2))
-        val expected = "val name: Identifier = \"Tomy\";\n" +
-            "let i: Identifier = 0;"
+        val expected = "val name: String = \"Tomy\";\n" +
+            "let i: Number = 0;"
 
         assertEquals(expected, result)
     }
