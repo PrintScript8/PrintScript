@@ -1,3 +1,5 @@
+package test
+
 import cli.Cli
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
