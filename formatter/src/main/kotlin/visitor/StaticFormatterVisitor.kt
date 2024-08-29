@@ -8,6 +8,7 @@ import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import node.staticpkg.PrintLnType
 import operations.StaticVisitor
+import java.util.Locale
 
 class StaticFormatterVisitor(val formatter: FormatterImpl) : StaticVisitor {
 
@@ -31,7 +32,8 @@ class StaticFormatterVisitor(val formatter: FormatterImpl) : StaticVisitor {
     }
 
     override fun acceptIdentifier(node: IdentifierType) {
-        output.append("Identifier")
+        val type = node.type.name
+        output.append(titleCase(type))
     }
 
     override fun acceptPrintLn(node: PrintLnType) {
@@ -53,6 +55,14 @@ class StaticFormatterVisitor(val formatter: FormatterImpl) : StaticVisitor {
     }
 
     fun appendOutput(text: String) {
-        output.append(text)
+        val formattedText = text.replace("\"\"", "\"")
+        output.append(formattedText)
+    }
+
+    private fun titleCase(input: String): String {
+        val variable = input.lowercase(Locale.getDefault())
+        return variable.split(" ").joinToString(" ") { word ->
+            word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+        }
     }
 }

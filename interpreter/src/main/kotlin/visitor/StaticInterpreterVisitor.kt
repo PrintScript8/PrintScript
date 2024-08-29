@@ -34,6 +34,7 @@ class StaticInterpreterVisitor(private val interpreter: InterpreterImpl) : Stati
     override fun acceptPrintLn(node: PrintLnType) {
         node.argument.visit(dynamicVisitor)
         println(node.argument.result)
+        interpreter.addToList(node.argument.result.toString())
     }
 
     override fun acceptExpression(node: ExpressionType) {
