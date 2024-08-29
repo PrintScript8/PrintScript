@@ -1,6 +1,7 @@
 package type
 
 import interpreter.InterpreterImpl
+import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.SumType
@@ -72,7 +73,7 @@ class SumTypeTest {
         val assignationType = AssignationType(
             DeclarationType(
                 ModifierType("let", true),
-                IdentifierType(),
+                IdentifierType(PrimType.STRING),
                 "a"
             ),
             LiteralType(LiteralValue.NumberValue(5))

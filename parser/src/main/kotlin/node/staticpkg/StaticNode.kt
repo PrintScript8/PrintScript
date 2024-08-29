@@ -1,7 +1,8 @@
 package node.staticpkg
 
+import node.Node
 import operations.StaticVisitor
 
-interface StaticNode {
+interface StaticNode : Node {
     fun visit(visitor: StaticVisitor)
 }

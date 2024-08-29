@@ -6,4 +6,8 @@ class SumType(val left: DynamicNode, val right: DynamicNode, override var result
     override fun visit(visitor: DynamicVisitor) {
         visitor.acceptSum(this)
     }
+
+    override fun toString(): String {
+        return "SumType(left='$left', right=$right)"
+    }
 }

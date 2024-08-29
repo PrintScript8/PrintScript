@@ -1,4 +1,5 @@
 import formatter.FormatterImpl
+import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.staticpkg.AssignationType
@@ -17,13 +18,13 @@ class AssignationTest {
     fun testAssignation() {
         val nameDeclaration = DeclarationType(
             ModifierType("val", false),
-            IdentifierType(),
+            IdentifierType(PrimType.STRING),
             "name"
         )
 
         val variableDeclaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(),
+            IdentifierType(PrimType.STRING),
             "i"
         )
 
