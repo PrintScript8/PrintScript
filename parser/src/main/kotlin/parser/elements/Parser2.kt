@@ -6,8 +6,7 @@ import node.staticpkg.StaticNode
 import token.Ending
 import token.Token
 
-class Parser2 : Parser {
-    private val tokenHandler = TokenHandler()
+class Parser2(private val tokenHandler: TokenHandler) : Parser {
 
     override fun parse(tokens: List<Token>): List<StaticNode> {
         var i = 0

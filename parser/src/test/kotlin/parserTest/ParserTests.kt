@@ -11,7 +11,7 @@ import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import parser.elements.Parser
-import parser.elements.Parser2
+import parser.elements.ParserProvider
 import token.Assignment
 import token.CloseParenthesis
 import token.Declaration
@@ -30,7 +30,8 @@ import token.TypeId
 
 class ParserTests {
 
-    private val parser: Parser = Parser2()
+    private val parserProvider: ParserProvider = ParserProvider()
+    private val parser: Parser = parserProvider.getParser("1.0")
 
     @Test
     fun testDeclaration() {
