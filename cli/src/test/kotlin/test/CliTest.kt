@@ -3,6 +3,7 @@ package test
 import cli.Cli
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.nio.file.Paths
 
 class CliTest {
 
@@ -14,7 +15,7 @@ class CliTest {
             arrayOf(
                 "-o",
                 "Validation",
-                "C:\\Users\\54911\\Desktop\\Tomy\\projects\\PrintScript\\cli\\src\\test\\kotlin\\testtxt\\Test1",
+                getAbsolutePath("src/test/kotlin/testtxt/Test1"),
             )
         )
 
@@ -27,7 +28,7 @@ class CliTest {
             arrayOf(
                 "-o",
                 "Validation",
-                "C:\\Users\\54911\\Desktop\\Tomy\\projects\\PrintScript\\cli\\src\\test\\kotlin\\testtxt\\Test2",
+                getAbsolutePath("src/test/kotlin/testtxt/Test2"),
             )
         )
 
@@ -40,7 +41,7 @@ class CliTest {
             arrayOf(
                 "-o",
                 "Execution",
-                "C:\\Users\\54911\\Desktop\\Tomy\\projects\\PrintScript\\cli\\src\\test\\kotlin\\testtxt\\Test1",
+                getAbsolutePath("src/test/kotlin/testtxt/Test1"),
                 "-v",
                 "1.0"
             )
@@ -60,7 +61,7 @@ class CliTest {
             arrayOf(
                 "-o",
                 "Formatting",
-                "C:\\Users\\54911\\Desktop\\Tomy\\projects\\PrintScript\\cli\\src\\test\\kotlin\\testtxt\\Test1"
+                getAbsolutePath("src/test/kotlin/testtxt/Test1"),
             )
         )
 
@@ -81,10 +82,15 @@ class CliTest {
             arrayOf(
                 "-o",
                 "Analyzing",
-                "C:\\Users\\54911\\Desktop\\Tomy\\projects\\PrintScript\\cli\\src\\test\\kotlin\\testtxt\\Test3",
+                getAbsolutePath("src/test/kotlin/testtxt/Test3"),
             )
         )
 
         assertEquals("No errors found", result)
+    }
+
+    private fun getAbsolutePath(relativePath: String): String {
+        val projectRoot = Paths.get("").toAbsolutePath().toString()
+        return Paths.get(projectRoot, relativePath).toString()
     }
 }
