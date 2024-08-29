@@ -1,0 +1,5 @@
+let  name: String ="Hello";
+name= "Tom";
+println(name);
+let name2: String = "Eze";
+println(name2);

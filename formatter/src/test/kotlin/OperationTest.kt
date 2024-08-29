@@ -23,7 +23,7 @@ class OperationTest {
     fun testSum() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(PrimType.STRING),
+            IdentifierType(PrimType.NUMBER),
             "a"
         )
 
@@ -39,7 +39,7 @@ class OperationTest {
         )
 
         val result = formatter.execute(listOf(assignation))
-        val expected = "let a: Identifier = 5 + 5;"
+        val expected = "let a: Number = 5 + 5;"
 
         assertEquals(expected, result)
     }
@@ -48,7 +48,7 @@ class OperationTest {
     fun testSubtract() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(PrimType.STRING),
+            IdentifierType(PrimType.NUMBER),
             "a"
         )
 
@@ -64,7 +64,7 @@ class OperationTest {
         )
 
         val result = formatter.execute(listOf(assignation))
-        val expected = "let a: Identifier = 5 - 5;"
+        val expected = "let a: Number = 5 - 5;"
 
         assertEquals(expected, result)
     }
@@ -73,7 +73,7 @@ class OperationTest {
     fun testMultiply() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(PrimType.STRING),
+            IdentifierType(PrimType.NUMBER),
             "a"
         )
 
@@ -89,7 +89,7 @@ class OperationTest {
         )
 
         val result = formatter.execute(listOf(assignation))
-        val expected = "let a: Identifier = 5 * 5;"
+        val expected = "let a: Number = 5 * 5;"
 
         assertEquals(expected, result)
     }
@@ -98,7 +98,7 @@ class OperationTest {
     fun testDivision() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(PrimType.STRING),
+            IdentifierType(PrimType.NUMBER),
             "a"
         )
 
@@ -114,7 +114,7 @@ class OperationTest {
         )
 
         val result = formatter.execute(listOf(assignation))
-        val expected = "let a: Identifier = 5 / 5;"
+        val expected = "let a: Number = 5 / 5;"
 
         assertEquals(expected, result)
     }
@@ -123,7 +123,7 @@ class OperationTest {
     fun testSumWithVariable() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(PrimType.STRING),
+            IdentifierType(PrimType.NUMBER),
             "a"
         )
 
@@ -144,8 +144,8 @@ class OperationTest {
         )
 
         val result = formatter.execute(listOf(assignationType, assignation))
-        val expected = "let a: Identifier = 5;\n" +
-            "let a: Identifier = 1 + a;"
+        val expected = "let a: Number = 5;\n" +
+            "let a: Number = 1 + a;"
 
         assertEquals(expected, result)
     }
@@ -154,7 +154,7 @@ class OperationTest {
     fun multipleOperation() {
         val declaration = DeclarationType(
             ModifierType("let", true),
-            IdentifierType(PrimType.STRING),
+            IdentifierType(PrimType.NUMBER),
             "a"
         )
 
@@ -194,8 +194,8 @@ class OperationTest {
 
         val result = formatter.execute(listOf(assignation, assignation2))
         val expected =
-            "let a: Identifier = 1 + \"x\" * 5;\n" +
-                "let a: Identifier = 1 + a * 5;"
+            "let a: Number = 1 + \"x\" * 5;\n" +
+                "let a: Number = 1 + a * 5;"
 
         assertEquals(expected, result)
     }

@@ -33,6 +33,9 @@ import token.TokenImpl
 class LexerImplTest {
 
     private val rules = listOf(
+        ModifierRule(),
+        NativeMethodRule(),
+        TypeIdRule(),
         WhiteSpaceRule(),
         IdentifierRule(),
         NumberLiteralRule(),
@@ -41,11 +44,9 @@ class LexerImplTest {
         AssignationRule(),
         EndingRule(),
         OperationRule(listOf(PlusOperation, MinusOperation, MultiplyOperation, DivideOperation)),
-        ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule)),
-        ModifierRule(),
-        NativeMethodRule(),
-        TypeIdRule(),
+        ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule))
     )
+
     private val lexerImpl = LexerImpl(rules)
 
     @Test
