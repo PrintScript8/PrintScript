@@ -1,5 +1,6 @@
 package parser.elements
 
+import node.PrimType
 import parser.strategies.AssignationStrategy
 import parser.strategies.DeclarationStrategy
 import parser.strategies.MethodStrategy
@@ -15,14 +16,21 @@ class ParserProvider {
 
     private val ogStrategy: Map<TokenType, ParseStrategy> = mapOf(
         Modifier to ModifierStrategy(),
-        Identifier to DeclarationStrategy(),
+        Identifier to DeclarationStrategy(arrayOf(PrimType.STRING, PrimType.NUMBER,)),
+        Assignment to AssignationStrategy(),
+        NativeMethod to MethodStrategy()
+    )
+
+    private val strategy2: Map<TokenType, ParseStrategy> = mapOf(
+        Modifier to ModifierStrategy(),
+        Identifier to DeclarationStrategy(arrayOf(PrimType.STRING, PrimType.NUMBER, PrimType.BOOLEAN)),
         Assignment to AssignationStrategy(),
         NativeMethod to MethodStrategy()
     )
 
     private val parsers: Map<String, Parser> = mapOf(
-        "1.0" to Parser2(TokenHandler(ogStrategy))
-        // "1.1" to Parser2() This one should include the new rules for the version
+        "1.0" to Parser2(TokenHandler(ogStrategy)),
+        "1.1" to Parser2(TokenHandler(strategy2))
     )
 
     fun getParser(version: String): Parser {

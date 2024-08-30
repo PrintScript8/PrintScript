@@ -2,5 +2,6 @@ package node
 
 enum class PrimType {
     NUMBER,
-    STRING
+    STRING,
+    BOOLEAN
 }

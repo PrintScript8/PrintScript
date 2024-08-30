@@ -10,7 +10,7 @@ import token.Declaration
 import token.Modifier
 import token.Token
 
-class DeclarationStrategy : ParseStrategy {
+class DeclarationStrategy(private val types: Array<PrimType>) : ParseStrategy {
 
     companion object {
         private const val INDEX_JUMP = 3
@@ -21,7 +21,9 @@ class DeclarationStrategy : ParseStrategy {
             val modifier: ModifierType = statementNodes[statementNodes.lastIndex] as ModifierType
             val identifierToken = tokens[currentIndex]
             val typeToken = tokens[currentIndex + 2]
-            val declarationNode = DeclarationType(modifier, IdentifierType(getPrim(typeToken)), identifierToken.text)
+            val declarationNode = DeclarationType(
+                modifier, IdentifierType(getPrim(typeToken, types)), identifierToken.text
+            )
             statementNodes.add(declarationNode)
             return currentIndex + INDEX_JUMP
         } else {
@@ -40,11 +42,7 @@ class DeclarationStrategy : ParseStrategy {
         return false
     }
 
-    private fun getPrim(token: Token): PrimType {
-        return if (token.text == "String") {
-            PrimType.STRING
-        } else {
-            PrimType.NUMBER
-        }
+    private fun getPrim(token: Token, types: Array<PrimType>): PrimType {
+        return types.find { it.name == token.text.uppercase() } ?: throw IllegalArgumentException("Type not found")
     }
 }

@@ -108,7 +108,7 @@ class RightSideParser {
         currentIndex: Int
     ) {
         when (token.type) {
-            NumberLiteral, StringLiteral, Identifier, CloseParenthesis -> {
+            NumberLiteral, StringLiteral, Identifier, OpenParenthesis -> {
                 queue.add(token)
             }
             CloseParenthesis -> {
