@@ -1,26 +1,30 @@
+
+import node.staticpkg.AssignationType
 import org.junit.jupiter.api.Test
+import runner.Operations
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class TestRunner {
     private val runner = Operations()
 
     @Test
     fun `Test lexer and parser`() {
-        assertEquals(runner.validate("let name: Number = 5;"), "Validation successful")
+        assertIs<AssignationType>(runner.validate("let name: Number = 5;").get(0))
     }
 
     @Test
     fun `Test interpreter`() {
-        assertEquals(runner.execute("let name: Number = 5;", "1.0"), "Result:\n")
+        assertEquals(runner.execute("let name: Number = 5;"), listOf())
     }
 
     @Test
     fun `Test formatter`() {
-        assertEquals(runner.format("let name: Number = 5;", null), "Formatted: let name: Number = 5;")
+        assertEquals(runner.format("let name: Number = 5;"), "let name: Number = 5;")
     }
 
     @Test
     fun `Test linter`() {
-        assertEquals(runner.analyze("let name: Number = 5;"), "No errors found")
+        assertEquals(runner.analyze("let name: Number = 5;"), listOf())
     }
 }
