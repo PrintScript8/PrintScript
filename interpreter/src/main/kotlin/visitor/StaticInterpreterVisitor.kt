@@ -14,7 +14,8 @@ class StaticInterpreterVisitor(private val interpreter: InterpreterImpl) : Stati
     private val dynamicVisitor: DynamicInterpreterVisitor = DynamicInterpreterVisitor(interpreter)
 
     override fun acceptAssignation(node: AssignationType) {
-        if (!interpreter.checkValue(node.declaration.name)) {
+        val newVariable = !interpreter.checkValue(node.declaration.name)
+        if (newVariable) {
             node.value.visit(dynamicVisitor)
             interpreter.addValue(node.declaration.name, Pair(node.declaration.modifier.canModify, node.value.result))
         } else {
@@ -23,7 +24,7 @@ class StaticInterpreterVisitor(private val interpreter: InterpreterImpl) : Stati
     }
 
     override fun acceptDeclaration(node: DeclarationType) {
-        check(interpreter.checkValue(node.name) && node.modifier.canModify) { "Missing modifier!" }
+        check(!interpreter.checkValue(node.name)) { "Already declared!" }
         interpreter.addValue(node.name, Pair(node.modifier.canModify, null))
     }
 
