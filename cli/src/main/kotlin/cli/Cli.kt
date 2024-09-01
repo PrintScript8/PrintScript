@@ -1,10 +1,10 @@
 package cli
 
+import Operations
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.default
 import operation.Operation
-import operation.Operations
 import java.io.File
 
 fun main(args: Array<String>) {

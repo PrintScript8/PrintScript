@@ -13,6 +13,7 @@ dependencies {
     implementation project(':interpreter')
     implementation project(':formatter')
     implementation project(':linter')
+    implementation project(':runner')
     implementation("org.jetbrains.kotlinx:kotlinx-cli-jvm:0.3.5")
 }
 
