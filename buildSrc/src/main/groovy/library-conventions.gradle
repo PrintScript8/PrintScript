@@ -5,7 +5,30 @@
 plugins {
     // Apply the common convention plugin for shared build configuration between library and application projects.
     id 'edu.austral.ingsis.gradle.java-common-conventions'
-
+    id 'maven-publish'
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'edu.austral.ingsis'
+            artifactId = 'lib'
+            version = '1.0.8'
+
+            from(components.java)
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/HiluLagos/PrintScript")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
