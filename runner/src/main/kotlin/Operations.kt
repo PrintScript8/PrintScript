@@ -1,5 +1,3 @@
-package operation
-
 import formatter.Formatter
 import formatter.FormatterImpl
 import interpreter.Interpreter
@@ -30,7 +28,7 @@ import rule.WhiteSpaceRule
 
 class Operations {
 
-    val parserProvider: ParserProvider = ParserProvider()
+    private val parserProvider: ParserProvider = ParserProvider()
 
     private val lexerRules = listOf(
         ModifierRule(),
