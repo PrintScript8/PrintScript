@@ -21,9 +21,9 @@ data object TypeId : TokenType("TYPE_ID") // String Number
 data object NativeMethod : TokenType("NATIVE_METHOD") // println(
 data object Modifier : TokenType("MODIFIER") // let const
 
-// data object OpenBracket : TokenType("OPEN_BRACKET") // [
-// data object CloseBracket : TokenType("CLOSE_BRACKET") // ]
-// data object OpenBrace : TokenType("OPEN_BRACE") // {
-// data object CloseBrace : TokenType("CLOSE_BRACE") // }
-// data object Comma : TokenType("COMMA") // ,
-// data object Dot : TokenType("DOT") // .
+data object OpenBrace : TokenType("OPEN_BRACE") // {
+data object CloseBrace : TokenType("CLOSE_BRACE") // }
+
+data object If : TokenType("IF") // if
+data object Else : TokenType("ELSE") // else
+data object Bool : TokenType("BOOL") // true false

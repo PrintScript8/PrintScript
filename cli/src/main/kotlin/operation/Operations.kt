@@ -5,7 +5,7 @@ import formatter.FormatterImpl
 import interpreter.Interpreter
 import interpreter.InterpreterImpl
 import lexer.Lexer
-import lexer.LexerImpl
+import lexer.LexerInterface
 import linter.LinterProvider
 import parser.elements.Parser
 import parser.elements.ParserProvider
@@ -27,10 +27,11 @@ import rule.PlusOperation
 import rule.StringLiteralRule
 import rule.TypeIdRule
 import rule.WhiteSpaceRule
+import java.io.InputStream
 
 class Operations {
 
-    val parserProvider: ParserProvider = ParserProvider()
+    private val parserProvider: ParserProvider = ParserProvider()
 
     private val lexerRules = listOf(
         ModifierRule(),
@@ -47,15 +48,15 @@ class Operations {
         ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule))
     )
 
-    private val lexer: Lexer = LexerImpl(lexerRules)
+    private val lexerInterface: LexerInterface = Lexer(lexerRules)
     private val parser: Parser = parserProvider.getParser("1.0")
     private val interpreter: Interpreter = InterpreterImpl()
     private val formatter: Formatter = FormatterImpl()
 
-    fun validate(sourceFile: String): String {
+    fun validate(sourceFile: InputStream): String {
         println("Validating file...")
         return try {
-            val tokens = lexer.tokenize(sourceFile)
+            val tokens = lexerInterface.tokenize(sourceFile)
             parser.parse(tokens)
             "Validation successful"
         } catch (e: IllegalArgumentException) {
@@ -63,10 +64,10 @@ class Operations {
         }
     }
 
-    fun execute(sourceFile: String, version: String): String {
+    fun execute(sourceFile: InputStream, version: String): String {
         println("Executing file with version $version...")
         return try {
-            val tokens = lexer.tokenize(sourceFile)
+            val tokens = lexerInterface.tokenize(sourceFile)
             val astList = parser.parse(tokens)
             val result: List<String> = interpreter.execute(astList)
             "Result:\n${result.joinToString(separator = "\n")}"
@@ -75,10 +76,10 @@ class Operations {
         }
     }
 
-    fun format(sourceFile: String, configFile: String?): String {
+    fun format(sourceFile: InputStream, configFile: String?): String {
         println("Formatting file with config file $configFile...")
         return try {
-            val tokens = lexer.tokenize(sourceFile)
+            val tokens = lexerInterface.tokenize(sourceFile)
             val astList = parser.parse(tokens)
             val formatted = formatter.execute(astList)
             "Formatted: $formatted"
@@ -87,11 +88,11 @@ class Operations {
         }
     }
 
-    fun analyze(sourceFile: String): String {
+    fun analyze(sourceFile: InputStream): String {
         println("Analyzing file...")
         val linter = LinterProvider().provideLinter("{ \"case\": \"camelCase\" , \"argument\": \"literal\" }")
         return try {
-            val tokens = lexer.tokenize(sourceFile)
+            val tokens = lexerInterface.tokenize(sourceFile)
             val astList = parser.parse(tokens)
             val errorList = linter.lint(astList)
             if (errorList.isEmpty()) {

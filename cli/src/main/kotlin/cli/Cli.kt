@@ -5,7 +5,7 @@ import kotlinx.cli.ArgType
 import kotlinx.cli.default
 import operation.Operation
 import operation.Operations
-import java.io.File
+import java.io.FileInputStream
 
 fun main(args: Array<String>) {
     val cli = Cli()
@@ -25,7 +25,7 @@ class Cli {
         parser.option(ArgType.String, shortName = "c", description = "Configuration file for formatting")
 
         parser.parse(args)
-        val sourceFile = readFile(file)
+        val sourceFile = FileInputStream(file)
         val operations = Operations()
 
         return when (operation) {
@@ -35,9 +35,5 @@ class Cli {
             Operation.Analyzing -> operations.analyze(sourceFile)
             null -> throw IllegalArgumentException("No operation provided")
         }
-    }
-
-    private fun readFile(filePath: String): String {
-        return File(filePath).readText()
     }
 }

@@ -6,7 +6,7 @@ import token.Multiply
 import token.Plus
 import token.Position
 import token.Token
-import token.TokenImpl
+import token.TokenInterface
 import token.TokenType
 
 // Define una interfaz para operaciones
@@ -39,10 +39,10 @@ object DivideOperation : Operation {
 // Implementa la regla para operaciones
 class OperationRule(private val operations: List<Operation>) : TokenRule {
 
-    override fun match(input: String, position: Position): Token? {
+    override fun match(input: String, position: Position): TokenInterface? {
         for (operation in operations) {
             if (input.startsWith(operation.symbol)) {
-                return TokenImpl(
+                return Token(
                     operation.tokenType,
                     operation.symbol,
                     Position(position.row, position.startColumn, position.startColumn)

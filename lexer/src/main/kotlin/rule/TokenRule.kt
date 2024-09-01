@@ -1,9 +1,8 @@
 package rule
 
 import token.Position
-import token.Token
+import token.TokenInterface
 
-// Define la interfaz TokenRule
 interface TokenRule {
-    fun match(input: String, position: Position): Token?
+    fun match(input: String, position: Position): TokenInterface?
 }

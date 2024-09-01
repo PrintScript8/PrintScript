@@ -17,7 +17,7 @@ import token.NumberLiteral
 import token.OpenParenthesis
 import token.Plus
 import token.StringLiteral
-import token.Token
+import token.TokenInterface
 import token.TokenType
 import java.util.LinkedList
 import java.util.Queue
@@ -25,26 +25,33 @@ import java.util.Stack
 
 class RightSideParser {
 
-    fun parseRightHandSide(tokens: List<Token>, startIndex: Int, endTokenType: TokenType): Pair<DynamicNode, Int> {
-        val tuple: Pair<Queue<Token>, Int> = buildQueue(tokens, startIndex, endTokenType)
-        val expressionQueue: Queue<Token> = tuple.first
+    fun parseRightHandSide(
+        tokenInterfaces: List<TokenInterface>,
+        startIndex: Int,
+        endTokenType: TokenType
+    ):
+        Pair<DynamicNode, Int> {
+        val tuple: Pair<Queue<TokenInterface>, Int> = buildQueue(tokenInterfaces, startIndex, endTokenType)
+        val expressionQueue: Queue<TokenInterface> = tuple.first
         val index: Int = tuple.second
         val opStack: Stack<DynamicNode> = Stack()
-        require(expressionQueue.isNotEmpty()) { "Missing assignee in assignment! at ${tokens[index].position}" }
+        require(expressionQueue.isNotEmpty()) {
+            "Missing assignee in assignment! at ${tokenInterfaces[index].position}"
+        }
 
         while (expressionQueue.isNotEmpty()) {
-            val currentToken: Token = expressionQueue.remove()
-            when (currentToken.type) {
+            val currentTokenInterface: TokenInterface = expressionQueue.remove()
+            when (currentTokenInterface.type) {
                 NumberLiteral -> {
-                    val node = LiteralType(LiteralValue.NumberValue(currentToken.text.toDouble()))
+                    val node = LiteralType(LiteralValue.NumberValue(currentTokenInterface.text.toDouble()))
                     opStack.add(node)
                 }
                 StringLiteral -> {
-                    val node = LiteralType(LiteralValue.StringValue(currentToken.text))
+                    val node = LiteralType(LiteralValue.StringValue(currentTokenInterface.text))
                     opStack.add(node)
                 }
                 Identifier -> {
-                    val node = VariableType(currentToken.text, null, false)
+                    val node = VariableType(currentTokenInterface.text, null, false)
                     opStack.add(node)
                 }
                 Multiply -> {
@@ -64,7 +71,7 @@ class RightSideParser {
                     opStack.add(node)
                 }
                 else -> throw IllegalArgumentException(
-                    "Unexpected token type: ${currentToken.type} at ${tokens[index].position}"
+                    "Unexpected token type: ${currentTokenInterface.type} at ${tokenInterfaces[index].position}"
                 )
             }
         }
@@ -81,19 +88,24 @@ class RightSideParser {
         return operation(leftNode, rightNode)
     }
 
-    private fun buildQueue(tokens: List<Token>, startIndex: Int, endTokenType: TokenType): Pair<Queue<Token>, Int> {
+    private fun buildQueue(
+        tokenInterfaces: List<TokenInterface>,
+        startIndex: Int,
+        endTokenType: TokenType
+    ):
+        Pair<Queue<TokenInterface>, Int> {
         var currentIndex = startIndex
-        val stack: Stack<Token> = Stack()
-        val queue: Queue<Token> = LinkedList()
+        val stack: Stack<TokenInterface> = Stack()
+        val queue: Queue<TokenInterface> = LinkedList()
 
-        while (currentIndex < tokens.size && tokens[currentIndex].type != endTokenType) {
-            val token = tokens[currentIndex]
-            handleToken(token, stack, queue, tokens, currentIndex)
+        while (currentIndex < tokenInterfaces.size && tokenInterfaces[currentIndex].type != endTokenType) {
+            val token = tokenInterfaces[currentIndex]
+            handleToken(token, stack, queue, tokenInterfaces, currentIndex)
             currentIndex++
         }
         while (stack.isNotEmpty()) {
             require(queue.peek().type != OpenParenthesis) {
-                "Parenthesis was opened and never closed at at ${tokens[currentIndex].position}"
+                "Parenthesis was opened and never closed at at ${tokenInterfaces[currentIndex].position}"
             }
             queue.add(stack.pop())
         }
@@ -101,35 +113,37 @@ class RightSideParser {
     }
 
     private fun handleToken(
-        token: Token,
-        stack: Stack<Token>,
-        queue: Queue<Token>,
-        tokens: List<Token>,
+        tokenInterface: TokenInterface,
+        stack: Stack<TokenInterface>,
+        queue: Queue<TokenInterface>,
+        tokenInterfaces: List<TokenInterface>,
         currentIndex: Int
     ) {
-        when (token.type) {
+        when (tokenInterface.type) {
             NumberLiteral, StringLiteral, Identifier, CloseParenthesis -> {
-                queue.add(token)
+                queue.add(tokenInterface)
             }
             CloseParenthesis -> {
-                handleCloseParenthesis(stack, queue, tokens, currentIndex)
+                handleCloseParenthesis(stack, queue, tokenInterfaces, currentIndex)
             }
             Multiply, Divide -> {
-                stack.add(token)
+                stack.add(tokenInterface)
             }
             Plus, Minus -> {
-                handlePlusMinus(stack, queue, token)
+                handlePlusMinus(stack, queue, tokenInterface)
             }
             else -> throw IllegalArgumentException(
-                "Unexpected token type in queue builder: ${token.type} at at ${tokens[currentIndex].position}"
+                "Unexpected token type in queue builder: " +
+                    "${tokenInterface.type} at " +
+                    "${tokenInterfaces[currentIndex].position}"
             )
         }
     }
 
     private fun handleCloseParenthesis(
-        stack: Stack<Token>,
-        queue: Queue<Token>,
-        tokens: List<Token>,
+        stack: Stack<TokenInterface>,
+        queue: Queue<TokenInterface>,
+        tokenInterfaces: List<TokenInterface>,
         currentIndex: Int
     ) {
         while (stack.isNotEmpty()) {
@@ -138,20 +152,22 @@ class RightSideParser {
                 break
             }
             queue.add(poppedToken)
-            require(stack.isNotEmpty()) { "Missing opening parenthesis for ')' at ${tokens[currentIndex].position}" }
+            require(stack.isNotEmpty()) {
+                "Missing opening parenthesis for ')' at ${tokenInterfaces[currentIndex].position}"
+            }
         }
     }
 
     private fun handlePlusMinus(
-        stack: Stack<Token>,
-        queue: Queue<Token>,
-        token: Token
+        stack: Stack<TokenInterface>,
+        queue: Queue<TokenInterface>,
+        tokenInterface: TokenInterface
     ) {
         if (stack.isEmpty() || ((stack.peek().type != Multiply) && (stack.peek().type != Divide))) {
-            stack.add(token)
+            stack.add(tokenInterface)
         } else {
             queue.add(stack.pop())
-            stack.add(token)
+            stack.add(tokenInterface)
         }
     }
 }

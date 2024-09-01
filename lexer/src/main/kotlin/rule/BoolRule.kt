@@ -1,17 +1,17 @@
 package rule
 
+import token.Bool
 import token.Position
 import token.Token
 import token.TokenInterface
-import token.TypeId
 
-class TypeIdRule : TokenRule {
+class BoolRule : TokenRule {
     override fun match(input: String, position: Position): TokenInterface? {
-        val typeIdKeywords = listOf("String", "Number")
-        for (keyword in typeIdKeywords) {
+        val boolKeywords = listOf("true", "false")
+        for (keyword in boolKeywords) {
             if (input.startsWith(keyword)) {
                 return Token(
-                    TypeId, keyword,
+                    Bool, keyword,
                     Position(
                         position.row,
                         position.startColumn,

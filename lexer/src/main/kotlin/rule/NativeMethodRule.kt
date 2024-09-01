@@ -3,14 +3,14 @@ package rule
 import token.NativeMethod
 import token.Position
 import token.Token
-import token.TokenImpl
+import token.TokenInterface
 
 class NativeMethodRule : TokenRule {
-    override fun match(input: String, position: Position): Token? {
+    override fun match(input: String, position: Position): TokenInterface? {
         val nativeMethodKeywords = listOf("println(")
         for (keyword in nativeMethodKeywords) {
             if (input.startsWith(keyword)) {
-                return TokenImpl(
+                return Token(
                     NativeMethod, keyword,
                     Position(
                         position.row,
