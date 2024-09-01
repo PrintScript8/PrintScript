@@ -1,6 +1,7 @@
 package visitor
 
 import interpreter.InterpreterImpl
+import node.dynamic.BooleanType
 import node.dynamic.DivisionType
 import node.dynamic.LiteralType
 import node.dynamic.MultiplyType
@@ -22,6 +23,10 @@ class DynamicInterpreterVisitor(private var interpreter: InterpreterImpl) : Dyna
         } else {
             throw NoSuchElementException("Variable not found")
         }
+    }
+
+    override fun acceptBoolean(node: BooleanType) {
+        TODO("Not yet implemented")
     }
 
     override fun acceptSum(node: SumType) {

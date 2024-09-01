@@ -7,7 +7,7 @@ import token.TokenImpl
 
 class NativeMethodRule : TokenRule {
     override fun match(input: String, position: Position): Token? {
-        val nativeMethodKeywords = listOf("println(")
+        val nativeMethodKeywords = listOf("println")
         for (keyword in nativeMethodKeywords) {
             if (input.startsWith(keyword)) {
                 return TokenImpl(

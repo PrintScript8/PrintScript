@@ -43,6 +43,7 @@ class DeclarationStrategy(private val types: Array<PrimType>) : ParseStrategy {
     }
 
     private fun getPrim(token: Token, types: Array<PrimType>): PrimType {
-        return types.find { it.name == token.text.uppercase() } ?: throw IllegalArgumentException("Type not found")
+        return types.find { it.name == token.text.uppercase() }
+            ?: throw IllegalArgumentException("Trying to declare an invalid type")
     }
 }
