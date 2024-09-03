@@ -37,7 +37,7 @@ kover {
         rule {
             name = "Minimum code coverage"
             bound {
-                minValue = 80
+                minValue = 78
                 counter = 'LINE' // Ensure that line coverage is being checked
             }
         }

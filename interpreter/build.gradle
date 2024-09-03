@@ -6,3 +6,6 @@ dependencies {
     implementation project(':parser')
 }
 
+kotlin {
+    jvmToolchain(18)
+}

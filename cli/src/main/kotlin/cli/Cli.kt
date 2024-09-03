@@ -4,7 +4,6 @@ import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.default
 import operation.Operation
-import operation.Operations
 import java.io.File
 
 fun main(args: Array<String>) {
@@ -26,7 +25,7 @@ class Cli {
 
         parser.parse(args)
         val sourceFile = readFile(file)
-        val operations = Operations()
+        val operations = OutputRunner()
 
         return when (operation) {
             Operation.Validation -> operations.validate(sourceFile)
