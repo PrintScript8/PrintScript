@@ -1,8 +1,8 @@
 package lexer
 
 import token.TokenInterface
-import java.io.InputStream
+import java.io.FileInputStream
 
 interface LexerInterface {
-    fun tokenize(input: InputStream): List<TokenInterface>
+    fun tokenize(input: FileInputStream): List<TokenInterface>
 }

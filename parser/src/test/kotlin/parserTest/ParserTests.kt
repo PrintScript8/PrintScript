@@ -1,4 +1,5 @@
 import node.PrimType
+import node.dynamic.BooleanType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.SubtractType
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test
 import parser.elements.Parser
 import parser.elements.ParserProvider
 import token.Assignment
+import token.Bool
 import token.CloseParenthesis
 import token.Declaration
 import token.Ending
@@ -21,28 +23,30 @@ import token.Minus
 import token.Modifier
 import token.NativeMethod
 import token.NumberLiteral
+import token.OpenParenthesis
 import token.Plus
 import token.Position
 import token.StringLiteral
 import token.Token
-import token.TokenInterface
 import token.TypeId
+import java.lang.IllegalArgumentException
 
 class ParserTests {
 
     private val parserProvider: ParserProvider = ParserProvider()
     private val parser: Parser = parserProvider.getParser("1.0")
+    private val parser2: Parser = parserProvider.getParser("1.1")
 
     @Test
     fun testDeclaration() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(Identifier, "name", Position(1, 1, 1)),
             Token(Declaration, ":", Position(1, 1, 1)),
             Token(TypeId, "String", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 1, 1))
         )
-        val parseList: List<StaticNode> = parser.parse(tokenInterfaceList)
+        val parseList: List<StaticNode> = parser.parse(tokenList)
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is DeclarationType)
@@ -55,7 +59,7 @@ class ParserTests {
 
     @Test
     fun testAssignation() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(Identifier, "name", Position(1, 1, 1)),
             Token(Declaration, ":", Position(1, 1, 1)),
@@ -66,7 +70,39 @@ class ParserTests {
             Token(NumberLiteral, "2", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 1, 1)),
         )
-        val parseList: List<StaticNode> = parser.parse(tokenInterfaceList)
+        val parseList: List<StaticNode> = parser.parse(tokenList)
+        Assertions.assertEquals(1, parseList.size)
+        val headNode: StaticNode = parseList[0]
+        Assertions.assertTrue(headNode is AssignationType)
+        val assignNode: AssignationType = headNode as AssignationType
+        val leftNode: DeclarationType = headNode.declaration
+        Assertions.assertEquals("let", leftNode.modifier.value)
+        Assertions.assertEquals(true, leftNode.modifier.canModify)
+        Assertions.assertEquals("name", leftNode.name)
+        Assertions.assertEquals(PrimType.STRING, leftNode.type.type)
+
+        Assertions.assertTrue(assignNode.value is SumType)
+        val sumNode: SumType = headNode.value as SumType
+        Assertions.assertEquals(1.0, (sumNode.left.result as LiteralValue.NumberValue).number)
+        Assertions.assertEquals(2.0, (sumNode.right.result as LiteralValue.NumberValue).number)
+    }
+
+    @Test
+    fun testAssignationWithParenthesis() {
+        val tokenList: List<Token> = listOf(
+            Token(Modifier, "let", Position(1, 1, 1)),
+            Token(Identifier, "name", Position(1, 1, 1)),
+            Token(Declaration, ":", Position(1, 1, 1)),
+            Token(TypeId, "String", Position(1, 1, 1)),
+            Token(Assignment, "=", Position(1, 1, 1)),
+            Token(OpenParenthesis, "(", Position(1, 1, 1)),
+            Token(NumberLiteral, "1", Position(1, 1, 1)),
+            Token(Plus, "+", Position(1, 1, 1)),
+            Token(NumberLiteral, "2", Position(1, 1, 1)),
+            Token(CloseParenthesis, ")", Position(1, 1, 1)),
+            Token(Ending, ";", Position(1, 1, 1)),
+        )
+        val parseList: List<StaticNode> = parser.parse(tokenList)
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is AssignationType)
@@ -85,7 +121,7 @@ class ParserTests {
 
     @Test
     fun testComplexAssignation() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(Identifier, "name", Position(1, 1, 1)),
             Token(Declaration, ":", Position(1, 1, 1)),
@@ -98,7 +134,7 @@ class ParserTests {
             Token(NumberLiteral, "3", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 1, 1)),
         )
-        val parseList: List<StaticNode> = parser.parse(tokenInterfaceList)
+        val parseList: List<StaticNode> = parser.parse(tokenList)
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is AssignationType)
@@ -120,7 +156,7 @@ class ParserTests {
 
     @Test
     fun multipleSentence() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(Identifier, "name", Position(1, 1, 1)),
             Token(Declaration, ":", Position(1, 1, 1)),
@@ -131,7 +167,7 @@ class ParserTests {
             Token(StringLiteral, "Tomi", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 1, 1)),
         )
-        val parseList: List<StaticNode> = parser.parse(tokenInterfaceList)
+        val parseList: List<StaticNode> = parser.parse(tokenList)
         Assertions.assertEquals(2, parseList.size)
         val declarationNode: StaticNode = parseList[0]
         Assertions.assertTrue(declarationNode is DeclarationType)
@@ -151,13 +187,14 @@ class ParserTests {
 
     @Test
     fun printLnTest() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(NativeMethod, "printLn", Position(1, 1, 1)),
+            Token(OpenParenthesis, "(", Position(1, 1, 1)),
             Token(StringLiteral, "Hello World!", Position(1, 1, 1)),
             Token(CloseParenthesis, ")", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 1, 1)),
         )
-        val parseList: List<StaticNode> = parser.parse(tokenInterfaceList)
+        val parseList: List<StaticNode> = parser.parse(tokenList)
         Assertions.assertEquals(1, parseList.size)
         val headNode: PrintLnType = parseList[0] as PrintLnType
         Assertions.assertTrue(headNode.argument is LiteralType)
@@ -166,34 +203,79 @@ class ParserTests {
     }
 
     @Test
+    fun testBooleanDeclaration() {
+        val tokenList: List<Token> = listOf(
+            Token(Modifier, "let", Position(1, 1, 1)),
+            Token(Identifier, "name", Position(1, 1, 1)),
+            Token(Declaration, ":", Position(1, 1, 1)),
+            Token(TypeId, "boolean", Position(1, 1, 1)),
+            Token(Ending, ";", Position(1, 1, 1))
+        )
+        val parseList: List<StaticNode> = parser2.parse(tokenList)
+        Assertions.assertEquals(1, parseList.size)
+        val headNode: StaticNode = parseList[0]
+        Assertions.assertTrue(headNode is DeclarationType)
+        val node: DeclarationType = headNode as DeclarationType
+        Assertions.assertEquals("let", node.modifier.value)
+        Assertions.assertEquals(true, node.modifier.canModify)
+        Assertions.assertEquals("name", node.name)
+        Assertions.assertEquals(PrimType.BOOLEAN, node.type.type)
+    }
+
+    @Test
+    fun testBooleanAssignation() {
+        val tokenList: List<Token> = listOf(
+            Token(Modifier, "let", Position(1, 1, 1)),
+            Token(Identifier, "name", Position(1, 1, 1)),
+            Token(Declaration, ":", Position(1, 1, 1)),
+            Token(TypeId, "boolean", Position(1, 1, 1)),
+            Token(Assignment, "=", Position(1, 1, 1)),
+            Token(Bool, "true", Position(1, 1, 1)),
+            Token(Ending, ";", Position(1, 1, 1)),
+        )
+        val parseList: List<StaticNode> = parser2.parse(tokenList)
+        Assertions.assertEquals(1, parseList.size)
+        val headNode: StaticNode = parseList[0]
+        Assertions.assertTrue(headNode is AssignationType)
+        val assignNode: AssignationType = headNode as AssignationType
+        val leftNode: DeclarationType = headNode.declaration
+        Assertions.assertEquals("let", leftNode.modifier.value)
+        Assertions.assertEquals(true, leftNode.modifier.canModify)
+        Assertions.assertEquals("name", leftNode.name)
+        Assertions.assertEquals(PrimType.BOOLEAN, leftNode.type.type)
+
+        Assertions.assertTrue(assignNode.value is BooleanType)
+    }
+
+    @Test
     fun missingEndingSemicolon() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(Identifier, "name", Position(1, 1, 1)),
             Token(Declaration, ":", Position(1, 1, 1)),
             Token(TypeId, "String", Position(1, 1, 1))
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun missingTypeInDeclaration() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(Identifier, "name", Position(1, 1, 1)),
             Token(Declaration, ":", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 1, 1))
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun invalidAssignationWithoutRightHandSide() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(Identifier, "name", Position(1, 1, 1)),
             Token(Declaration, ":", Position(1, 1, 1)),
@@ -202,13 +284,13 @@ class ParserTests {
             Token(Ending, ";", Position(1, 1, 1))
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun invalidTokenSequence() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(Assignment, "=", Position(1, 1, 1)),
             Token(Identifier, "name", Position(1, 1, 1)),
@@ -217,35 +299,35 @@ class ParserTests {
             Token(Ending, ";", Position(1, 1, 1))
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun missingClosingParenthesisInNativeMethod() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(NativeMethod, "printLn", Position(1, 1, 1)),
             Token(StringLiteral, "Hello World!", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 1, 1))
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun missingExpressionTest() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Ending, ";", Position(1, 1, 1)),
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun expressionBeforePrintTest() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(NativeMethod, "printLn", Position(1, 1, 1)),
             Token(StringLiteral, "Hello World!", Position(1, 1, 1)),
@@ -253,35 +335,58 @@ class ParserTests {
             Token(Ending, ";", Position(1, 1, 1))
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun missingArgumentsInMethod() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(NativeMethod, "printLn", Position(1, 1, 1)),
             Token(CloseParenthesis, ")", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 1, 1))
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun missingParenthesisAndArgumentInMethod() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(NativeMethod, "printLn", Position(1, 1, 1)),
+            Token(Ending, ";", Position(1, 1, 1))
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
+        }
+    }
+
+    @Test
+    fun onlyClosedParenthesis() {
+        val tokenList: List<Token> = listOf(
+            Token(NativeMethod, "printLn", Position(1, 1, 1)),
+            Token(CloseParenthesis, ")", Position(1, 1, 1))
+        )
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            parser.parse(tokenList)
+        }
+    }
+
+    @Test
+    fun missingOpenParenthesis() {
+        val tokenList: List<Token> = listOf(
+            Token(NativeMethod, "printLn", Position(1, 1, 1)),
+            Token(StringLiteral, "Hello World!", Position(1, 1, 1)),
+        )
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun testMissingArgumentsInAssignation() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(Identifier, "name", Position(1, 1, 1)),
             Token(Declaration, ":", Position(1, 1, 1)),
@@ -290,42 +395,42 @@ class ParserTests {
             Token(Ending, ";", Position(1, 1, 1))
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun missingPreviousArgsInAssignation() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Assignment, "=", Position(1, 1, 1)),
             Token(Assignment, "1", Position(1, 1, 1)),
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun missingPreviousArgsInDeclaration() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Identifier, "name", Position(1, 1, 1)),
             Token(NumberLiteral, "1", Position(1, 1, 1)),
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 
     @Test
     fun incorrectDeclarationTest() {
-        val tokenInterfaceList: List<TokenInterface> = listOf(
+        val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
             Token(Identifier, "name", Position(1, 1, 1)),
             Token(TypeId, "String", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 1, 1))
         )
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenInterfaceList)
+            parser.parse(tokenList)
         }
     }
 }

@@ -49,7 +49,7 @@ class Parser2(private val tokenHandler: TokenHandler) : Parser {
         for (node in statementNodes.asReversed()) {
             if (node is StaticNode) {
                 astList.add(node)
-                break
+                return
             }
         }
     }

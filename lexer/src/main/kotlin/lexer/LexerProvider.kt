@@ -1,36 +1,28 @@
-package builder
+package lexer
 
-import lexer.Lexer
 import rule.AssignationRule
-import rule.BoolRule
-import rule.BraceRule
-import rule.CloseBraceRule
+import rule.BooleanRule
 import rule.CloseParenthesisRule
 import rule.DeclarationRule
 import rule.DivideOperation
-import rule.ElseRule
 import rule.EndingRule
 import rule.IdentifierRule
-import rule.IfRule
 import rule.MinusOperation
 import rule.ModifierRule
 import rule.MultiplyOperation
 import rule.NativeMethodRule
 import rule.NumberLiteralRule
-import rule.OpenBraceRule
 import rule.OpenParenthesisRule
 import rule.OperationRule
 import rule.ParenthesisRule
 import rule.PlusOperation
 import rule.StringLiteralRule
-import rule.TokenRule
 import rule.TypeIdRule
 import rule.WhiteSpaceRule
 
 class LexerProvider {
 
-    private val rulesV1: List<TokenRule> = listOf(
-        WhiteSpaceRule(),
+    private val ogRules = listOf(
         ModifierRule(),
         NativeMethodRule(),
         TypeIdRule(),
@@ -45,18 +37,28 @@ class LexerProvider {
         ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule))
     )
 
-    private val rulesV2: List<TokenRule> = listOf(
-        IfRule(),
-        ElseRule(),
-        BraceRule(listOf(OpenBraceRule, CloseBraceRule)),
-        BoolRule()
-    ) + rulesV1
+    private val rulesV2 = listOf(
+        ModifierRule(),
+        NativeMethodRule(),
+        TypeIdRule(),
+        WhiteSpaceRule(),
+        BooleanRule(),
+        IdentifierRule(),
+        NumberLiteralRule(),
+        StringLiteralRule(),
+        DeclarationRule(),
+        AssignationRule(),
+        EndingRule(),
+        OperationRule(listOf(PlusOperation, MinusOperation, MultiplyOperation, DivideOperation)),
+        ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule))
+    )
 
-    fun getLexerV1(): Lexer {
-        return Lexer(rulesV1)
-    }
-
-    fun getLexerV2(): Lexer {
-        return Lexer(rulesV2)
+    fun getLexer(version: String): Lexer {
+        val rules = when (version) {
+            "1.0" -> ogRules
+            "1.1" -> rulesV2
+            else -> throw IllegalArgumentException("Invalid version")
+        }
+        return Lexer(rules)
     }
 }

@@ -7,9 +7,10 @@ import token.TokenInterface
 
 class NativeMethodRule : TokenRule {
     override fun match(input: String, position: Position): TokenInterface? {
-        val nativeMethodKeywords = listOf("println(")
-        for (keyword in nativeMethodKeywords) {
-            if (input.startsWith(keyword)) {
+        val keyword = "println"
+        if (input.startsWith(keyword)) {
+            val nextCharIndex = keyword.length
+            if (nextCharIndex < input.length && input[nextCharIndex] == '(') {
                 return Token(
                     NativeMethod, keyword,
                     Position(

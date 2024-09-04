@@ -4,8 +4,6 @@ import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.default
 import operation.Operation
-import operation.Operations
-import java.io.FileInputStream
 
 fun main(args: Array<String>) {
     val cli = Cli()
@@ -18,15 +16,14 @@ class Cli {
 
         val operation by
         parser.option(ArgType.Choice<Operation>(), shortName = "o", description = "Operation to perform")
-        val file by parser.argument(ArgType.String, description = "Source file")
+        val sourceFile by parser.argument(ArgType.String, description = "Source file")
         val version by
         parser.option(ArgType.String, shortName = "v", description = "Version of the file").default("1.0")
         val configFile by
         parser.option(ArgType.String, shortName = "c", description = "Configuration file for formatting")
 
         parser.parse(args)
-        val sourceFile = FileInputStream(file)
-        val operations = Operations()
+        val operations = OutputRunner()
 
         return when (operation) {
             Operation.Validation -> operations.validate(sourceFile)

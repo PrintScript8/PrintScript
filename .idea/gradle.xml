@@ -16,7 +16,7 @@
           </compositeBuild>
         </compositeConfiguration>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="21" />
+        <option name="gradleJvm" value="openjdk-21" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -27,6 +27,7 @@
             <option value="$PROJECT_DIR$/lexer" />
             <option value="$PROJECT_DIR$/linter" />
             <option value="$PROJECT_DIR$/parser" />
+            <option value="$PROJECT_DIR$/runner" />
           </set>
         </option>
       </GradleProjectSettings>
