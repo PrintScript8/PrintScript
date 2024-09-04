@@ -1,25 +1,9 @@
-import lexer.LexerImpl
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import rule.AssignationRule
-import rule.CloseParenthesisRule
-import rule.DeclarationRule
-import rule.DivideOperation
-import rule.EndingRule
-import rule.IdentifierRule
-import rule.MinusOperation
-import rule.ModifierRule
 import rule.MultiplyOperation
-import rule.NativeMethodRule
-import rule.NumberLiteralRule
-import rule.OpenParenthesisRule
-import rule.OperationRule
-import rule.ParenthesisRule
 import rule.PlusOperation
-import rule.StringLiteralRule
-import rule.TypeIdRule
-import rule.WhiteSpaceRule
 import token.Assignment
+import token.BooleanLiteral
 import token.CloseParenthesis
 import token.Declaration
 import token.Ending
@@ -29,25 +13,13 @@ import token.OpenParenthesis
 import token.Position
 import token.StringLiteral
 import token.TokenImpl
+import token.TypeId
 
 class LexerImplTest {
 
-    private val rules = listOf(
-        ModifierRule(),
-        NativeMethodRule(),
-        TypeIdRule(),
-        WhiteSpaceRule(),
-        IdentifierRule(),
-        NumberLiteralRule(),
-        StringLiteralRule(),
-        DeclarationRule(),
-        AssignationRule(),
-        EndingRule(),
-        OperationRule(listOf(PlusOperation, MinusOperation, MultiplyOperation, DivideOperation)),
-        ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule))
-    )
+    private val lexerProvider = lexer.LexerProvider()
 
-    private val lexerImpl = LexerImpl(rules)
+    private val lexerImpl = lexerProvider.getLexer("1.0")
 
     @Test
     fun `test declaration tokenization`() {
@@ -145,5 +117,40 @@ class LexerImplTest {
         )
         val tokens = lexerImpl.tokenize(input)
         assertEquals(expectedTokens[0].toString(), tokens[0].toString())
+    }
+
+    // New tests for version 1.1
+
+    private val lexerImpl2 = lexerProvider.getLexer("1.1")
+
+    @Test
+    fun `test boolean true tokenization`() {
+        val input = "true"
+        val expectedTokens = listOf(
+            TokenImpl(BooleanLiteral, "true", Position(1, 1, 4))
+        )
+        val tokens = lexerImpl2.tokenize(input)
+        assertEquals(expectedTokens, tokens)
+    }
+
+    @Test
+    fun `test boolean false tokenization`() {
+        val input = "false"
+        val expectedTokens = listOf(
+            TokenImpl(BooleanLiteral, "false", Position(1, 1, 5))
+        )
+        val tokens = lexerImpl2.tokenize(input)
+        assertEquals(expectedTokens, tokens)
+    }
+
+    @Test
+    fun `test type id boolean tokenization`() {
+        val input = ":boolean"
+        val expectedTokens = listOf(
+            TokenImpl(Declaration, ":", Position(1, 1, 1)),
+            TokenImpl(TypeId, "boolean", Position(1, 2, 8))
+        )
+        val tokens = lexerImpl2.tokenize(input)
+        assertEquals(expectedTokens, tokens)
     }
 }

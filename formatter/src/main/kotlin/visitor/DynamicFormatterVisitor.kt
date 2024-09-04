@@ -1,6 +1,7 @@
 package visitor
 
 import formatter.FormatterImpl
+import node.dynamic.BooleanType
 import node.dynamic.DivisionType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -66,5 +67,9 @@ class DynamicFormatterVisitor(
 
     override fun acceptVariable(node: VariableType) {
         staticVisitor.appendOutput(node.name)
+    }
+
+    override fun acceptBoolean(node: BooleanType) {
+        TODO("Not yet implemented")
     }
 }

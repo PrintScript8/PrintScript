@@ -1,17 +1,24 @@
 package rule
 
-import token.NativeMethod
+import token.BooleanLiteral
 import token.Position
 import token.Token
 import token.TokenImpl
+import token.TypeId
 
-class NativeMethodRule : TokenRule {
+class BooleanRule : TokenRule {
+
+    private val keywords = mapOf(
+        "boolean" to TypeId,
+        "true" to BooleanLiteral,
+        "false" to BooleanLiteral
+    )
+
     override fun match(input: String, position: Position): Token? {
-        val nativeMethodKeywords = listOf("println")
-        for (keyword in nativeMethodKeywords) {
+        for ((keyword, tokenType) in keywords) {
             if (input.startsWith(keyword)) {
                 return TokenImpl(
-                    NativeMethod, keyword,
+                    tokenType, keyword,
                     Position(
                         position.row,
                         position.startColumn,

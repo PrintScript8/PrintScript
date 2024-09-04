@@ -8,10 +8,13 @@ import node.staticpkg.DeclarationType
 import node.staticpkg.ExpressionType
 import token.Ending
 import token.Token
+import token.TokenType
 
-class AssignationStrategy : ParseStrategy {
+class AssignationStrategy(
+    private val allowedTypes: Set<TokenType>
+) : ParseStrategy {
 
-    private val rightSideParser: RightSideParser = RightSideParser()
+    private val rightSideParser: RightSideParser = RightSideParser(allowedTypes) // Pasar los tipos permitidos
 
     override fun parse(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
         require(statementNodes.isNotEmpty()) {
