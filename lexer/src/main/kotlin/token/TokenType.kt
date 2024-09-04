@@ -27,4 +27,4 @@ data object CloseBrace : TokenType("CLOSE_BRACE") // }
 
 data object If : TokenType("IF") // if
 data object Else : TokenType("ELSE") // else
-data object Bool : TokenType("BOOL") // true false
+data object Boolean : TokenType("BOOLEAN") // true false

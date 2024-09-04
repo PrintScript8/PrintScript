@@ -1,6 +1,5 @@
 package elements
 
-import node.dynamic.BooleanType
 import node.dynamic.DivisionType
 import node.dynamic.DynamicNode
 import node.dynamic.LiteralType
@@ -9,7 +8,7 @@ import node.dynamic.MultiplyType
 import node.dynamic.SubtractType
 import node.dynamic.SumType
 import node.dynamic.VariableType
-import token.Bool
+import token.Boolean
 import token.CloseParenthesis
 import token.Divide
 import token.Identifier
@@ -48,34 +47,48 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
         while (expressionQueue.isNotEmpty()) {
             val currentToken = expressionQueue.remove()
             if (allowedTypes.contains(currentToken.type)) {
-                handleToken(currentToken, opStack, tokens, index)
+                when (currentToken.type) {
+                    NumberLiteral -> {
+                        val node = LiteralType(LiteralValue.NumberValue(currentToken.text.toDouble()))
+                        opStack.add(node)
+                    }
+                    StringLiteral -> {
+                        val node = LiteralType(LiteralValue.StringValue(currentToken.text))
+                        opStack.add(node)
+                    }
+                    Boolean -> {
+                        val node = LiteralType(LiteralValue.StringValue(currentToken.text))
+                        opStack.add(node)
+                    }
+                    Identifier -> {
+                        val node = VariableType(currentToken.text, null, false)
+                        opStack.add(node)
+                    }
+                    Multiply -> {
+                        val node = parseBinaryOperation(opStack) { left, right -> MultiplyType(left, right, null) }
+                        opStack.add(node)
+                    }
+                    Divide -> {
+                        val node = parseBinaryOperation(opStack) { left, right -> DivisionType(left, right, null) }
+                        opStack.add(node)
+                    }
+                    Plus -> {
+                        val node = parseBinaryOperation(opStack) { left, right -> SumType(left, right, null) }
+                        opStack.add(node)
+                    }
+                    Minus -> {
+                        val node = parseBinaryOperation(opStack) { left, right -> SubtractType(left, right, null) }
+                        opStack.add(node)
+                    }
+                    else -> throw IllegalArgumentException(
+                        "Unexpected token type: ${currentToken.type} at ${tokens[index - 1].position}"
+                    )
+                }
             } else {
                 require(false) {
                     "Token type ${currentToken.type} is not supported at ${tokens[index - 1].position}"
                 }
             }
-        }
-    }
-
-    private fun handleToken(
-        currentToken: TokenInterface,
-        opStack: Stack<DynamicNode>,
-        tokens: List<TokenInterface>,
-        index: Int
-    ) {
-        when (currentToken.type) {
-            NumberLiteral -> opStack.add(LiteralType(LiteralValue.NumberValue(currentToken.text.toDouble())))
-            StringLiteral -> opStack.add(LiteralType(LiteralValue.StringValue(currentToken.text)))
-            Bool -> opStack.add(BooleanType(LiteralValue.StringValue(currentToken.text)))
-            Identifier -> opStack.add(VariableType(currentToken.text, null, false))
-            Multiply -> opStack.add(parseBinaryOperation(opStack) { left, right -> MultiplyType(left, right, null) })
-            Divide -> opStack.add(parseBinaryOperation(opStack) { left, right -> DivisionType(left, right, null) })
-            Plus -> opStack.add(parseBinaryOperation(opStack) { left, right -> SumType(left, right, null) })
-            Minus -> opStack.add(parseBinaryOperation(opStack) { left, right -> SubtractType(left, right, null) })
-            else -> throw IllegalArgumentException(
-                "Unexpected token type: ${currentToken.type} at ${tokens[index - 1].position}"
-
-            )
         }
     }
 

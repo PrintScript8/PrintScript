@@ -1,7 +1,7 @@
 package parser.strategies
 
 import node.Node
-import node.dynamic.BooleanType
+import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.staticpkg.AssignationType
 import node.staticpkg.DeclarationType
@@ -14,7 +14,9 @@ class BooleanStrategy : ParseStrategy {
 
     override fun parse(tokenInterfaces: List<TokenInterface>, currentIndex: Int, statementNodes: MutableList<Node>):
         Int {
-        val booleanNode: BooleanType = parseBoolean(tokenInterfaces, currentIndex)
+        val booleanNode = LiteralType(
+            LiteralValue.BooleanValue(tokenInterfaces[currentIndex].text.lowercase() == "true")
+        )
         statementNodes.add(booleanNode)
         if (tokenInterfaces[currentIndex - 1].type == Assignment) {
             statementNodes.add(generateAssignment(statementNodes, booleanNode))
@@ -22,15 +24,7 @@ class BooleanStrategy : ParseStrategy {
         return currentIndex + 1
     }
 
-    private fun parseBoolean(tokens: List<TokenInterface>, index: Int): BooleanType {
-        return if (tokens[index].text == "true") {
-            BooleanType(LiteralValue.StringValue("true"))
-        } else {
-            BooleanType(LiteralValue.StringValue("false"))
-        }
-    }
-
-    private fun generateAssignment(statementNodes: MutableList<Node>, booleanNode: BooleanType): AssignationType {
+    private fun generateAssignment(statementNodes: MutableList<Node>, booleanNode: LiteralType): AssignationType {
         return AssignationType(statementNodes[statementNodes.lastIndex - 1] as DeclarationType, booleanNode)
     }
 }

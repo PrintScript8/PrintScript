@@ -1,6 +1,6 @@
 package rule
 
-import token.Bool
+import token.Boolean
 import token.Position
 import token.Token
 import token.TypeId
@@ -9,8 +9,8 @@ class BooleanRule : TokenRule {
 
     private val keywords = mapOf(
         "boolean" to TypeId,
-        "true" to Bool,
-        "false" to Bool
+        "true" to Boolean,
+        "false" to Boolean
     )
 
     override fun match(input: String, position: Position): Token? {

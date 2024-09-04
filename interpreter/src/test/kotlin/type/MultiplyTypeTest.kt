@@ -14,6 +14,7 @@ import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import visitor.DynamicInterpreterVisitor
 import visitor.StaticInterpreterVisitor
 
@@ -40,6 +41,18 @@ class MultiplyTypeTest {
         multiplyType.visit(dynamicVisitor)
         val result: LiteralValue = multiplyType.result!!
         assertEquals("25", result.toString())
+    }
+    @Test
+    fun testBoolResult() {
+        val multiplyType = MultiplyType(
+            LiteralType(LiteralValue.NumberValue(5)),
+            LiteralType(LiteralValue.BooleanValue(false)),
+            null
+        )
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
+        assertThrows<IllegalArgumentException> {
+            multiplyType.visit(dynamicVisitor)
+        }
     }
 
     @Test

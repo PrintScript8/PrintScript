@@ -1,6 +1,6 @@
 package rule
 
-import token.Bool
+import token.Boolean
 import token.Position
 import token.Token
 import token.TokenInterface
@@ -11,7 +11,7 @@ class BoolRule : TokenRule {
         for (keyword in boolKeywords) {
             if (input.startsWith(keyword)) {
                 return Token(
-                    Bool, keyword,
+                    Boolean, keyword,
                     Position(
                         position.row,
                         position.startColumn,

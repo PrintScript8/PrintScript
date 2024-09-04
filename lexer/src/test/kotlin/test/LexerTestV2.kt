@@ -4,7 +4,7 @@ import builder.LexerProvider
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import token.Assignment
-import token.Bool
+import token.Boolean
 import token.CloseBrace
 import token.CloseParenthesis
 import token.Else
@@ -28,7 +28,7 @@ class LexerTestV2 {
         val input = FileInputStream(getAbsolutePath("src/test/kotlin/textfile/testv2/file1"))
         val expectedTokens = listOf(
             Token(If, "if", Position(1, 1, 2)),
-            Token(Bool, "false", Position(1, 4, 8)),
+            Token(Boolean, "false", Position(1, 4, 8)),
             Token(Else, "else", Position(1, 10, 13)),
 
         )
@@ -42,7 +42,7 @@ class LexerTestV2 {
         val expectedTokens = listOf(
             Token(If, "if", Position(1, 1, 2)),
             Token(OpenParenthesis, "(", Position(1, 4, 4)),
-            Token(Bool, "true", Position(1, 5, 8)),
+            Token(Boolean, "true", Position(1, 5, 8)),
             Token(CloseParenthesis, ")", Position(1, 9, 9)),
             Token(OpenBrace, "{", Position(1, 11, 11)),
             Token(Identifier, "a", Position(2, 5, 5)),

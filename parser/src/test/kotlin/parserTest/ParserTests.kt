@@ -1,5 +1,4 @@
 import node.PrimType
-import node.dynamic.BooleanType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.SubtractType
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.Test
 import parser.elements.Parser
 import parser.elements.ParserProvider
 import token.Assignment
-import token.Bool
+import token.Boolean
 import token.CloseParenthesis
 import token.Declaration
 import token.Ending
@@ -230,7 +229,7 @@ class ParserTests {
             Token(Declaration, ":", Position(1, 1, 1)),
             Token(TypeId, "boolean", Position(1, 1, 1)),
             Token(Assignment, "=", Position(1, 1, 1)),
-            Token(Bool, "true", Position(1, 1, 1)),
+            Token(Boolean, "true", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 1, 1)),
         )
         val parseList: List<StaticNode> = parser2.parse(tokenList)
@@ -244,7 +243,7 @@ class ParserTests {
         Assertions.assertEquals("name", leftNode.name)
         Assertions.assertEquals(PrimType.BOOLEAN, leftNode.type.type)
 
-        Assertions.assertTrue(assignNode.value is BooleanType)
+        Assertions.assertTrue(assignNode.value is LiteralType)
     }
 
     @Test
