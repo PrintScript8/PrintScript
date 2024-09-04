@@ -25,8 +25,8 @@ class DeclarationTest {
         )
 
         val result = formatter.execute(listOf(nameDeclaration, variableDeclaration))
-        val expected = "val name: String;\n" +
-            "let i: String;"
+        val expected = "val name: string;\n" +
+            "let i: string;"
 
         assertEquals(expected, result)
     }

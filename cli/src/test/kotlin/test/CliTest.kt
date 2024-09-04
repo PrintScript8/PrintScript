@@ -67,10 +67,10 @@ class CliTest {
 
         assertEquals(
             "Formatted: " +
-                "let name: String = \"Hello\";\n" +
+                "let name: string = \"Hello\";\n" +
                 "name = \"Tom\";\n" +
                 "println(name);\n" +
-                "let name2: String = \"Eze\";\n" +
+                "let name2: string = \"Eze\";\n" +
                 "println(name2);",
             result
         )

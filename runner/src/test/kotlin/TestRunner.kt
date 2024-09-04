@@ -27,7 +27,14 @@ class TestRunner {
 
     @Test
     fun `Test formatter`() {
-        assertEquals(runner.format("let name: Number = 5;"), "let name: Number = 5;")
+        assertEquals(runner.format("let something: string= \"a really cool thing\";\n" +
+                "let another_thing: string =\"another really cool thing\";\n" +
+                "let twice_thing: string=\"another really cool thing twice\";\n" +
+                "let third_thing: string = \"another really cool thing three times\";"),
+            "let something: string = \"a really cool thing\";\n" +
+                    "let another_thing: string = \"another really cool thing\";\n" +
+                    "let twice_thing: string = \"another really cool thing twice\";\n" +
+                    "let third_thing: string = \"another really cool thing three times\";")
     }
 
     @Test
