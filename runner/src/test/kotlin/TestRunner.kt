@@ -15,7 +15,14 @@ class TestRunner {
 
     @Test
     fun `Test interpreter`() {
-        assertEquals(runner.execute("let name: Number = 5;"), listOf())
+        assertEquals(
+            runner.execute(
+                "let pi: number;\n" +
+                    "pi = 3.14;\n" +
+                    "println(pi / 2);\n"
+            ),
+            listOf("1.57")
+        )
     }
 
     @Test
