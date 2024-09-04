@@ -14,7 +14,7 @@ sealed class LiteralValue {
     }
     data class StringValue(val string: String) : LiteralValue() {
         override fun toString(): String {
-            return string
+            return string.replace("\"", "")
         }
     }
 
@@ -23,12 +23,12 @@ sealed class LiteralValue {
             is StringValue -> {
                 when (other) {
                     is StringValue -> StringValue(this.string + other.string)
-                    is NumberValue -> StringValue(this.string + other.number.toString())
+                    is NumberValue -> StringValue(this.string + other.toString())
                 }
             }
             is NumberValue -> {
                 when (other) {
-                    is StringValue -> StringValue(this.number.toString() + other.string)
+                    is StringValue -> StringValue(this.toString() + other.string)
                     is NumberValue -> NumberValue(this.number.toDouble() + other.number.toDouble())
                 }
             }

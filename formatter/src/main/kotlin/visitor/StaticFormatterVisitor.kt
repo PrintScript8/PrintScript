@@ -33,7 +33,7 @@ class StaticFormatterVisitor(val formatter: FormatterImpl) : StaticVisitor {
 
     override fun acceptIdentifier(node: IdentifierType) {
         val type = node.type.name
-        output.append(titleCase(type))
+        output.append(lowerCase(type))
     }
 
     override fun acceptPrintLn(node: PrintLnType) {
@@ -59,10 +59,7 @@ class StaticFormatterVisitor(val formatter: FormatterImpl) : StaticVisitor {
         output.append(formattedText)
     }
 
-    private fun titleCase(input: String): String {
-        val variable = input.lowercase(Locale.getDefault())
-        return variable.split(" ").joinToString(" ") { word ->
-            word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
-        }
+    private fun lowerCase(input: String): String {
+        return input.lowercase(Locale.getDefault())
     }
 }
