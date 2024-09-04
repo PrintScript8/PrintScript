@@ -9,6 +9,7 @@ import node.staticpkg.ModifierType
 import token.Declaration
 import token.Modifier
 import token.Token
+import java.util.Locale
 
 class DeclarationStrategy : ParseStrategy {
 
@@ -41,7 +42,7 @@ class DeclarationStrategy : ParseStrategy {
     }
 
     private fun getPrim(token: Token): PrimType {
-        return if (token.text == "String") {
+        return if (token.text.lowercase(Locale.getDefault()) == "string") {
             PrimType.STRING
         } else {
             PrimType.NUMBER

@@ -39,7 +39,7 @@ class OperationTest {
         )
 
         val result = formatter.execute(listOf(assignation))
-        val expected = "let a: Number = 5 + 5;"
+        val expected = "let a: number = 5 + 5;"
 
         assertEquals(expected, result)
     }
@@ -64,7 +64,7 @@ class OperationTest {
         )
 
         val result = formatter.execute(listOf(assignation))
-        val expected = "let a: Number = 5 - 5;"
+        val expected = "let a: number = 5 - 5;"
 
         assertEquals(expected, result)
     }
@@ -89,7 +89,7 @@ class OperationTest {
         )
 
         val result = formatter.execute(listOf(assignation))
-        val expected = "let a: Number = 5 * 5;"
+        val expected = "let a: number = 5 * 5;"
 
         assertEquals(expected, result)
     }
@@ -114,7 +114,7 @@ class OperationTest {
         )
 
         val result = formatter.execute(listOf(assignation))
-        val expected = "let a: Number = 5 / 5;"
+        val expected = "let a: number = 5 / 5;"
 
         assertEquals(expected, result)
     }
@@ -144,8 +144,8 @@ class OperationTest {
         )
 
         val result = formatter.execute(listOf(assignationType, assignation))
-        val expected = "let a: Number = 5;\n" +
-            "let a: Number = 1 + a;"
+        val expected = "let a: number = 5;\n" +
+            "let a: number = 1 + a;"
 
         assertEquals(expected, result)
     }
@@ -194,8 +194,8 @@ class OperationTest {
 
         val result = formatter.execute(listOf(assignation, assignation2))
         val expected =
-            "let a: Number = 1 + \"x\" * 5;\n" +
-                "let a: Number = 1 + a * 5;"
+            "let a: number = 1 + \"x\" * 5;\n" +
+                "let a: number = 1 + a * 5;"
 
         assertEquals(expected, result)
     }
