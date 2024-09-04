@@ -41,6 +41,9 @@ class StaticInterpreterVisitor(private val interpreter: InterpreterImpl) : Stati
     override fun acceptExpression(node: ExpressionType) {
         node.variable.visit(dynamicVisitor)
         node.value.visit(dynamicVisitor)
+        if (interpreter.getValue(node.variable.name).second == null) {
+            interpreter.addValue(node.variable.name, Pair(node.variable.canModify, node.value.result))
+        }
         val sameType = interpreter.getValue(node.variable.name).second!!.javaClass == node.value.result!!.javaClass
         val modifiable = interpreter.checkValue(node.variable.name) || node.variable.canModify
         if (modifiable && sameType) {

@@ -49,8 +49,8 @@ class CliTest {
 
         assertEquals(
             "Result:\n" +
-                "\"Tom\"\n" +
-                "\"Eze\"",
+                "Tom\n" +
+                "Eze",
             result
         )
     }
