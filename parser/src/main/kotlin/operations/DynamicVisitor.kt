@@ -1,6 +1,5 @@
 package operations
 
-import node.dynamic.BooleanType
 import node.dynamic.DivisionType
 import node.dynamic.LiteralType
 import node.dynamic.MultiplyType
@@ -16,5 +15,4 @@ interface DynamicVisitor {
     fun acceptDivision(node: DivisionType)
     fun acceptLiteral(node: LiteralType)
     fun acceptVariable(node: VariableType)
-    fun acceptBoolean(node: BooleanType)
 }

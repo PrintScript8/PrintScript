@@ -1,6 +1,5 @@
 package elements
 
-import node.dynamic.BooleanType
 import node.dynamic.DivisionType
 import node.dynamic.DynamicNode
 import node.dynamic.LiteralType
@@ -47,7 +46,7 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
                         opStack.add(node)
                     }
                     BooleanLiteral -> {
-                        val node = BooleanType(LiteralValue.StringValue(currentToken.text))
+                        val node = LiteralType(LiteralValue.BooleanValue(currentToken.text.lowercase() == "true"))
                         opStack.add(node)
                     }
                     Identifier -> {
