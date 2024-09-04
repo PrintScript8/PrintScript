@@ -14,6 +14,7 @@ import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import visitor.DynamicInterpreterVisitor
 import visitor.StaticInterpreterVisitor
 
@@ -40,6 +41,19 @@ class DivisionTypeTest {
         divisionType.visit(dynamicVisitor)
         val result: LiteralValue = divisionType.result!!
         assertEquals("0.2", result.toString())
+    }
+
+    @Test
+    fun testDivideBoolResult() {
+        val divisionType = DivisionType(
+            LiteralType(LiteralValue.NumberValue(5)),
+            LiteralType(LiteralValue.BooleanValue(false)),
+            null
+        )
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
+        assertThrows<IllegalArgumentException> {
+            divisionType.visit(dynamicVisitor)
+        }
     }
 
     @Test

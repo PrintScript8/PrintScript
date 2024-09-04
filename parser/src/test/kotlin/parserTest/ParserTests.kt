@@ -1,5 +1,4 @@
 import node.PrimType
-import node.dynamic.BooleanType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.SubtractType
@@ -245,7 +244,7 @@ class ParserTests {
         Assertions.assertEquals("name", leftNode.name)
         Assertions.assertEquals(PrimType.BOOLEAN, leftNode.type.type)
 
-        Assertions.assertTrue(assignNode.value is BooleanType)
+        Assertions.assertTrue(assignNode.value is LiteralType)
     }
 
     @Test

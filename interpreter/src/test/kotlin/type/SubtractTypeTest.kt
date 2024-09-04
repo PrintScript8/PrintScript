@@ -14,6 +14,7 @@ import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import visitor.DynamicInterpreterVisitor
 import visitor.StaticInterpreterVisitor
 
@@ -40,6 +41,19 @@ class SubtractTypeTest {
         subtractType.visit(dynamicVisitor)
         val result: LiteralValue = subtractType.result!!
         assertEquals("0", result.toString())
+    }
+
+    @Test
+    fun testBoolResult() {
+        val subtractType = SubtractType(
+            LiteralType(LiteralValue.NumberValue(5)),
+            LiteralType(LiteralValue.BooleanValue(false)),
+            null
+        )
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
+        assertThrows<IllegalArgumentException> {
+            subtractType.visit(dynamicVisitor)
+        }
     }
 
     @Test

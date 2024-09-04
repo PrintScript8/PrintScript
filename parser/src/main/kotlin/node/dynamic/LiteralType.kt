@@ -18,20 +18,26 @@ sealed class LiteralValue {
         }
     }
 
+    data class BooleanValue(val boolean: Boolean) : LiteralValue() {
+        override fun toString(): String {
+            return boolean.toString()
+        }
+    }
+
     operator fun plus(other: LiteralValue): LiteralValue {
+        require(this !is BooleanValue && other !is BooleanValue) { "Cannot add boolean" }
         return when (this) {
-            is StringValue -> {
-                when (other) {
-                    is StringValue -> StringValue(this.string + other.string)
-                    is NumberValue -> StringValue(this.string + other.toString())
-                }
+            is StringValue -> when (other) {
+                is NumberValue -> StringValue(string = this.string + other.toString())
+                is StringValue -> StringValue(string = this.string + other.string)
+                else -> error("Unsupported type")
             }
-            is NumberValue -> {
-                when (other) {
-                    is StringValue -> StringValue(this.toString() + other.string)
-                    is NumberValue -> NumberValue(this.number.toDouble() + other.number.toDouble())
-                }
+            is NumberValue -> when (other) {
+                is StringValue -> StringValue(string = this.toString() + other.string)
+                is NumberValue -> NumberValue(number = this.number.toDouble() + other.number.toDouble())
+                else -> error("Unsupported type")
             }
+            else -> error("Unsupported type")
         }
     }
 
