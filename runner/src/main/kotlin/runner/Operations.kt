@@ -28,7 +28,6 @@ import rule.PlusOperation
 import rule.StringLiteralRule
 import rule.TypeIdRule
 import rule.WhiteSpaceRule
-import java.io.FileInputStream
 
 class Operations {
 
@@ -55,25 +54,25 @@ class Operations {
     private val formatter: Formatter = FormatterImpl()
 
     fun validate(sourceFile: String): List<StaticNode> {
-        val tokens = lexer.tokenize(FileInputStream(sourceFile))
+        val tokens = lexer.tokenize(sourceFile)
         return parser.parse(tokens)
     }
 
     fun execute(sourceFile: String): List<String> {
-        val tokens = lexer.tokenize(FileInputStream(sourceFile))
+        val tokens = lexer.tokenize(sourceFile)
         val astList = parser.parse(tokens)
         return interpreter.execute(astList)
     }
 
     fun format(sourceFile: String): String {
-        val tokens = lexer.tokenize(FileInputStream(sourceFile))
+        val tokens = lexer.tokenize(sourceFile)
         val astList = parser.parse(tokens)
         return formatter.execute(astList)
     }
 
     fun analyze(sourceFile: String): List<Error> {
         val linter = LinterProvider().provideLinter("{ \"case\": \"camelCase\" , \"argument\": \"literal\" }")
-        val tokens = lexer.tokenize(FileInputStream(sourceFile))
+        val tokens = lexer.tokenize(sourceFile)
         val astList = parser.parse(tokens)
         return linter.lint(astList)
     }

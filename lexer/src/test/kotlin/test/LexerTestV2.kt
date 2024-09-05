@@ -16,16 +16,16 @@ import token.OpenBrace
 import token.OpenParenthesis
 import token.Position
 import token.Token
-import java.io.FileInputStream
+import java.io.File
 import java.nio.file.Paths
 
 class LexerTestV2 {
 
-    private val lexer = LexerProvider().getLexerV2()
+    private val lexer = LexerProvider().getLexer("1.1")
 
     @Test
     fun `test if-else tokenization`() {
-        val input = FileInputStream(getAbsolutePath("src/test/kotlin/textfile/testv2/file1"))
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv2/file1")))
         val expectedTokens = listOf(
             Token(If, "if", Position(1, 1, 2)),
             Token(Boolean, "false", Position(1, 4, 8)),
@@ -38,7 +38,7 @@ class LexerTestV2 {
 
     @Test
     fun `if-else-bool brace tokenization`() {
-        val input = FileInputStream(getAbsolutePath("src/test/kotlin/textfile/testv2/file2"))
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv2/file2")))
         val expectedTokens = listOf(
             Token(If, "if", Position(1, 1, 2)),
             Token(OpenParenthesis, "(", Position(1, 4, 4)),
@@ -64,7 +64,7 @@ class LexerTestV2 {
 
     @Test
     fun `fake if-else test`() {
-        val input = FileInputStream(getAbsolutePath("src/test/kotlin/textfile/testv2/file3"))
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv2/file3")))
         val expectedTokens = listOf(
             Token(Identifier, "ifer", Position(1, 1, 4)),
             Token(Identifier, "elser", Position(1, 6, 10))
@@ -89,5 +89,9 @@ class LexerTestV2 {
     private fun getAbsolutePath(relativePath: String): String {
         val projectRoot = Paths.get("").toAbsolutePath().toString()
         return Paths.get(projectRoot, relativePath).toString()
+    }
+
+    private fun readFile(file: File): String {
+        return file.readText()
     }
 }

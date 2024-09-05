@@ -4,15 +4,11 @@ import rule.TokenRule
 import token.Position
 import token.Token
 import token.Whitespace
-import java.io.BufferedReader
-import java.io.FileInputStream
-import java.io.InputStreamReader
 
 class Lexer(private val rules: List<TokenRule>) : LexerInterface {
 
-    override fun tokenize(input: FileInputStream): List<Token> {
-        val reader = BufferedReader(InputStreamReader(input))
-        return tokenizeLines(reader.readLines(), Position.initial())
+    override fun tokenize(input: String): List<Token> {
+        return tokenizeLines(input.lines(), Position.initial())
     }
 
     private fun tokenizeLines(

@@ -17,16 +17,16 @@ import token.Position
 import token.StringLiteral
 import token.Token
 import token.TypeId
-import java.io.FileInputStream
+import java.io.File
 import java.nio.file.Paths
 
 class LexerTestV1 {
 
-    private val lexer = LexerProvider().getLexerV1()
+    private val lexer = LexerProvider().getLexer("1.0")
 
     @Test
     fun `test declaration-ending tokenization`() {
-        val input = FileInputStream(getAbsolutePath("src/test/kotlin/textfile/testv1/file1"))
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv1/file1")))
         val expectedTokens = listOf(
             Token(Declaration, ":", Position(1, 1, 1)),
             Token(Ending, ";", Position(1, 3, 3))
@@ -38,7 +38,7 @@ class LexerTestV1 {
 
     @Test
     fun `test different rows test`() {
-        val input = FileInputStream(getAbsolutePath("src/test/kotlin/textfile/testv1/file2"))
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv1/file2")))
         val expectedTokens = listOf(
             Token(Identifier, "var1", Position(1, 1, 4)),
             Token(Declaration, ":", Position(1, 6, 6)),
@@ -55,7 +55,7 @@ class LexerTestV1 {
 
     @Test
     fun `illegal character test`() {
-        val input = FileInputStream(getAbsolutePath("src/test/kotlin/textfile/testv1/file3"))
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv1/file3")))
         try {
             lexer.tokenize(input)
         } catch (e: IllegalArgumentException) {
@@ -65,7 +65,7 @@ class LexerTestV1 {
 
     @Test
     fun `assignation-parenthesis-string test`() {
-        val input = FileInputStream(getAbsolutePath("src/test/kotlin/textfile/testv1/file4"))
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv1/file4")))
         val expectedTokens = listOf(
             Token(Identifier, "var1", Position(1, 1, 4)),
             Token(Assignment, "=", Position(1, 6, 6)),
@@ -83,7 +83,7 @@ class LexerTestV1 {
 
     @Test
     fun `modifier-nativeMethod test`() {
-        val input = FileInputStream(getAbsolutePath("src/test/kotlin/textfile/testv1/file5"))
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv1/file5")))
         val expectedTokens = listOf(
             Token(Modifier, "let", Position(1, 1, 3)),
             Token(Identifier, "a", Position(1, 5, 5)),
@@ -104,5 +104,9 @@ class LexerTestV1 {
     private fun getAbsolutePath(relativePath: String): String {
         val projectRoot = Paths.get("").toAbsolutePath().toString()
         return Paths.get(projectRoot, relativePath).toString()
+    }
+
+    private fun readFile(file: File): String {
+        return file.readText()
     }
 }

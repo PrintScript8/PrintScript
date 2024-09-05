@@ -52,11 +52,12 @@ class LexerProvider {
         BoolRule()
     ) + rulesV1
 
-    fun getLexerV1(): Lexer {
-        return Lexer(rulesV1)
-    }
-
-    fun getLexerV2(): Lexer {
-        return Lexer(rulesV2)
+    fun getLexer(version: String): Lexer {
+        val rules = when (version) {
+            "1.0" -> rulesV1
+            "1.1" -> rulesV2
+            else -> throw IllegalArgumentException("Invalid version")
+        }
+        return Lexer(rules)
     }
 }
