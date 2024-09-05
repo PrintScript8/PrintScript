@@ -1,5 +1,6 @@
-package rule
+package rule.expression
 
+import rule.TokenRule
 import token.Assignment
 import token.Position
 import token.Token

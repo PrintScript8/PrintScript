@@ -1,17 +1,18 @@
-package rule
+package rule.literal
 
-import token.Modifier
+import rule.TokenRule
+import token.Boolean
 import token.Position
 import token.Token
 import token.TokenInterface
 
-class ModifierRule : TokenRule {
+class BooleanLiteralRule : TokenRule {
     override fun match(input: String, position: Position): TokenInterface? {
-        val modifierKeywords = listOf("let", "const")
-        for (keyword in modifierKeywords) {
+        val boolKeywords = listOf("true", "false")
+        for (keyword in boolKeywords) {
             if (input.startsWith(keyword)) {
                 return Token(
-                    Modifier, keyword,
+                    Boolean, keyword,
                     Position(
                         position.row,
                         position.startColumn,

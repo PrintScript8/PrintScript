@@ -1,5 +1,6 @@
-package rule
+package rule.basic
 
+import rule.TokenRule
 import token.Position
 import token.Token
 import token.TokenInterface

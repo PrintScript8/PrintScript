@@ -1,8 +1,8 @@
 package test
 
-import builder.LexerProvider
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import provider.LexerProvider
 import token.Assignment
 import token.Boolean
 import token.CloseBrace
@@ -11,10 +11,12 @@ import token.Else
 import token.Ending
 import token.Identifier
 import token.If
+import token.NativeMethod
 import token.NumberLiteral
 import token.OpenBrace
 import token.OpenParenthesis
 import token.Position
+import token.StringLiteral
 import token.Token
 import java.io.File
 import java.nio.file.Paths
@@ -23,14 +25,22 @@ class LexerTestV2 {
 
     private val lexer = LexerProvider().getLexer("1.1")
 
+    private fun getAbsolutePath(relativePath: String): String {
+        val projectRoot = Paths.get("").toAbsolutePath().toString()
+        return Paths.get(projectRoot, relativePath).toString()
+    }
+
+    private fun readFile(file: File): String {
+        return file.readText()
+    }
+
     @Test
     fun `test if-else tokenization`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv2/file1")))
         val expectedTokens = listOf(
             Token(If, "if", Position(1, 1, 2)),
             Token(Boolean, "false", Position(1, 4, 8)),
-            Token(Else, "else", Position(1, 10, 13)),
-
+            Token(Else, "else", Position(1, 10, 13))
         )
         val tokens = lexer.tokenize(input)
         assertEquals(expectedTokens, tokens)
@@ -86,12 +96,22 @@ class LexerTestV2 {
         assertEquals(expected, token.toString())
     }
 
-    private fun getAbsolutePath(relativePath: String): String {
-        val projectRoot = Paths.get("").toAbsolutePath().toString()
-        return Paths.get(projectRoot, relativePath).toString()
-    }
-
-    private fun readFile(file: File): String {
-        return file.readText()
+    @Test
+    fun `readEnv and readInput test`() {
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv2/file5")))
+        val expectedTokens = listOf(
+            Token(NativeMethod, "readEnv", Position(1, 1, 7)),
+            Token(OpenParenthesis, "(", Position(1, 8, 8)),
+            Token(StringLiteral, "\"DATABASE_URL\"", Position(1, 9, 22)),
+            Token(CloseParenthesis, ")", Position(1, 23, 23)),
+            Token(Ending, ";", Position(1, 24, 24)),
+            Token(NativeMethod, "readInput", Position(2, 1, 9)),
+            Token(OpenParenthesis, "(", Position(2, 10, 10)),
+            Token(StringLiteral, "\"message\"", Position(2, 11, 19)),
+            Token(CloseParenthesis, ")", Position(2, 20, 20)),
+            Token(Ending, ";", Position(2, 21, 21))
+        )
+        val tokens = lexer.tokenize(input)
+        assertEquals(expectedTokens, tokens)
     }
 }
