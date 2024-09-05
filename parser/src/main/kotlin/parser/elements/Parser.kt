@@ -1,8 +1,8 @@
 package parser.elements
 
 import node.staticpkg.StaticNode
-import token.Token
+import token.TokenInterface
 
 interface Parser {
-    fun parse(tokens: List<Token>): List<StaticNode>
+    fun parse(tokenInterfaces: List<TokenInterface>): List<StaticNode>
 }

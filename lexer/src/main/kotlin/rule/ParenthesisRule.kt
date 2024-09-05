@@ -4,7 +4,7 @@ import token.CloseParenthesis
 import token.OpenParenthesis
 import token.Position
 import token.Token
-import token.TokenImpl
+import token.TokenInterface
 import token.TokenType
 
 interface Parenthesis {
@@ -24,10 +24,10 @@ object CloseParenthesisRule : Parenthesis {
 
 class ParenthesisRule(private val parenthesisRules: List<Parenthesis>) : TokenRule {
 
-    override fun match(input: String, position: Position): Token? {
+    override fun match(input: String, position: Position): TokenInterface? {
         for (parenthesisRule in parenthesisRules) {
             if (input.startsWith(parenthesisRule.symbol)) {
-                return TokenImpl(
+                return Token(
                     parenthesisRule.tokenType,
                     parenthesisRule.symbol,
                     Position(position.row, position.startColumn, position.startColumn)

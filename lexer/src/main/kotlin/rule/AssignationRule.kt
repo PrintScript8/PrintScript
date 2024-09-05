@@ -3,13 +3,13 @@ package rule
 import token.Assignment
 import token.Position
 import token.Token
-import token.TokenImpl
+import token.TokenInterface
 
 // Implementa una regla para identificar el token "="
 class AssignationRule : TokenRule {
-    override fun match(input: String, position: Position): Token? {
+    override fun match(input: String, position: Position): TokenInterface? {
         if (input.startsWith("=")) {
-            return TokenImpl(Assignment, "=", Position(position.row, position.startColumn, position.startColumn))
+            return Token(Assignment, "=", Position(position.row, position.startColumn, position.startColumn))
         }
         return null
     }

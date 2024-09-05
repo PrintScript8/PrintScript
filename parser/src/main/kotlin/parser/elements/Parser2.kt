@@ -4,32 +4,37 @@ package parser.elements
 import node.Node
 import node.staticpkg.StaticNode
 import token.Ending
-import token.Token
+import token.TokenInterface
 
 class Parser2(private val tokenHandler: TokenHandler) : Parser {
 
-    override fun parse(tokens: List<Token>): List<StaticNode> {
+    override fun parse(tokenInterfaces: List<TokenInterface>): List<StaticNode> {
         var i = 0
         val astList: MutableList<StaticNode> = mutableListOf()
         val statementNodes: MutableList<Node> = mutableListOf()
 
-        while (i < tokens.size) {
-            i = tokenHandler.handle(tokens, i, statementNodes)
-            require(i < tokens.size) { "Expected ';' at end of statement. At: ${tokens[tokens.lastIndex].position}" }
-            i = handleEnding(tokens, i, statementNodes, astList)
+        while (i < tokenInterfaces.size) {
+            i = tokenHandler.handle(tokenInterfaces, i, statementNodes)
+            require(i < tokenInterfaces.size) {
+                "Expected ';' at end of statement. At: " +
+                    "${tokenInterfaces[tokenInterfaces.lastIndex].position}"
+            }
+            i = handleEnding(tokenInterfaces, i, statementNodes, astList)
         }
         return astList
     }
 
     private fun handleEnding(
-        tokens: List<Token>,
+        tokenInterfaces: List<TokenInterface>,
         i: Int,
         statementNodes: MutableList<Node>,
         astList: MutableList<StaticNode>
     ): Int {
         var i1 = i
-        if (tokens[i1].type == Ending) {
-            require(statementNodes.isNotEmpty()) { "Didn't expect ';' At: ${tokens[i1].position}" }
+        if (tokenInterfaces[i1].type == Ending) {
+            require(statementNodes.isNotEmpty()) {
+                "Didn't expect ';' At: ${tokenInterfaces[i1].position}"
+            }
             addStaticNodeToAstList(statementNodes, astList)
             statementNodes.clear()
             i1 += 1

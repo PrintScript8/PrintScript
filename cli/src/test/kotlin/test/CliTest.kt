@@ -3,6 +3,7 @@ package test
 import cli.Cli
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.io.File
 import java.nio.file.Paths
 
 class CliTest {
@@ -15,7 +16,7 @@ class CliTest {
             arrayOf(
                 "-o",
                 "Validation",
-                getAbsolutePath("src/test/kotlin/testtxt/Test1"),
+                readFile(File(getAbsolutePath("src/test/kotlin/testtxt/Test1"))),
             )
         )
 
@@ -28,7 +29,7 @@ class CliTest {
             arrayOf(
                 "-o",
                 "Validation",
-                getAbsolutePath("src/test/kotlin/testtxt/Test2"),
+                readFile(File(getAbsolutePath("src/test/kotlin/testtxt/Test2"))),
             )
         )
 
@@ -41,7 +42,7 @@ class CliTest {
             arrayOf(
                 "-o",
                 "Execution",
-                getAbsolutePath("src/test/kotlin/testtxt/Test1"),
+                readFile(File(getAbsolutePath("src/test/kotlin/testtxt/Test1"))),
                 "-v",
                 "1.0"
             )
@@ -61,7 +62,7 @@ class CliTest {
             arrayOf(
                 "-o",
                 "Formatting",
-                getAbsolutePath("src/test/kotlin/testtxt/Test1"),
+                readFile(File(getAbsolutePath("src/test/kotlin/testtxt/Test1"))),
             )
         )
 
@@ -82,7 +83,7 @@ class CliTest {
             arrayOf(
                 "-o",
                 "Analyzing",
-                getAbsolutePath("src/test/kotlin/testtxt/Test3"),
+                readFile(File(getAbsolutePath("src/test/kotlin/testtxt/Test3"))),
             )
         )
 
@@ -92,5 +93,9 @@ class CliTest {
     private fun getAbsolutePath(relativePath: String): String {
         val projectRoot = Paths.get("").toAbsolutePath().toString()
         return Paths.get(projectRoot, relativePath).toString()
+    }
+
+    private fun readFile(file: File): String {
+        return file.readText()
     }
 }

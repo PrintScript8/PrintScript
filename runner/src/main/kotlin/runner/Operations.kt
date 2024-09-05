@@ -6,7 +6,6 @@ import formatter.FormatterImpl
 import interpreter.Interpreter
 import interpreter.InterpreterImpl
 import lexer.Lexer
-import lexer.LexerImpl
 import linter.LinterProvider
 import node.staticpkg.StaticNode
 import parser.elements.Parser
@@ -49,7 +48,7 @@ class Operations {
         ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule))
     )
 
-    private val lexer: Lexer = LexerImpl(lexerRules)
+    private val lexer: Lexer = Lexer(lexerRules)
     private val parser: Parser = parserProvider.getParser("1.0")
     private val interpreter: Interpreter = InterpreterImpl()
     private val formatter: Formatter = FormatterImpl()

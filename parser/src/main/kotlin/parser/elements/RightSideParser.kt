@@ -8,7 +8,7 @@ import node.dynamic.MultiplyType
 import node.dynamic.SubtractType
 import node.dynamic.SumType
 import node.dynamic.VariableType
-import token.BooleanLiteral
+import token.Boolean
 import token.CloseParenthesis
 import token.Divide
 import token.Identifier
@@ -18,7 +18,7 @@ import token.NumberLiteral
 import token.OpenParenthesis
 import token.Plus
 import token.StringLiteral
-import token.Token
+import token.TokenInterface
 import token.TokenType
 import java.util.LinkedList
 import java.util.Queue
@@ -26,15 +26,26 @@ import java.util.Stack
 
 class RightSideParser(private val allowedTypes: Set<TokenType>) {
 
-    fun parseRightHandSide(tokens: List<Token>, startIndex: Int, endTokenType: TokenType): Pair<DynamicNode, Int> {
-        val tuple: Pair<Queue<Token>, Int> = buildQueue(tokens, startIndex, endTokenType)
-        val expressionQueue: Queue<Token> = tuple.first
-        val index: Int = tuple.second
-        val opStack: Stack<DynamicNode> = Stack()
+    fun parseRightHandSide(
+        tokens: List<TokenInterface>,
+        startIndex: Int,
+        endTokenType: TokenType
+    ): Pair<DynamicNode, Int> {
+        val (expressionQueue, index) = buildQueue(tokens, startIndex, endTokenType)
+        val opStack = Stack<DynamicNode>()
         require(expressionQueue.isNotEmpty()) { "Missing assignee in assignment! at ${tokens[index].position}" }
+        processQueue(expressionQueue, opStack, tokens, index)
+        return Pair(opStack.pop(), index)
+    }
 
+    private fun processQueue(
+        expressionQueue: Queue<TokenInterface>,
+        opStack: Stack<DynamicNode>,
+        tokens: List<TokenInterface>,
+        index: Int
+    ) {
         while (expressionQueue.isNotEmpty()) {
-            val currentToken: Token = expressionQueue.remove()
+            val currentToken = expressionQueue.remove()
             if (allowedTypes.contains(currentToken.type)) {
                 when (currentToken.type) {
                     NumberLiteral -> {
@@ -45,8 +56,8 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
                         val node = LiteralType(LiteralValue.StringValue(currentToken.text))
                         opStack.add(node)
                     }
-                    BooleanLiteral -> {
-                        val node = LiteralType(LiteralValue.BooleanValue(currentToken.text.lowercase() == "true"))
+                    Boolean -> {
+                        val node = LiteralType(LiteralValue.StringValue(currentToken.text))
                         opStack.add(node)
                     }
                     Identifier -> {
@@ -79,7 +90,6 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
                 }
             }
         }
-        return Pair(opStack.pop(), index)
     }
 
     private fun parseBinaryOperation(
@@ -92,10 +102,11 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
         return operation(leftNode, rightNode)
     }
 
-    private fun buildQueue(tokens: List<Token>, startIndex: Int, endTokenType: TokenType): Pair<Queue<Token>, Int> {
+    private fun buildQueue(tokens: List<TokenInterface>, startIndex: Int, endTokenType: TokenType):
+        Pair<Queue<TokenInterface>, Int> {
         var currentIndex = startIndex
-        val stack: Stack<Token> = Stack()
-        val queue: Queue<Token> = LinkedList()
+        val stack = Stack<TokenInterface>()
+        val queue = LinkedList<TokenInterface>()
 
         while (currentIndex < tokens.size && tokens[currentIndex].type != endTokenType) {
             val token = tokens[currentIndex]
@@ -112,36 +123,26 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
     }
 
     private fun handleToken(
-        token: Token,
-        stack: Stack<Token>,
-        queue: Queue<Token>,
-        tokens: List<Token>,
+        token: TokenInterface,
+        stack: Stack<TokenInterface>,
+        queue: Queue<TokenInterface>,
+        tokens: List<TokenInterface>,
         currentIndex: Int
     ) {
         when (token.type) {
-            NumberLiteral, StringLiteral, Identifier -> {
-                queue.add(token)
-            }
-            OpenParenthesis -> {
-                stack.add(token)
-            }
-            CloseParenthesis -> {
-                handleCloseParenthesis(stack, queue, tokens, currentIndex)
-            }
-            Multiply, Divide -> {
-                stack.add(token)
-            }
-            Plus, Minus -> {
-                handlePlusMinus(stack, queue, token)
-            }
+            NumberLiteral, StringLiteral, Identifier -> queue.add(token)
+            OpenParenthesis -> stack.add(token)
+            CloseParenthesis -> handleCloseParenthesis(stack, queue, tokens, currentIndex)
+            Multiply, Divide -> stack.add(token)
+            Plus, Minus -> handlePlusMinus(stack, queue, token)
             else -> queue.add(token)
         }
     }
 
     private fun handleCloseParenthesis(
-        stack: Stack<Token>,
-        queue: Queue<Token>,
-        tokens: List<Token>,
+        stack: Stack<TokenInterface>,
+        queue: Queue<TokenInterface>,
+        tokens: List<TokenInterface>,
         currentIndex: Int
     ) {
         while (stack.isNotEmpty()) {
@@ -155,9 +156,9 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
     }
 
     private fun handlePlusMinus(
-        stack: Stack<Token>,
-        queue: Queue<Token>,
-        token: Token
+        stack: Stack<TokenInterface>,
+        queue: Queue<TokenInterface>,
+        token: TokenInterface
     ) {
         if (stack.isEmpty() || ((stack.peek().type != Multiply) && (stack.peek().type != Divide))) {
             stack.add(token)

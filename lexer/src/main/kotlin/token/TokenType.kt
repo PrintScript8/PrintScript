@@ -22,11 +22,9 @@ data object NativeMethod : TokenType("NATIVE_METHOD") // println(
 data object Modifier : TokenType("MODIFIER") // let const
 
 // ver 1.1
-data object BooleanLiteral : TokenType("BOOLEAN") // true false
+data object OpenBrace : TokenType("OPEN_BRACE") // {
+data object CloseBrace : TokenType("CLOSE_BRACE") // }
 
-// data object OpenBracket : TokenType("OPEN_BRACKET") // [
-// data object CloseBracket : TokenType("CLOSE_BRACKET") // ]
-// data object OpenBrace : TokenType("OPEN_BRACE") // {
-// data object CloseBrace : TokenType("CLOSE_BRACE") // }
-// data object Comma : TokenType("COMMA") // ,
-// data object Dot : TokenType("DOT") // .
+data object If : TokenType("IF") // if
+data object Else : TokenType("ELSE") // else
+data object Boolean : TokenType("BOOLEAN") // true false

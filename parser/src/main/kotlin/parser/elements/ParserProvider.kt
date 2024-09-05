@@ -8,7 +8,7 @@ import parser.strategies.MethodStrategy
 import parser.strategies.ModifierStrategy
 import parser.strategies.ParseStrategy
 import token.Assignment
-import token.BooleanLiteral
+import token.Boolean
 import token.CloseParenthesis
 import token.Declaration
 import token.Divide
@@ -47,7 +47,7 @@ class ParserProvider {
         Modifier
     )
 
-    private val tokenTypes2 = originalTokenTypes + BooleanLiteral
+    private val tokenTypes2 = originalTokenTypes + Boolean
 
     private val ogStrategy: Map<TokenType, ParseStrategy> = mapOf(
         Modifier to ModifierStrategy(),
@@ -61,7 +61,7 @@ class ParserProvider {
         Identifier to DeclarationStrategy(arrayOf(PrimType.STRING, PrimType.NUMBER, PrimType.BOOLEAN)),
         Assignment to AssignationStrategy(tokenTypes2),
         NativeMethod to MethodStrategy(tokenTypes2),
-        BooleanLiteral to BooleanStrategy()
+        Boolean to BooleanStrategy()
     )
 
     private val parsers: Map<String, Parser> = mapOf(
