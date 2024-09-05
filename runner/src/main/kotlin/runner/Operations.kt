@@ -10,24 +10,24 @@ import linter.LinterProvider
 import node.staticpkg.StaticNode
 import parser.elements.Parser
 import parser.elements.ParserProvider
-import rule.AssignationRule
-import rule.CloseParenthesisRule
-import rule.DeclarationRule
-import rule.DivideOperation
-import rule.EndingRule
-import rule.IdentifierRule
-import rule.MinusOperation
-import rule.ModifierRule
-import rule.MultiplyOperation
-import rule.NativeMethodRule
-import rule.NumberLiteralRule
-import rule.OpenParenthesisRule
-import rule.OperationRule
-import rule.ParenthesisRule
-import rule.PlusOperation
-import rule.StringLiteralRule
-import rule.TypeIdRule
-import rule.WhiteSpaceRule
+import rule.basic.EndingRule
+import rule.basic.IdentifierRule
+import rule.basic.ModifierRule
+import rule.basic.TypeIdRule
+import rule.basic.WhiteSpaceRule
+import rule.control.CloseParenthesisRule
+import rule.control.OpenParenthesisRule
+import rule.control.ParenthesisRule
+import rule.expression.AssignationRule
+import rule.expression.DeclarationRule
+import rule.inherent.PrintlnRule
+import rule.literal.NumberLiteralRule
+import rule.literal.StringLiteralRule
+import rule.operation.DivideOperation
+import rule.operation.MinusOperation
+import rule.operation.MultiplyOperation
+import rule.operation.OperationRule
+import rule.operation.PlusOperation
 
 class Operations {
 
@@ -35,7 +35,7 @@ class Operations {
 
     private val lexerRules = listOf(
         ModifierRule(),
-        NativeMethodRule(),
+        PrintlnRule(),
         TypeIdRule(),
         WhiteSpaceRule(),
         IdentifierRule(),

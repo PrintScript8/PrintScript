@@ -1,5 +1,6 @@
-package rule
+package rule.basic
 
+import rule.TokenRule
 import token.Ending
 import token.Position
 import token.Token

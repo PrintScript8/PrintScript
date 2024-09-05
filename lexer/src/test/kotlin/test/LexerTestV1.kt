@@ -1,8 +1,8 @@
 package test
 
-import builder.LexerProvider
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import provider.LexerProvider
 import token.Assignment
 import token.CloseParenthesis
 import token.Declaration

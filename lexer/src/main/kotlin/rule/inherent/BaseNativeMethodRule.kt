@@ -1,13 +1,13 @@
-package rule
+package rule.inherent
 
+import rule.TokenRule
 import token.NativeMethod
 import token.Position
 import token.Token
 import token.TokenInterface
 
-class NativeMethodRule : TokenRule {
+abstract class BaseNativeMethodRule(private val keyword: String) : TokenRule {
     override fun match(input: String, position: Position): TokenInterface? {
-        val keyword = "println"
         if (input.startsWith(keyword)) {
             val nextCharIndex = keyword.length
             if (nextCharIndex < input.length && input[nextCharIndex] == '(') {

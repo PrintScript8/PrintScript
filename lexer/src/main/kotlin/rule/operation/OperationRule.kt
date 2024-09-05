@@ -1,5 +1,6 @@
-package rule
+package rule.operation
 
+import rule.TokenRule
 import token.Divide
 import token.Minus
 import token.Multiply

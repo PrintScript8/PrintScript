@@ -1,17 +1,18 @@
-package rule
+package rule.basic
 
+import rule.TokenRule
+import token.Modifier
 import token.Position
 import token.Token
 import token.TokenInterface
-import token.TypeId
 
-class TypeIdRule : TokenRule {
+class ModifierRule : TokenRule {
     override fun match(input: String, position: Position): TokenInterface? {
-        val typeIdKeywords = listOf("String", "Number")
-        for (keyword in typeIdKeywords) {
+        val modifierKeywords = listOf("let", "const")
+        for (keyword in modifierKeywords) {
             if (input.startsWith(keyword)) {
                 return Token(
-                    TypeId, keyword,
+                    Modifier, keyword,
                     Position(
                         position.row,
                         position.startColumn,

@@ -1,5 +1,6 @@
-package rule
+package rule.control
 
+import rule.TokenRule
 import token.If
 import token.Position
 import token.Token

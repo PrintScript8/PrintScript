@@ -1,5 +1,6 @@
-package rule
+package rule.control
 
+import rule.TokenRule
 import token.CloseBrace
 import token.OpenBrace
 import token.Position
