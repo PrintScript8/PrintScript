@@ -8,7 +8,7 @@ import node.staticpkg.ExpressionType
 import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import node.staticpkg.PrintLnType
-import operations.StaticVisitor
+import operations.StaticVisitorV1
 import rules.argument.ArgumentRule
 import rules.format.FormatRule
 
@@ -16,7 +16,7 @@ class LinterVisitor(
     var argumentRules: ArgumentRule,
     var formatRules: FormatRule,
     private val linter: LinterImpl
-) : StaticVisitor {
+) : StaticVisitorV1 {
 
     override fun acceptAssignation(node: AssignationType) {
         node.declaration.visit(this)

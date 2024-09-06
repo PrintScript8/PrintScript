@@ -8,12 +8,12 @@ import node.dynamic.MultiplyType
 import node.dynamic.SubtractType
 import node.dynamic.SumType
 import node.dynamic.VariableType
-import operations.DynamicVisitor
+import operations.DynamicVisitorV1
 
 class DynamicFormatterVisitor(
     val formatter: FormatterImpl,
     private val staticVisitor: StaticFormatterVisitor
-) : DynamicVisitor {
+) : DynamicVisitorV1 {
 
     override fun acceptSum(node: SumType) {
         node.left.visit(this)

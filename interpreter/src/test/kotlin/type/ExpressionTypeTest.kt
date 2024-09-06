@@ -1,6 +1,6 @@
 package type
 
-import interpreter.InterpreterImpl
+import interpreter.IntepreterProvider
 import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -10,6 +10,7 @@ import node.staticpkg.DeclarationType
 import node.staticpkg.ExpressionType
 import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
+import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -18,7 +19,7 @@ class ExpressionTypeTest {
     // Test for expressionType
     @Test
     fun `expressionType val test`() {
-        val interpreter = InterpreterImpl()
+        val interpreter = IntepreterProvider().provideInterpreter("1.0")
         val assignationTypeA = AssignationType(
             DeclarationType(
                 ModifierType(
@@ -46,22 +47,21 @@ class ExpressionTypeTest {
             VariableType("b", null, false)
         )
         val list = listOf(assignationTypeA, assignationTypeB, expressionType)
-        interpreter.execute(list)
-        assertThrows<UnsupportedOperationException> {
+        assertThrows<IllegalArgumentException> {
             interpreter.execute(list)
         }
     }
 
     @Test
     fun `expressionType var test`() {
-        val interpreter = InterpreterImpl()
+        val interpreter = IntepreterProvider().provideInterpreter("1.0")
         val assignationTypeA = AssignationType(
             DeclarationType(
                 ModifierType(
                     "var",
                     true
                 ),
-                IdentifierType(PrimType.STRING),
+                IdentifierType(PrimType.NUMBER),
                 "a"
             ),
             LiteralType(LiteralValue.NumberValue(1))
@@ -72,17 +72,18 @@ class ExpressionTypeTest {
                     "var",
                     true
                 ),
-                IdentifierType(PrimType.STRING),
+                IdentifierType(PrimType.NUMBER),
                 "b"
             ),
-            LiteralType(LiteralValue.NumberValue(1))
+            LiteralType(LiteralValue.NumberValue(2))
         )
         val expressionType = ExpressionType(
             VariableType("a", null, false),
             VariableType("b", null, false)
         )
-        val list = listOf(assignationTypeA, assignationTypeB, expressionType)
-        interpreter.execute(list)
-        assertEquals("1", interpreter.getValue("a").second.toString())
+        val printLnType = PrintLnType(VariableType("a", null, false))
+        val list = listOf(assignationTypeA, assignationTypeB, expressionType, printLnType)
+
+        assertEquals(listOf("2"), interpreter.execute(list))
     }
 }

@@ -7,7 +7,7 @@ import node.dynamic.SubtractType
 import node.dynamic.SumType
 import node.dynamic.VariableType
 
-interface DynamicVisitor {
+interface DynamicVisitorV1 {
 
     fun acceptSum(node: SumType)
     fun acceptSubtract(node: SubtractType)
