@@ -1,8 +1,10 @@
 package node.staticpkg
 
 import node.Node
-import operations.StaticVisitor
+import node.TypeValue
+import operations.StaticVisitorV1
 
-interface StaticNode : Node {
-    fun visit(visitor: StaticVisitor)
+sealed interface StaticNode : Node {
+    fun visit(visitor: StaticVisitorV1)
+    fun run(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): StaticResult
 }

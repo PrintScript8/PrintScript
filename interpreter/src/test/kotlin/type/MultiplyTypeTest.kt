@@ -1,6 +1,6 @@
 package type
 
-import interpreter.InterpreterImpl
+import interpreter.IntepreterProvider
 import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -8,6 +8,7 @@ import node.dynamic.MultiplyType
 import node.dynamic.VariableType
 import node.staticpkg.AssignationType
 import node.staticpkg.DeclarationType
+import node.staticpkg.ExpressionType
 import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import node.staticpkg.PrintLnType
@@ -15,8 +16,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import visitor.DynamicInterpreterVisitor
-import visitor.StaticInterpreterVisitor
 
 class MultiplyTypeTest {
 
@@ -31,27 +30,27 @@ class MultiplyTypeTest {
     }
 
     @Test
-    fun testNumberResult() {
-        val multiplyType = MultiplyType(
-            LiteralType(LiteralValue.NumberValue(5)),
-            LiteralType(LiteralValue.NumberValue(5)),
-            null
-        )
-        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
-        multiplyType.visit(dynamicVisitor)
-        val result: LiteralValue = multiplyType.result!!
-        assertEquals("25", result.toString())
-    }
-    @Test
     fun testBoolResult() {
-        val multiplyType = MultiplyType(
-            LiteralType(LiteralValue.NumberValue(5)),
-            LiteralType(LiteralValue.BooleanValue(false)),
-            null
+        val assignationType = AssignationType(
+            DeclarationType(
+                ModifierType("let", true),
+                IdentifierType(PrimType.NUMBER),
+                "a"
+            ),
+            LiteralType(LiteralValue.BooleanValue(true))
         )
-        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
+        val multiplyType = ExpressionType(
+            VariableType("a", null, true),
+            MultiplyType(
+                LiteralType(LiteralValue.NumberValue(1)),
+                VariableType("a", null, true),
+                null
+            )
+        )
+        val printLnType = PrintLnType(VariableType("a", null, true))
+        val interpreter = IntepreterProvider().provideInterpreter("1.0")
         assertThrows<IllegalArgumentException> {
-            multiplyType.visit(dynamicVisitor)
+            interpreter.execute(listOf(assignationType, multiplyType, printLnType))
         }
     }
 
@@ -60,37 +59,22 @@ class MultiplyTypeTest {
         val assignationType = AssignationType(
             DeclarationType(
                 ModifierType("let", true),
-                IdentifierType(PrimType.STRING),
+                IdentifierType(PrimType.NUMBER),
                 "a"
             ),
             LiteralType(LiteralValue.NumberValue(5))
         )
-        val multiplyType = MultiplyType(
-            LiteralType(LiteralValue.NumberValue(1)),
-            VariableType("a", null, false),
-            null
+        val multiplyType = ExpressionType(
+            VariableType("a", null, true),
+            MultiplyType(
+                LiteralType(LiteralValue.NumberValue(1)),
+                VariableType("a", null, true),
+                null
+            )
         )
-        val interpreter = InterpreterImpl()
-        val dynamicVisitor = DynamicInterpreterVisitor(interpreter)
-        val staticVisitor = StaticInterpreterVisitor(interpreter)
-        assignationType.visit(staticVisitor)
-        multiplyType.visit(dynamicVisitor)
-        val result: LiteralValue = multiplyType.result!!
-        assertEquals("5", result.toString())
-    }
-
-    @Test
-    fun testPrint() {
-        val multiplyType = MultiplyType(
-            LiteralType(LiteralValue.NumberValue(1)),
-            LiteralType(LiteralValue.NumberValue(5)),
-            null
-        )
-        val printLnType = PrintLnType(multiplyType)
-        val interpreter = InterpreterImpl()
-        val dynamicVisitor = DynamicInterpreterVisitor(interpreter)
-        val staticVisitor = StaticInterpreterVisitor(interpreter)
-        multiplyType.visit(dynamicVisitor)
-        printLnType.visit(staticVisitor)
+        val printLnType = PrintLnType(VariableType("a", null, true))
+        val interpreter = IntepreterProvider().provideInterpreter("1.0")
+        val output: List<String> = interpreter.execute(listOf(assignationType, multiplyType, printLnType))
+        assertEquals(listOf("5"), output)
     }
 }

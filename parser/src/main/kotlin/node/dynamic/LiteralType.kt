@@ -1,6 +1,8 @@
 package node.dynamic
 
-import operations.DynamicVisitor
+import node.PrimType
+import node.TypeValue
+import operations.DynamicVisitorV1
 
 sealed class LiteralValue {
     data class NumberValue(val number: Number) : LiteralValue() {
@@ -64,7 +66,27 @@ sealed class LiteralValue {
 }
 
 class LiteralType(override var result: LiteralValue?) : DynamicNode {
-    override fun visit(visitor: DynamicVisitor) {
+    override fun visit(visitor: DynamicVisitorV1) {
         visitor.acceptLiteral(this)
+    }
+
+    override fun execute(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): TypeValue {
+        require(!(version == "1.0" && result is LiteralValue.BooleanValue)) {
+            "Boolean value is not supported in version 1.0"
+        }
+        return when (result) {
+            is LiteralValue.NumberValue -> {
+                TypeValue(result, PrimType.NUMBER)
+            }
+
+            is LiteralValue.StringValue -> {
+                TypeValue(result, PrimType.STRING)
+            }
+
+            is LiteralValue.BooleanValue -> {
+                TypeValue(result, PrimType.BOOLEAN)
+            }
+            else -> error("Unsupported type")
+        }
     }
 }

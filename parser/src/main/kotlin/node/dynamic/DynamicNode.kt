@@ -1,9 +1,14 @@
 package node.dynamic
 
 import node.Node
-import operations.DynamicVisitor
+import node.TypeValue
+import operations.DynamicVisitorV1
 
-interface DynamicNode : Node {
+sealed interface DynamicNode : Node {
     var result: LiteralValue?
-    fun visit(visitor: DynamicVisitor)
+    fun visit(visitor: DynamicVisitorV1)
+    fun execute(
+        valueMap: Map<String, Pair<Boolean, TypeValue>>,
+        version: String
+    ): TypeValue
 }

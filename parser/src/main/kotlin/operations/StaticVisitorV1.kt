@@ -7,8 +7,7 @@ import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import node.staticpkg.PrintLnType
 
-interface StaticVisitor {
-
+interface StaticVisitorV1 {
     fun acceptAssignation(node: AssignationType)
     fun acceptModifier(node: ModifierType)
     fun acceptDeclaration(node: DeclarationType)
