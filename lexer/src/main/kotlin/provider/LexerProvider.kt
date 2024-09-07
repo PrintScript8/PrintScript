@@ -1,7 +1,7 @@
 package provider
 
+import lexer.LexerInterface
 import lexer.Lexer
-import lexer.LexerImpl
 import rule.TokenRule
 import rule.basic.EndingRule
 import rule.basic.IdentifierRule
@@ -58,12 +58,12 @@ class LexerProvider {
         BooleanLiteralRule()
     ) + commonRules()
 
-    fun getLexer(version: String): Lexer {
+    fun getLexer(version: String): LexerInterface {
         val rules = when (version) {
             "1.0" -> rulesV1
             "1.1" -> rulesV2
             else -> throw IllegalArgumentException("Invalid version")
         }
-        return LexerImpl(rules)
+        return Lexer(rules)
     }
 }

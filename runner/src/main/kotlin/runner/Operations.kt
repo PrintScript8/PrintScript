@@ -5,8 +5,8 @@ import formatter.Formatter
 import formatter.FormatterImpl
 import interpreter.IntepreterProvider
 import interpreter.Interpreter
+import lexer.LexerInterface
 import lexer.Lexer
-import lexer.LexerImpl
 import linter.LinterProvider
 import node.staticpkg.StaticNode
 import parser.elements.ParserInterface
@@ -48,14 +48,14 @@ class Operations(private val sourceFile: String, private val version: String) {
     )
 
     fun validate(): List<StaticNode> {
-        val lexer: Lexer = LexerImpl(lexerRules)
+        val lexer: LexerInterface = Lexer(lexerRules)
         val tokenIterator = lexer.iterator(sourceFile)
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
         return parser.parse()
     }
 
     fun execute(): List<String> {
-        val lexer: Lexer = LexerImpl(lexerRules)
+        val lexer: LexerInterface = Lexer(lexerRules)
         val tokenIterator = lexer.iterator(sourceFile)
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
         val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
@@ -63,7 +63,7 @@ class Operations(private val sourceFile: String, private val version: String) {
     }
 
     fun format(): String {
-        val lexer: Lexer = LexerImpl(lexerRules)
+        val lexer: LexerInterface = Lexer(lexerRules)
         val tokenIterator = lexer.iterator(sourceFile)
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
         // val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
@@ -72,7 +72,7 @@ class Operations(private val sourceFile: String, private val version: String) {
     }
 
     fun analyze(): List<Error> {
-        val lexer: Lexer = LexerImpl(lexerRules)
+        val lexer: LexerInterface = Lexer(lexerRules)
         val tokenIterator = lexer.iterator(sourceFile)
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
         // val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)

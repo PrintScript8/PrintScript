@@ -21,7 +21,7 @@ import token.Token
 import java.io.File
 import java.nio.file.Paths
 
-class LexerTestV2 {
+class LexerInterfaceTestV2 {
 
     private val lexer = LexerProvider().getLexer("1.1")
 
