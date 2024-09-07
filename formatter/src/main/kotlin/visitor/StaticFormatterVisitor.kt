@@ -7,10 +7,10 @@ import node.staticpkg.ExpressionType
 import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import node.staticpkg.PrintLnType
-import operations.StaticVisitor
+import operations.StaticVisitorV1
 import java.util.Locale
 
-class StaticFormatterVisitor(val formatter: FormatterImpl) : StaticVisitor {
+class StaticFormatterVisitor(val formatter: FormatterImpl) : StaticVisitorV1 {
 
     private var output: StringBuilder = StringBuilder()
     private val dynamicVisitor = DynamicFormatterVisitor(formatter, this)

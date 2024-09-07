@@ -2,13 +2,13 @@ package lexer
 
 import rule.TokenRule
 import token.Position
-import token.TokenImpl
+import token.TokenInterface
 import token.Whitespace
 
 class LexerImpl(private val rules: List<TokenRule>) : Lexer {
 
-    override fun tokenize(input: String): List<TokenImpl> {
-        val tokens = mutableListOf<TokenImpl>()
+    override fun tokenize(input: String): List<TokenInterface> {
+        val tokens = mutableListOf<TokenInterface>()
         var position = Position(row = 1, startColumn = 1, endColumn = 1)
         var currentInput = input
 
@@ -28,11 +28,11 @@ class LexerImpl(private val rules: List<TokenRule>) : Lexer {
         return tokens
     }
 
-    override fun iterator(input: String): Iterator<TokenImpl> {
-        return object : Iterator<TokenImpl> {
+    override fun iterator(input: String): Iterator<TokenInterface> {
+        return object : Iterator<TokenInterface> {
             var position = Position(row = 1, startColumn = 1, endColumn = 1)
             var currentInput = input
-            var nextToken: TokenImpl? = null
+            var nextToken: TokenInterface? = null
 
             override fun hasNext(): Boolean {
                 if (nextToken == null && currentInput.isNotEmpty()) {
@@ -42,14 +42,19 @@ class LexerImpl(private val rules: List<TokenRule>) : Lexer {
                         )
                     if (token!!.type != Whitespace) {
                         nextToken = token
+                        // Aca si es un whitespace quiero que lexee el proximo antes de salir de esta funcion
+                        // De esta manera, el next token no va a ser null lo que rompe el hasNext
                     }
                     position = newPosition
                     currentInput = remainingInput
+                    if(token.type == Whitespace) {
+                        hasNext()
+                    }
                 }
                 return nextToken != null
             }
 
-            override fun next(): TokenImpl {
+            override fun next(): TokenInterface {
                 if (!hasNext()) throw NoSuchElementException()
                 val token = nextToken
                 nextToken = null
@@ -61,14 +66,14 @@ class LexerImpl(private val rules: List<TokenRule>) : Lexer {
     private fun matchToken(
         input: String,
         position: Position
-    ): Triple<TokenImpl?, Position, String>? {
+    ): Triple<TokenInterface?, Position, String>? {
         for (rule in rules) {
             val token = rule.match(input, position)
             if (token != null) {
                 val tokenLength = token.text.length
                 val newPosition = updatePosition(position, token.text, tokenLength)
                 val remainingInput = input.drop(tokenLength)
-                return Triple(token as TokenImpl, newPosition, remainingInput)
+                return Triple(token as TokenInterface, newPosition, remainingInput)
             }
         }
         return null

@@ -8,7 +8,7 @@ import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import token.Declaration
 import token.Modifier
-import token.Token
+import token.TokenInterface
 
 class DeclarationStrategy(private val types: Array<PrimType>) : ParseStrategy {
 
@@ -16,23 +16,24 @@ class DeclarationStrategy(private val types: Array<PrimType>) : ParseStrategy {
         private const val INDEX_JUMP = 3
     }
 
-    override fun parse(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
-        if (isDeclaration(tokens, currentIndex)) {
+    override fun parse(tokenInterfaces: List<TokenInterface>, currentIndex: Int, statementNodes: MutableList<Node>):
+        Int {
+        if (isDeclaration(tokenInterfaces, currentIndex)) {
             val modifier: ModifierType = statementNodes[statementNodes.lastIndex] as ModifierType
-            val identifierToken = tokens[currentIndex]
-            val typeToken = tokens[currentIndex + 2]
+            val identifierToken = tokenInterfaces[currentIndex]
+            val typeToken = tokenInterfaces[currentIndex + 2]
             val declarationNode = DeclarationType(
                 modifier, IdentifierType(getPrim(typeToken, types)), identifierToken.text
             )
             statementNodes.add(declarationNode)
             return currentIndex + INDEX_JUMP
         } else {
-            statementNodes.add(VariableType(tokens[currentIndex].text, null, false))
+            statementNodes.add(VariableType(tokenInterfaces[currentIndex].text, null, false))
             return currentIndex + (INDEX_JUMP - 2)
         }
     }
 
-    private fun isDeclaration(tokens: List<Token>, currentIndex: Int): Boolean {
+    private fun isDeclaration(tokens: List<TokenInterface>, currentIndex: Int): Boolean {
         if (currentIndex > 0 && tokens[currentIndex - 1].type == Modifier) {
             if (currentIndex + 1 < tokens.size) {
                 require(tokens[currentIndex + 1].type == Declaration) { "Missing ':' in the declaration" }
@@ -42,7 +43,7 @@ class DeclarationStrategy(private val types: Array<PrimType>) : ParseStrategy {
         return false
     }
 
-    private fun getPrim(token: Token, types: Array<PrimType>): PrimType {
+    private fun getPrim(token: TokenInterface, types: Array<PrimType>): PrimType {
         return types.find { it.name.lowercase() == token.text.lowercase() }
             ?: throw IllegalArgumentException("Trying to declare an invalid type")
     }

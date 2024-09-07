@@ -4,20 +4,37 @@ import error.Error
 import formatter.Formatter
 import formatter.FormatterImpl
 import interpreter.Interpreter
-import interpreter.InterpreterImpl
+import interpreter.IntepreterProvider
 import lexer.Lexer
 import lexer.LexerImpl
 import linter.LinterProvider
 import node.staticpkg.StaticNode
 import parser.elements.ParserInterface
 import parser.elements.ParserProvider
-import rule.*
+import rule.basic.ModifierRule
+import rule.literal.NumberLiteralRule
+import rule.literal.StringLiteralRule
+import rule.operation.OperationRule
+import rule.expression.AssignationRule
+import rule.expression.DeclarationRule
+import rule.operation.PlusOperation
+import rule.operation.MinusOperation
+import rule.operation.DivideOperation
+import rule.operation.MultiplyOperation
+import rule.basic.EndingRule
+import rule.control.OpenParenthesisRule
+import rule.control.ParenthesisRule
+import rule.basic.IdentifierRule
+import rule.basic.TypeIdRule
+import rule.basic.WhiteSpaceRule
+import rule.control.CloseParenthesisRule
+import rule.inherent.PrintlnRule
 
-class Operations(sourceFile: String) {
+class Operations(sourceFile: String, version: String) {
 
     private val lexerRules = listOf(
         ModifierRule(),
-        NativeMethodRule(),
+        PrintlnRule(),
         TypeIdRule(),
         WhiteSpaceRule(),
         IdentifierRule(),
@@ -32,8 +49,8 @@ class Operations(sourceFile: String) {
 
     private val lexer: Lexer = LexerImpl(lexerRules)
     private val tokenIterator = lexer.iterator(sourceFile)
-    private val parser: ParserInterface = ParserProvider(tokenIterator).getParser("1.0")
-    private val interpreter: Interpreter = InterpreterImpl(parser.iterator())
+    private val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
+    private val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
     private val formatter: Formatter = FormatterImpl()
 
     fun validate(): List<StaticNode> {

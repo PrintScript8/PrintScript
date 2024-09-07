@@ -1,8 +1,8 @@
 package parser.strategies
 
 import node.Node
-import token.Token
+import token.TokenInterface
 
 interface ParseStrategy {
-    fun parse(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int
+    fun parse(tokenInterfaces: List<TokenInterface>, currentIndex: Int, statementNodes: MutableList<Node>): Int
 }

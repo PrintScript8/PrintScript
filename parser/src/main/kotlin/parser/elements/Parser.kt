@@ -4,15 +4,16 @@ import node.Node
 import node.staticpkg.StaticNode
 import token.Ending
 import token.Token
+import token.TokenInterface
 
-class Parser(private val tokenHandler: TokenHandler, private val iterator: Iterator<Token>) : ParserInterface {
+class Parser(private val tokenHandler: TokenHandler, private val iterator: Iterator<TokenInterface>) : ParserInterface {
 
     // Este metodo parse ahora usará el iterador que se pasa al constructor
     // No necesita recibir el iterador como parámetro
     override fun parse(): List<StaticNode> {
         val astList = mutableListOf<StaticNode>()
-        val statementTokens = mutableListOf<Token>()
-        var currentToken: Token? = null
+        val statementTokens = mutableListOf<TokenInterface>()
+        var currentToken: TokenInterface? = null
 
         // Se usa el iterador directamente desde el campo 'iterator'
         while (iterator.hasNext()) {
@@ -49,7 +50,7 @@ class Parser(private val tokenHandler: TokenHandler, private val iterator: Itera
 
     // Met odo privado que parsea un statement
     // Se renombra para mayor claridad: parse -> parseStatement
-    private fun parseStatement(tokens: List<Token>): List<StaticNode> {
+    private fun parseStatement(tokens: List<TokenInterface>): List<StaticNode> {
         var i = 0
         val astList: MutableList<StaticNode> = mutableListOf()
         val statementNodes: MutableList<Node> = mutableListOf()
@@ -67,7 +68,7 @@ class Parser(private val tokenHandler: TokenHandler, private val iterator: Itera
 
     // Met odo para manejar el token de fin de statement
     private fun handleEnding(
-        tokenInterfaces: List<Token>,
+        tokenInterfaces: List<TokenInterface>,
         i: Int,
         statementNodes: MutableList<Node>,
         astList: MutableList<StaticNode>

@@ -2,14 +2,14 @@ package parser.elements
 
 import node.PrimType
 import parser.strategies.AssignationStrategy
-import parser.strategies.BooleanStrategy
 import parser.strategies.DeclarationStrategy
 import parser.strategies.MethodStrategy
 import parser.strategies.ModifierStrategy
 import parser.strategies.ParseStrategy
 import token.*
+import token.Boolean
 
-class ParserProvider(private val iterator:Iterator<Token>) {
+class ParserProvider(private val iterator:Iterator<TokenInterface>) {
 
     private val originalTokenTypes: Set<TokenType> = setOf(
         Identifier,
@@ -30,7 +30,7 @@ class ParserProvider(private val iterator:Iterator<Token>) {
         Modifier
     )
 
-    private val tokenTypes2 = originalTokenTypes + BooleanLiteral
+    private val tokenTypes2: Set<TokenType> = originalTokenTypes + OpenBrace + CloseBrace + If + Else + Boolean
 
     private val ogStrategy: Map<TokenType, ParseStrategy> = mapOf(
         Modifier to ModifierStrategy(),
@@ -44,7 +44,6 @@ class ParserProvider(private val iterator:Iterator<Token>) {
         Identifier to DeclarationStrategy(arrayOf(PrimType.STRING, PrimType.NUMBER, PrimType.BOOLEAN)),
         Assignment to AssignationStrategy(tokenTypes2),
         NativeMethod to MethodStrategy(tokenTypes2),
-        BooleanLiteral to BooleanStrategy()
     )
 
     private val parsers: Map<String, ParserInterface> = mapOf(

@@ -1,10 +1,22 @@
 package node.staticpkg
 
-import operations.StaticVisitor
+import node.TypeValue
+import operations.StaticVisitorV1
 
 class DeclarationType(val modifier: ModifierType, val type: IdentifierType, val name: String) : StaticNode {
-    override fun visit(visitor: StaticVisitor) {
+    override fun visit(visitor: StaticVisitorV1) {
         visitor.acceptDeclaration(this)
+    }
+
+    override fun run(
+        valueMap: Map<String, Pair<Boolean, TypeValue>>,
+        version: String
+    ): StaticResult {
+        require(modifier.canModify || version != "1.0") {
+            "const not supported in this version"
+        }
+        val newMap = valueMap + (name to Pair(modifier.canModify, TypeValue(null, type.type)))
+        return StaticResult(newMap, emptyList())
     }
 
     override fun toString(): String {

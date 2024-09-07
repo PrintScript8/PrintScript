@@ -1,8 +1,8 @@
 package lexer
 
-import token.Token
+import token.TokenInterface
 
 interface Lexer {
-    fun tokenize(input: String): List<Token>
-    fun iterator(input: String): Iterator<Token>
+    fun tokenize(input: String): List<TokenInterface>
+    fun iterator(input: String): Iterator<TokenInterface>
 }

@@ -6,18 +6,19 @@ import node.dynamic.LiteralValue
 import node.staticpkg.AssignationType
 import node.staticpkg.DeclarationType
 import token.Assignment
-import token.Token
+import token.TokenInterface
 
 class BooleanStrategy : ParseStrategy {
 
     // Esta estrategia tiene de malo que se encarga de el assignation cuando no deberia
 
-    override fun parse(tokens: List<Token>, currentIndex: Int, statementNodes: MutableList<Node>): Int {
+    override fun parse(tokenInterfaces: List<TokenInterface>, currentIndex: Int, statementNodes: MutableList<Node>):
+        Int {
         val booleanNode = LiteralType(
-            LiteralValue.BooleanValue(tokens[currentIndex].text.lowercase() == "true")
+            LiteralValue.BooleanValue(tokenInterfaces[currentIndex].text.lowercase() == "true")
         )
         statementNodes.add(booleanNode)
-        if (tokens[currentIndex - 1].type == Assignment) {
+        if (tokenInterfaces[currentIndex - 1].type == Assignment) {
             statementNodes.add(generateAssignment(statementNodes, booleanNode))
         }
         return currentIndex + 1

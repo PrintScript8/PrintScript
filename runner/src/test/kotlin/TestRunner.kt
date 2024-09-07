@@ -2,37 +2,37 @@
 import node.staticpkg.AssignationType
 import org.junit.jupiter.api.Test
 import runner.Operations
+import java.io.File
+import java.nio.file.Paths
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class TestRunner {
-    private val runner = Operations("hello")
-/*
+
+
     @Test
     fun `Test lexer and parser`() {
-        assertIs<AssignationType>(runner.validate("let name: Number = 5;").get(0))
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file1")))
+        val runner = Operations(input, "1.0")
+        assertIs<AssignationType>(runner.validate().get(0))
     }
-*/
+
     @Test
     fun `Test interpreter`() {
-        val runner = Operations("let pi: number;\n" +
-                "pi = 3.14;\n" +
-                "println(pi / 2);\n")
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file2")))
+        val runner = Operations(input, "1.0")
         assertEquals(
             runner.execute(),
             listOf("1.57")
         )
     }
-/*
+
     @Test
     fun `Test formatter`() {
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file3")))
+        val runner = Operations(input, "1.0")
         assertEquals(
-            runner.format(
-                "let something: string= \"a really cool thing\";\n" +
-                    "let another_thing: string =\"another really cool thing\";\n" +
-                    "let twice_thing: string=\"another really cool thing twice\";\n" +
-                    "let third_thing: string = \"another really cool thing three times\";"
-            ),
+            runner.format(),
             "let something: string = \"a really cool thing\";\n" +
                 "let another_thing: string = \"another really cool thing\";\n" +
                 "let twice_thing: string = \"another really cool thing twice\";\n" +
@@ -42,8 +42,17 @@ class TestRunner {
 
     @Test
     fun `Test linter`() {
-        assertEquals(runner.analyze("let name: Number = 5;"), listOf())
+        val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file4")))
+        val runner = Operations(input, "1.0")
+        assertEquals(runner.analyze(), listOf())
     }
 
- */
+    private fun getAbsolutePath(relativePath: String): String {
+        val projectRoot = Paths.get("").toAbsolutePath().toString()
+        return Paths.get(projectRoot, relativePath).toString()
+    }
+
+    private fun readFile(file: File): String {
+        return file.readText()
+    }
 }

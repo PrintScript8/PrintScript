@@ -31,7 +31,7 @@ spotless {
     }
 }
 
-// Koverage configuration just adding 0.8 cover
+// Kover configuration just adding 80 coverage
 kover {
     verify {
         rule {

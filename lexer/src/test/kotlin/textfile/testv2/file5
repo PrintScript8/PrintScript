@@ -1,0 +1,2 @@
+readEnv("DATABASE_URL");
+readInput("message");
