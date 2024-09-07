@@ -34,10 +34,6 @@ class InterpreterV2(var iterator: Iterator<StaticNode>) : Interpreter {
         }
     }
 
-    fun addToList(value: String) {
-        output.add(value)
-    }
-
     // no se si este esta bien
     fun iterator(): Iterator<String> {
         return output.iterator()
