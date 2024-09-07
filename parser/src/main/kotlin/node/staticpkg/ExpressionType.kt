@@ -29,13 +29,14 @@ class ExpressionType(val variable: VariableType, val value: DynamicNode) : Stati
         key: String,
         newValue: TypeValue
     ): Map<String, Pair<Boolean, TypeValue>> {
-        val updatedMap = originalMap.toMutableMap()
-        if (originalMap[key]?.first == true) {
-            require(originalMap[key]!!.second.type == newValue.type) {
-                "Type mismatch: expected ${originalMap[key]!!.second.type}, found ${newValue.type}"
-            }
-            updatedMap[key] = Pair(true, newValue)
+        require(originalMap[key]?.second?.value == null || originalMap[key]?.first == true) {
+            "Cannot modify a constant!!"
         }
+        val updatedMap = originalMap.toMutableMap()
+        require(originalMap[key]!!.second.type == newValue.type) {
+            "Type mismatch: expected ${originalMap[key]!!.second.type}, found ${newValue.type}"
+        }
+        updatedMap[key] = Pair(originalMap[key]?.first!!, newValue)
         return updatedMap
     }
 }
