@@ -9,7 +9,7 @@ import node.staticpkg.ModifierType
 import node.staticpkg.PrintLnType
 import node.staticpkg.StaticNode
 
-class InterpreterImpl(var iterator: Iterator<StaticNode>) : Interpreter {
+class InterpreterV1(var iterator: Iterator<StaticNode>) : Interpreter {
 
     private val valueMap: MutableMap<String, Pair<Boolean, TypeValue>> = mutableMapOf()
     private val output: MutableList<String> = mutableListOf()
@@ -30,6 +30,7 @@ class InterpreterImpl(var iterator: Iterator<StaticNode>) : Interpreter {
                 valueMap.putAll(map)
                 output.addAll(result)
             }
+            else -> throw IllegalArgumentException("Operation not supported")
         }
     }
 
