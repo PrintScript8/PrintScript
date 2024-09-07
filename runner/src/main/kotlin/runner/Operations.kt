@@ -3,12 +3,13 @@ package runner
 import error.Error
 import formatter.Formatter
 import formatter.FormatterImpl
+import interpreter.IntepreterProvider
 import interpreter.Interpreter
-import interpreter.InterpreterImpl
 import lexer.Lexer
+import lexer.LexerInterface
 import linter.LinterProvider
 import node.staticpkg.StaticNode
-import parser.elements.Parser
+import parser.elements.ParserInterface
 import parser.elements.ParserProvider
 import rule.basic.EndingRule
 import rule.basic.IdentifierRule
@@ -29,9 +30,7 @@ import rule.operation.MultiplyOperation
 import rule.operation.OperationRule
 import rule.operation.PlusOperation
 
-class Operations {
-
-    private val parserProvider: ParserProvider = ParserProvider()
+class Operations(private val sourceFile: String, private val version: String) {
 
     private val lexerRules = listOf(
         ModifierRule(),
@@ -48,32 +47,37 @@ class Operations {
         ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule))
     )
 
-    private val lexer: Lexer = Lexer(lexerRules)
-    private val parser: Parser = parserProvider.getParser("1.0")
-    private val interpreter: Interpreter = InterpreterImpl()
-    private val formatter: Formatter = FormatterImpl()
-
-    fun validate(sourceFile: String): List<StaticNode> {
-        val tokens = lexer.tokenize(sourceFile)
-        return parser.parse(tokens)
+    fun validate(): List<StaticNode> {
+        val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
+        val tokenIterator = lexer.iterator()
+        val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
+        return parser.parse()
     }
 
-    fun execute(sourceFile: String): List<String> {
-        val tokens = lexer.tokenize(sourceFile)
-        val astList = parser.parse(tokens)
-        return interpreter.execute(astList)
+    fun execute(): List<String> {
+        val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
+        val tokenIterator = lexer.iterator()
+        val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
+        val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
+        return interpreter.execute()
     }
 
-    fun format(sourceFile: String): String {
-        val tokens = lexer.tokenize(sourceFile)
-        val astList = parser.parse(tokens)
-        return formatter.execute(astList)
+    fun format(): String {
+        val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
+        val tokenIterator = lexer.iterator()
+        val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
+        // val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
+        val formatter: Formatter = FormatterImpl()
+        return formatter.execute(parser.parse())
     }
 
-    fun analyze(sourceFile: String): List<Error> {
+    fun analyze(): List<Error> {
+        val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
+        val tokenIterator = lexer.iterator()
+        val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
+        // val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
+        // val formatter: Formatter = FormatterImpl()
         val linter = LinterProvider().provideLinter("{ \"case\": \"camelCase\" , \"argument\": \"literal\" }")
-        val tokens = lexer.tokenize(sourceFile)
-        val astList = parser.parse(tokens)
-        return linter.lint(astList)
+        return linter.lint(parser.parse())
     }
 }

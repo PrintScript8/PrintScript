@@ -9,13 +9,14 @@ import node.staticpkg.ModifierType
 import node.staticpkg.PrintLnType
 import node.staticpkg.StaticNode
 
-class InterpreterImpl : Interpreter {
+class InterpreterImpl(var iterator: Iterator<StaticNode>) : Interpreter {
 
     private val valueMap: MutableMap<String, Pair<Boolean, TypeValue>> = mutableMapOf()
     private val output: MutableList<String> = mutableListOf()
 
-    override fun execute(list: List<StaticNode>): List<String> {
-        for (node in list) {
+    override fun execute(): List<String> {
+        while (iterator.hasNext()) {
+            val node = iterator.next()
             matchNode(node)
         }
         return output
@@ -30,5 +31,14 @@ class InterpreterImpl : Interpreter {
                 output.addAll(result)
             }
         }
+    }
+
+    fun addToList(value: String) {
+        output.add(value)
+    }
+
+    // no se si este esta bien
+    fun iterator(): Iterator<String> {
+        return output.iterator()
     }
 }

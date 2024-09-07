@@ -48,9 +48,11 @@ class SumTypeTest {
                 null
             )
         )
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
+        val interpreter = IntepreterProvider(
+            listOf(assignationType, multiplyType).iterator()
+        ).provideInterpreter("1.0")
         assertThrows<IllegalArgumentException> {
-            interpreter.execute(listOf(assignationType, multiplyType))
+            interpreter.execute()
         }
     }
 
@@ -69,8 +71,10 @@ class SumTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
-        val output: List<String> = interpreter.execute(listOf(assignationType, printLnType))
+        val interpreter = IntepreterProvider(
+            listOf(assignationType, printLnType).iterator()
+        ).provideInterpreter("1.0")
+        val output: List<String> = interpreter.execute()
         assertEquals(listOf("55"), output)
     }
 
@@ -89,8 +93,10 @@ class SumTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
-        val output: List<String> = interpreter.execute(listOf(assignationType, printLnType))
+        val interpreter = IntepreterProvider(
+            listOf(assignationType, printLnType).iterator()
+        ).provideInterpreter("1.0")
+        val output: List<String> = interpreter.execute()
         assertEquals(listOf("10"), output)
     }
 
@@ -113,8 +119,10 @@ class SumTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
-        val output: List<String> = interpreter.execute(listOf(assignationType, sumType, printLnType))
+        val interpreter = IntepreterProvider(
+            listOf(assignationType, sumType, printLnType).iterator()
+        ).provideInterpreter("1.0")
+        val output: List<String> = interpreter.execute()
         assertEquals(listOf("6"), output)
     }
 }

@@ -20,7 +20,11 @@ class StringTypeTest {
     fun testStringTypeResultType() {
         val stringType = LiteralType(LiteralValue.StringValue("Hello"))
         val numberPrintLnType = PrintLnType(stringType)
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
-        assertEquals(listOf("Hello"), interpreter.execute(listOf(numberPrintLnType)))
+        val interpreter = IntepreterProvider(
+            listOf(
+                numberPrintLnType
+            ).iterator()
+        ).provideInterpreter("1.0")
+        assertEquals(listOf("Hello"), interpreter.execute())
     }
 }

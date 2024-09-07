@@ -2,31 +2,35 @@ package parser.elements
 
 import node.PrimType
 import parser.strategies.AssignationStrategy
-import parser.strategies.BooleanStrategy
 import parser.strategies.DeclarationStrategy
 import parser.strategies.MethodStrategy
 import parser.strategies.ModifierStrategy
 import parser.strategies.ParseStrategy
 import token.Assignment
 import token.Boolean
+import token.CloseBrace
 import token.CloseParenthesis
 import token.Declaration
 import token.Divide
+import token.Else
 import token.Ending
 import token.Identifier
+import token.If
 import token.Minus
 import token.Modifier
 import token.Multiply
 import token.NativeMethod
 import token.NumberLiteral
+import token.OpenBrace
 import token.OpenParenthesis
 import token.Plus
 import token.StringLiteral
+import token.TokenInterface
 import token.TokenType
 import token.TypeId
 import token.Whitespace
 
-class ParserProvider {
+class ParserProvider(private val iterator: Iterator<TokenInterface>) {
 
     private val originalTokenTypes: Set<TokenType> = setOf(
         Identifier,
@@ -47,7 +51,7 @@ class ParserProvider {
         Modifier
     )
 
-    private val tokenTypes2 = originalTokenTypes + Boolean
+    private val tokenTypes2: Set<TokenType> = originalTokenTypes + OpenBrace + CloseBrace + If + Else + Boolean
 
     private val ogStrategy: Map<TokenType, ParseStrategy> = mapOf(
         Modifier to ModifierStrategy(),
@@ -61,15 +65,14 @@ class ParserProvider {
         Identifier to DeclarationStrategy(arrayOf(PrimType.STRING, PrimType.NUMBER, PrimType.BOOLEAN)),
         Assignment to AssignationStrategy(tokenTypes2),
         NativeMethod to MethodStrategy(tokenTypes2),
-        Boolean to BooleanStrategy()
     )
 
-    private val parsers: Map<String, Parser> = mapOf(
-        "1.0" to Parser2(TokenHandler(ogStrategy)),
-        "1.1" to Parser2(TokenHandler(strategy2))
+    private val parsers: Map<String, ParserInterface> = mapOf(
+        "1.0" to Parser(TokenHandler(ogStrategy), iterator),
+        "1.1" to Parser(TokenHandler(strategy2), iterator)
     )
 
-    fun getParser(version: String): Parser {
+    fun getParser(version: String): ParserInterface {
         return parsers[version] ?: throw IllegalArgumentException("Version not found")
     }
 }
