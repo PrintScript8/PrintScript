@@ -19,50 +19,50 @@ class Lexer(private val rules: List<TokenRule>) : LexerInterface {
         val tokens = mutableListOf<Token>()
 
         for (line in lines) {
-            val (lineTokens, newPosition) = tokenizeLine(line, position)
+            val lineTokens = tokenizeLine(line, position)
             tokens.addAll(lineTokens)
-            position = newPosition.copy(row = newPosition.row + 1, startColumn = 1, endColumn = 1)
+            position = Position(row = position.row + 1, startColumn = 1, endColumn = 1)
         }
-
         return tokens
     }
 
     private fun tokenizeLine(
         line: String,
         initialPosition: Position
-    ): Pair<List<Token>, Position> {
-        var currentPosition = initialPosition
-        var currentInput = line
+    ): List<Token> {
+        var currentPos = initialPosition
+        var currentIndex = 0
         val tokens = mutableListOf<Token>()
 
-        while (currentInput.isNotEmpty()) {
-            val (token, newPosition, remainingInput) = matchToken(currentInput, currentPosition)
+        while (currentIndex < line.length) {
+            val (token, newPosition, newIndex) = matchToken(line, currentPos, currentIndex)
                 ?: throw IllegalArgumentException(
-                    "Unexpected character at row ${currentPosition.row}, column ${currentPosition.startColumn}"
+                    "Unexpected character at row ${currentPos.row}, column ${currentPos.startColumn}"
                 )
 
             if (token!!.type != Whitespace) {
                 tokens.add(token)
             }
-
-            currentPosition = newPosition
-            currentInput = remainingInput
+            currentPos = newPosition
+            currentIndex = newIndex
         }
-
-        return tokens to currentPosition
+        return tokens
     }
 
     private fun matchToken(
         input: String,
-        position: Position
-    ): Triple<Token?, Position, String>? {
+        position: Position,
+        currentIndex: Int
+    ): Triple<Token?, Position, Int>? {
+        val substring = input.substring(currentIndex)
+
         for (rule in rules) {
-            val token = rule.match(input, position)
+            val token = rule.match(substring, position)
             if (token != null) {
                 val tokenLength = token.text.length
                 val newPosition = updatePosition(position, token.text, tokenLength)
-                val remainingInput = input.drop(tokenLength)
-                return Triple(token as Token, newPosition, remainingInput)
+                val newIndex = currentIndex + tokenLength
+                return Triple(token as Token, newPosition, newIndex)
             }
         }
         return null
@@ -73,17 +73,14 @@ class Lexer(private val rules: List<TokenRule>) : LexerInterface {
         tokenText: String,
         tokenLength: Int
     ): Position {
-        // Count new lines to calculate the row and column changes
         val newRow = position.row + tokenText.count { it == '\n' }
 
-        // Calculate the position for the token
         val lastNewLineIndex = tokenText.lastIndexOf('\n')
         val newColumn = if (lastNewLineIndex >= 0) {
             tokenText.length - lastNewLineIndex - 1
         } else {
             position.startColumn + tokenLength
         }
-
         return Position(newRow, newColumn, newColumn)
     }
 }
