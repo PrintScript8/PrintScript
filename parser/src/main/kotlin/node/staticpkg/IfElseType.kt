@@ -21,5 +21,4 @@ class IfElseType(
             elseBranch.run(valueMap, version)
         }
     }
-
 }

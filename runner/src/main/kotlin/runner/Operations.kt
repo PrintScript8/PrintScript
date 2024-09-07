@@ -5,7 +5,6 @@ import formatter.Formatter
 import formatter.FormatterImpl
 import interpreter.IntepreterProvider
 import interpreter.Interpreter
-import interpreter.InterpreterV1
 import lexer.Lexer
 import lexer.LexerInterface
 import linter.LinterProvider
