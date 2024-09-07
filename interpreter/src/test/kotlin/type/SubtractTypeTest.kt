@@ -48,9 +48,11 @@ class SubtractTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
+        val interpreter = IntepreterProvider(
+            listOf(assignationType, substractType, printLnType).iterator()
+        ).provideInterpreter("1.0")
         assertThrows<IllegalArgumentException> {
-            interpreter.execute(listOf(assignationType, substractType, printLnType))
+            interpreter.execute()
         }
     }
 
@@ -73,8 +75,10 @@ class SubtractTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
-        val output: List<String> = interpreter.execute(listOf(assignationType, substractType, printLnType))
+        val interpreter = IntepreterProvider(
+            listOf(assignationType, substractType, printLnType).iterator()
+        ).provideInterpreter("1.0")
+        val output: List<String> = interpreter.execute()
         assertEquals(listOf("-4"), output)
     }
 }

@@ -19,7 +19,6 @@ class ExpressionTypeTest {
     // Test for expressionType
     @Test
     fun `expressionType val test`() {
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
         val assignationTypeA = AssignationType(
             DeclarationType(
                 ModifierType(
@@ -47,14 +46,14 @@ class ExpressionTypeTest {
             VariableType("b", null, false)
         )
         val list = listOf(assignationTypeA, assignationTypeB, expressionType)
+        val interpreter = IntepreterProvider(list.iterator()).provideInterpreter("1.0")
         assertThrows<IllegalArgumentException> {
-            interpreter.execute(list)
+            interpreter.execute()
         }
     }
 
     @Test
     fun `expressionType var test`() {
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
         val assignationTypeA = AssignationType(
             DeclarationType(
                 ModifierType(
@@ -83,7 +82,7 @@ class ExpressionTypeTest {
         )
         val printLnType = PrintLnType(VariableType("a", null, false))
         val list = listOf(assignationTypeA, assignationTypeB, expressionType, printLnType)
-
-        assertEquals(listOf("2"), interpreter.execute(list))
+        val interpreter = IntepreterProvider(list.iterator()).provideInterpreter("1.0")
+        assertEquals(listOf("2"), interpreter.execute())
     }
 }

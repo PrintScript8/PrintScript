@@ -48,9 +48,13 @@ class DivisionTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
+        val interpreter = IntepreterProvider(
+            listOf(
+                assignationType, divisionType, printLnType
+            ).iterator()
+        ).provideInterpreter("1.0")
         assertThrows<IllegalArgumentException> {
-            interpreter.execute(listOf(assignationType, divisionType, printLnType))
+            interpreter.execute()
         }
     }
 
@@ -74,8 +78,12 @@ class DivisionTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
-        val output: List<String> = interpreter.execute(listOf(assignationType, divisionType, printLnType))
+        val interpreter = IntepreterProvider(
+            listOf(
+                assignationType, divisionType, printLnType
+            ).iterator()
+        ).provideInterpreter("1.0")
+        val output: List<String> = interpreter.execute()
         assertEquals(listOf("0.2"), output)
     }
 }

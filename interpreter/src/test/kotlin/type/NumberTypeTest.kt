@@ -20,7 +20,9 @@ class NumberTypeTest {
     fun testPrint() {
         val numberType = LiteralType(LiteralValue.NumberValue(1))
         val numberPrintLnType = PrintLnType(numberType)
-        val interpreter = IntepreterProvider().provideInterpreter("1.0")
-        assertEquals(listOf("1"), interpreter.execute(listOf(numberPrintLnType)))
+        val interpreter = IntepreterProvider(
+            listOf(numberPrintLnType).iterator()
+        ).provideInterpreter("1.0")
+        assertEquals(listOf("1"), interpreter.execute())
     }
 }

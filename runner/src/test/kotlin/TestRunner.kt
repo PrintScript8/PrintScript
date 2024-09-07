@@ -9,7 +9,6 @@ import kotlin.test.assertIs
 
 class TestRunner {
 
-
     @Test
     fun `Test lexer and parser`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file1")))

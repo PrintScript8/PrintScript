@@ -41,5 +41,4 @@ class InterpreterImpl(var iterator: Iterator<StaticNode>) : Interpreter {
     fun iterator(): Iterator<String> {
         return output.iterator()
     }
-
 }

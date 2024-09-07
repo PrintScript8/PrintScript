@@ -47,7 +47,7 @@ class LexerImpl(private val rules: List<TokenRule>) : Lexer {
                     }
                     position = newPosition
                     currentInput = remainingInput
-                    if(token.type == Whitespace) {
+                    if (token.type == Whitespace) {
                         hasNext()
                     }
                 }

@@ -3,7 +3,6 @@ package parser.elements
 import node.Node
 import node.staticpkg.StaticNode
 import token.Ending
-import token.Token
 import token.TokenInterface
 
 class Parser(private val tokenHandler: TokenHandler, private val iterator: Iterator<TokenInterface>) : ParserInterface {
@@ -59,7 +58,7 @@ class Parser(private val tokenHandler: TokenHandler, private val iterator: Itera
             i = tokenHandler.handle(tokens, i, statementNodes)
             require(i < tokens.size) {
                 "Expected ';' at end of statement. At: " +
-                        "${tokens[tokens.lastIndex].position}"
+                    "${tokens[tokens.lastIndex].position}"
             }
             i = handleEnding(tokens, i, statementNodes, astList)
         }

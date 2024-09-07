@@ -6,10 +6,31 @@ import parser.strategies.DeclarationStrategy
 import parser.strategies.MethodStrategy
 import parser.strategies.ModifierStrategy
 import parser.strategies.ParseStrategy
-import token.*
+import token.Assignment
 import token.Boolean
+import token.CloseBrace
+import token.CloseParenthesis
+import token.Declaration
+import token.Divide
+import token.Else
+import token.Ending
+import token.Identifier
+import token.If
+import token.Minus
+import token.Modifier
+import token.Multiply
+import token.NativeMethod
+import token.NumberLiteral
+import token.OpenBrace
+import token.OpenParenthesis
+import token.Plus
+import token.StringLiteral
+import token.TokenInterface
+import token.TokenType
+import token.TypeId
+import token.Whitespace
 
-class ParserProvider(private val iterator:Iterator<TokenInterface>) {
+class ParserProvider(private val iterator: Iterator<TokenInterface>) {
 
     private val originalTokenTypes: Set<TokenType> = setOf(
         Identifier,
