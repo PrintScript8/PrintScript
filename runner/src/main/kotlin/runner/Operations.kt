@@ -5,8 +5,8 @@ import formatter.Formatter
 import formatter.FormatterImpl
 import interpreter.IntepreterProvider
 import interpreter.Interpreter
-import lexer.LexerInterface
 import lexer.Lexer
+import lexer.LexerInterface
 import linter.LinterProvider
 import node.staticpkg.StaticNode
 import parser.elements.ParserInterface
@@ -48,23 +48,23 @@ class Operations(private val sourceFile: String, private val version: String) {
     )
 
     fun validate(): List<StaticNode> {
-        val lexer: LexerInterface = Lexer(lexerRules)
-        val tokenIterator = lexer.iterator(sourceFile)
+        val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
+        val tokenIterator = lexer.iterator()
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
         return parser.parse()
     }
 
     fun execute(): List<String> {
-        val lexer: LexerInterface = Lexer(lexerRules)
-        val tokenIterator = lexer.iterator(sourceFile)
+        val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
+        val tokenIterator = lexer.iterator()
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
         val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
         return interpreter.execute()
     }
 
     fun format(): String {
-        val lexer: LexerInterface = Lexer(lexerRules)
-        val tokenIterator = lexer.iterator(sourceFile)
+        val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
+        val tokenIterator = lexer.iterator()
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
         // val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
         val formatter: Formatter = FormatterImpl()
@@ -72,8 +72,8 @@ class Operations(private val sourceFile: String, private val version: String) {
     }
 
     fun analyze(): List<Error> {
-        val lexer: LexerInterface = Lexer(lexerRules)
-        val tokenIterator = lexer.iterator(sourceFile)
+        val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
+        val tokenIterator = lexer.iterator()
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
         // val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
         // val formatter: Formatter = FormatterImpl()

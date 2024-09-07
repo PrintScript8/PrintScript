@@ -22,8 +22,6 @@ import java.nio.file.Paths
 
 class LexerInterfaceTestV1 {
 
-    private val lexer = LexerProvider().getLexer("1.0")
-
     @Test
     fun `test declaration-ending tokenization`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv1/file1")))
@@ -32,7 +30,8 @@ class LexerInterfaceTestV1 {
             Token(Ending, ";", Position(1, 3, 3))
 
         )
-        val tokens = lexer.tokenize(input)
+        val lexer = LexerProvider(input).getLexer("1.0")
+        val tokens = lexer.iterator().asSequence().toList()
         assertEquals(expectedTokens, tokens)
     }
 
@@ -49,7 +48,8 @@ class LexerInterfaceTestV1 {
             Token(NumberLiteral, "456", Position(2, 8, 10)),
             Token(Ending, ";", Position(2, 12, 12))
         )
-        val tokens = lexer.tokenize(input)
+        val lexer = LexerProvider(input).getLexer("1.0")
+        val tokens = lexer.iterator().asSequence().toList()
         assertEquals(expectedTokens, tokens)
     }
 
@@ -57,7 +57,8 @@ class LexerInterfaceTestV1 {
     fun `illegal character test`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv1/file3")))
         try {
-            lexer.tokenize(input)
+            val lexer = LexerProvider(input).getLexer("1.0")
+            lexer.iterator().asSequence().toList()
         } catch (e: IllegalArgumentException) {
             assertEquals("Unexpected character at row 1, column 8", e.message)
         }
@@ -77,7 +78,8 @@ class LexerInterfaceTestV1 {
             Token(Plus, "+", Position(1, 16, 16)),
             Token(StringLiteral, "\"Hello\"", Position(1, 18, 24)),
         )
-        val tokens = lexer.tokenize(input)
+        val lexer = LexerProvider(input).getLexer("1.0")
+        val tokens = lexer.iterator().asSequence().toList()
         assertEquals(expectedTokens, tokens)
     }
 
@@ -97,7 +99,8 @@ class LexerInterfaceTestV1 {
             Token(Identifier, "if", Position(2, 1, 2)),
             Token(Identifier, "else", Position(3, 1, 4))
         )
-        val tokens = lexer.tokenize(input)
+        val lexer = LexerProvider(input).getLexer("1.0")
+        val tokens = lexer.iterator().asSequence().toList()
         assertEquals(expectedTokens, tokens)
     }
 

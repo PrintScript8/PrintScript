@@ -23,8 +23,6 @@ import java.nio.file.Paths
 
 class LexerInterfaceTestV2 {
 
-    private val lexer = LexerProvider().getLexer("1.1")
-
     private fun getAbsolutePath(relativePath: String): String {
         val projectRoot = Paths.get("").toAbsolutePath().toString()
         return Paths.get(projectRoot, relativePath).toString()
@@ -42,7 +40,8 @@ class LexerInterfaceTestV2 {
             Token(Boolean, "false", Position(1, 4, 8)),
             Token(Else, "else", Position(1, 10, 13))
         )
-        val tokens = lexer.tokenize(input)
+        val lexer = LexerProvider(input).getLexer("1.1")
+        val tokens = lexer.iterator().asSequence().toList()
         assertEquals(expectedTokens, tokens)
     }
 
@@ -68,7 +67,8 @@ class LexerInterfaceTestV2 {
             Token(Ending, ";", Position(4, 10, 10)),
             Token(CloseBrace, "}", Position(5, 1, 1))
         )
-        val tokens = lexer.tokenize(input)
+        val lexer = LexerProvider(input).getLexer("1.1")
+        val tokens = lexer.iterator().asSequence().toList()
         assertEquals(expectedTokens, tokens)
     }
 
@@ -79,7 +79,8 @@ class LexerInterfaceTestV2 {
             Token(Identifier, "ifer", Position(1, 1, 4)),
             Token(Identifier, "elser", Position(1, 6, 10))
         )
-        val tokens = lexer.tokenize(input)
+        val lexer = LexerProvider(input).getLexer("1.1")
+        val tokens = lexer.iterator().asSequence().toList()
         assertEquals(expectedTokens, tokens)
     }
 
@@ -111,7 +112,8 @@ class LexerInterfaceTestV2 {
             Token(CloseParenthesis, ")", Position(2, 20, 20)),
             Token(Ending, ";", Position(2, 21, 21))
         )
-        val tokens = lexer.tokenize(input)
+        val lexer = LexerProvider(input).getLexer("1.1")
+        val tokens = lexer.iterator().asSequence().toList()
         assertEquals(expectedTokens, tokens)
     }
 }

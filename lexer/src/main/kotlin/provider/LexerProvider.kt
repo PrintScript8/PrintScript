@@ -1,7 +1,7 @@
 package provider
 
-import lexer.LexerInterface
 import lexer.Lexer
+import lexer.LexerInterface
 import rule.TokenRule
 import rule.basic.EndingRule
 import rule.basic.IdentifierRule
@@ -30,7 +30,7 @@ import rule.operation.MultiplyOperation
 import rule.operation.OperationRule
 import rule.operation.PlusOperation
 
-class LexerProvider {
+class LexerProvider(private val input: String) {
 
     private fun commonRules(): List<TokenRule> = listOf(
         WhiteSpaceRule(),
@@ -64,6 +64,6 @@ class LexerProvider {
             "1.1" -> rulesV2
             else -> throw IllegalArgumentException("Invalid version")
         }
-        return Lexer(rules)
+        return Lexer(rules, input)
     }
 }
