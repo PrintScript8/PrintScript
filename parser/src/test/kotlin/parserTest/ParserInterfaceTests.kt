@@ -1,3 +1,4 @@
+import lexer.LexerImpl
 import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -10,7 +11,7 @@ import node.staticpkg.PrintLnType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import parser.elements.Parser
+import parser.elements.ParserInterface
 import parser.elements.ParserProvider
 import token.Assignment
 import token.BooleanLiteral
@@ -31,11 +32,7 @@ import token.TokenImpl
 import token.TypeId
 import java.lang.IllegalArgumentException
 
-class ParserTests {
-
-    private val parserProvider: ParserProvider = ParserProvider()
-    private val parser: Parser = parserProvider.getParser("1.0")
-    private val parser2: Parser = parserProvider.getParser("1.1")
+class ParserInterfaceTests {
 
     @Test
     fun testDeclaration() {
@@ -46,7 +43,9 @@ class ParserTests {
             TokenImpl(TypeId, "String", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
-        val parseList: List<StaticNode> = parser.parse(tokenList)
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
+        val parseList: List<StaticNode> = parserInterface.parse()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is DeclarationType)
@@ -70,7 +69,9 @@ class ParserTests {
             TokenImpl(NumberLiteral, "2", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
-        val parseList: List<StaticNode> = parser.parse(tokenList)
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
+        val parseList: List<StaticNode> = parserInterface.parse()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is AssignationType)
@@ -102,7 +103,9 @@ class ParserTests {
             TokenImpl(CloseParenthesis, ")", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
-        val parseList: List<StaticNode> = parser.parse(tokenList)
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
+        val parseList: List<StaticNode> = parserInterface.parse()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is AssignationType)
@@ -134,7 +137,9 @@ class ParserTests {
             TokenImpl(NumberLiteral, "3", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
-        val parseList: List<StaticNode> = parser.parse(tokenList)
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
+        val parseList: List<StaticNode> = parserInterface.parse()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is AssignationType)
@@ -167,7 +172,9 @@ class ParserTests {
             TokenImpl(StringLiteral, "Tomi", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
-        val parseList: List<StaticNode> = parser.parse(tokenList)
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
+        val parseList: List<StaticNode> = parserInterface.parse()
         Assertions.assertEquals(2, parseList.size)
         val declarationNode: StaticNode = parseList[0]
         Assertions.assertTrue(declarationNode is DeclarationType)
@@ -194,7 +201,9 @@ class ParserTests {
             TokenImpl(CloseParenthesis, ")", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
-        val parseList: List<StaticNode> = parser.parse(tokenList)
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
+        val parseList: List<StaticNode> = parserInterface.parse()
         Assertions.assertEquals(1, parseList.size)
         val headNode: PrintLnType = parseList[0] as PrintLnType
         Assertions.assertTrue(headNode.argument is LiteralType)
@@ -211,7 +220,9 @@ class ParserTests {
             TokenImpl(TypeId, "boolean", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
-        val parseList: List<StaticNode> = parser2.parse(tokenList)
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface2: ParserInterface = parserProvider.getParser("1.1")
+        val parseList: List<StaticNode> = parserInterface2.parse()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is DeclarationType)
@@ -233,7 +244,9 @@ class ParserTests {
             TokenImpl(BooleanLiteral, "true", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
-        val parseList: List<StaticNode> = parser2.parse(tokenList)
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface2: ParserInterface = parserProvider.getParser("1.1")
+        val parseList: List<StaticNode> = parserInterface2.parse()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is AssignationType)
@@ -255,8 +268,10 @@ class ParserTests {
             TokenImpl(Declaration, ":", Position(1, 1, 1)),
             TokenImpl(TypeId, "String", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -268,8 +283,10 @@ class ParserTests {
             TokenImpl(Declaration, ":", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -283,8 +300,10 @@ class ParserTests {
             TokenImpl(Assignment, "=", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -298,8 +317,10 @@ class ParserTests {
             TokenImpl(TypeId, "String", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -310,8 +331,10 @@ class ParserTests {
             TokenImpl(StringLiteral, "Hello World!", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -320,8 +343,10 @@ class ParserTests {
         val tokenList: List<Token> = listOf(
             TokenImpl(Ending, ";", Position(1, 1, 1)),
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -334,8 +359,10 @@ class ParserTests {
             TokenImpl(CloseParenthesis, ")", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -346,8 +373,10 @@ class ParserTests {
             TokenImpl(CloseParenthesis, ")", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -357,8 +386,10 @@ class ParserTests {
             TokenImpl(NativeMethod, "printLn", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -368,8 +399,10 @@ class ParserTests {
             TokenImpl(NativeMethod, "printLn", Position(1, 1, 1)),
             TokenImpl(CloseParenthesis, ")", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -379,8 +412,10 @@ class ParserTests {
             TokenImpl(NativeMethod, "printLn", Position(1, 1, 1)),
             TokenImpl(StringLiteral, "Hello World!", Position(1, 1, 1)),
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -394,8 +429,10 @@ class ParserTests {
             TokenImpl(Assignment, "=", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -405,8 +442,10 @@ class ParserTests {
             TokenImpl(Assignment, "=", Position(1, 1, 1)),
             TokenImpl(Assignment, "1", Position(1, 1, 1)),
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -416,8 +455,10 @@ class ParserTests {
             TokenImpl(Identifier, "name", Position(1, 1, 1)),
             TokenImpl(NumberLiteral, "1", Position(1, 1, 1)),
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 
@@ -429,8 +470,10 @@ class ParserTests {
             TokenImpl(TypeId, "String", Position(1, 1, 1)),
             TokenImpl(Ending, ";", Position(1, 1, 1))
         )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parser.parse(tokenList)
+            parserInterface.parse()
         }
     }
 }

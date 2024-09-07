@@ -7,26 +7,9 @@ import parser.strategies.DeclarationStrategy
 import parser.strategies.MethodStrategy
 import parser.strategies.ModifierStrategy
 import parser.strategies.ParseStrategy
-import token.Assignment
-import token.BooleanLiteral
-import token.CloseParenthesis
-import token.Declaration
-import token.Divide
-import token.Ending
-import token.Identifier
-import token.Minus
-import token.Modifier
-import token.Multiply
-import token.NativeMethod
-import token.NumberLiteral
-import token.OpenParenthesis
-import token.Plus
-import token.StringLiteral
-import token.TokenType
-import token.TypeId
-import token.Whitespace
+import token.*
 
-class ParserProvider {
+class ParserProvider(private val iterator:Iterator<Token>) {
 
     private val originalTokenTypes: Set<TokenType> = setOf(
         Identifier,
@@ -64,12 +47,12 @@ class ParserProvider {
         BooleanLiteral to BooleanStrategy()
     )
 
-    private val parsers: Map<String, Parser> = mapOf(
-        "1.0" to Parser2(TokenHandler(ogStrategy)),
-        "1.1" to Parser2(TokenHandler(strategy2))
+    private val parsers: Map<String, ParserInterface> = mapOf(
+        "1.0" to Parser(TokenHandler(ogStrategy), iterator),
+        "1.1" to Parser(TokenHandler(strategy2), iterator)
     )
 
-    fun getParser(version: String): Parser {
+    fun getParser(version: String): ParserInterface {
         return parsers[version] ?: throw IllegalArgumentException("Version not found")
     }
 }

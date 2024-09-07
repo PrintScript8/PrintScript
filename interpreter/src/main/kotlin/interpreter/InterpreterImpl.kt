@@ -4,14 +4,15 @@ import node.dynamic.LiteralValue
 import node.staticpkg.StaticNode
 import visitor.StaticInterpreterVisitor
 
-class InterpreterImpl : Interpreter {
+class InterpreterImpl(var iterator: Iterator<StaticNode>) : Interpreter {
 
     private val valueMap: MutableMap<String, Pair<Boolean, LiteralValue?>> = mutableMapOf()
     private val visitor = StaticInterpreterVisitor(this)
     private val output: MutableList<String> = mutableListOf()
 
-    override fun execute(list: List<StaticNode>): List<String> {
-        for (node in list) {
+    override fun execute(): List<String> {
+        while (iterator.hasNext()) {
+            val node = iterator.next()
             node.visit(visitor)
         }
         return output
@@ -32,4 +33,10 @@ class InterpreterImpl : Interpreter {
     fun addToList(value: String) {
         output.add(value)
     }
+
+    // no se si este esta bien
+    fun iterator(): Iterator<String> {
+        return output.iterator()
+    }
+
 }

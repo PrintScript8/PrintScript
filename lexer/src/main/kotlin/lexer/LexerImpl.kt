@@ -28,6 +28,36 @@ class LexerImpl(private val rules: List<TokenRule>) : Lexer {
         return tokens
     }
 
+    override fun iterator(input: String): Iterator<TokenImpl> {
+        return object : Iterator<TokenImpl> {
+            var position = Position(row = 1, startColumn = 1, endColumn = 1)
+            var currentInput = input
+            var nextToken: TokenImpl? = null
+
+            override fun hasNext(): Boolean {
+                if (nextToken == null && currentInput.isNotEmpty()) {
+                    val (token, newPosition, remainingInput) = matchToken(currentInput, position)
+                        ?: throw IllegalArgumentException(
+                            "Unexpected character at row ${position.row}, column ${position.startColumn}"
+                        )
+                    if (token!!.type != Whitespace) {
+                        nextToken = token
+                    }
+                    position = newPosition
+                    currentInput = remainingInput
+                }
+                return nextToken != null
+            }
+
+            override fun next(): TokenImpl {
+                if (!hasNext()) throw NoSuchElementException()
+                val token = nextToken
+                nextToken = null
+                return token!!
+            }
+        }
+    }
+
     private fun matchToken(
         input: String,
         position: Position

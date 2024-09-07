@@ -2,15 +2,12 @@ package type
 
 import interpreter.InterpreterImpl
 import node.PrimType
+import node.Node
 import node.dynamic.DivisionType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.VariableType
-import node.staticpkg.AssignationType
-import node.staticpkg.DeclarationType
-import node.staticpkg.IdentifierType
-import node.staticpkg.ModifierType
-import node.staticpkg.PrintLnType
+import node.staticpkg.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -37,7 +34,9 @@ class DivisionTypeTest {
             LiteralType(LiteralValue.NumberValue(5)),
             null
         )
-        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl())
+        val nodeList: List<Node> = listOf(divisionType)
+        val iterator: Iterator<Node> = nodeList.iterator()
+        val dynamicVisitor = DynamicInterpreterVisitor(InterpreterImpl(iterator))
         divisionType.visit(dynamicVisitor)
         val result: LiteralValue = divisionType.result!!
         assertEquals("0.2", result.toString())
