@@ -44,7 +44,7 @@ class ParserInterfaceTests {
         )
         val parserProvider = ParserProvider(tokenList.iterator())
         val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        val parseList: List<StaticNode> = parserInterface.parse()
+        val parseList: List<StaticNode> = parserInterface.iterator().asSequence().toList()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is DeclarationType)
@@ -70,7 +70,7 @@ class ParserInterfaceTests {
         )
         val parserProvider = ParserProvider(tokenList.iterator())
         val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        val parseList: List<StaticNode> = parserInterface.parse()
+        val parseList: List<StaticNode> = parserInterface.iterator().asSequence().toList()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is AssignationType)
@@ -104,7 +104,7 @@ class ParserInterfaceTests {
         )
         val parserProvider = ParserProvider(tokenList.iterator())
         val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        val parseList: List<StaticNode> = parserInterface.parse()
+        val parseList: List<StaticNode> = parserInterface.iterator().asSequence().toList()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is AssignationType)
@@ -138,7 +138,7 @@ class ParserInterfaceTests {
         )
         val parserProvider = ParserProvider(tokenList.iterator())
         val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        val parseList: List<StaticNode> = parserInterface.parse()
+        val parseList: List<StaticNode> = parserInterface.iterator().asSequence().toList()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is AssignationType)
@@ -173,7 +173,7 @@ class ParserInterfaceTests {
         )
         val parserProvider = ParserProvider(tokenList.iterator())
         val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        val parseList: List<StaticNode> = parserInterface.parse()
+        val parseList: List<StaticNode> = parserInterface.iterator().asSequence().toList()
         Assertions.assertEquals(2, parseList.size)
         val declarationNode: StaticNode = parseList[0]
         Assertions.assertTrue(declarationNode is DeclarationType)
@@ -202,7 +202,7 @@ class ParserInterfaceTests {
         )
         val parserProvider = ParserProvider(tokenList.iterator())
         val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        val parseList: List<StaticNode> = parserInterface.parse()
+        val parseList: List<StaticNode> = parserInterface.iterator().asSequence().toList()
         Assertions.assertEquals(1, parseList.size)
         val headNode: PrintLnType = parseList[0] as PrintLnType
         Assertions.assertTrue(headNode.argument is LiteralType)
@@ -221,7 +221,7 @@ class ParserInterfaceTests {
         )
         val parserProvider = ParserProvider(tokenList.iterator())
         val parserInterface2: ParserInterface = parserProvider.getParser("1.1")
-        val parseList: List<StaticNode> = parserInterface2.parse()
+        val parseList: List<StaticNode> = parserInterface2.iterator().asSequence().toList()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is DeclarationType)
@@ -245,7 +245,7 @@ class ParserInterfaceTests {
         )
         val parserProvider = ParserProvider(tokenList.iterator())
         val parserInterface2: ParserInterface = parserProvider.getParser("1.1")
-        val parseList: List<StaticNode> = parserInterface2.parse()
+        val parseList: List<StaticNode> = parserInterface2.iterator().asSequence().toList()
         Assertions.assertEquals(1, parseList.size)
         val headNode: StaticNode = parseList[0]
         Assertions.assertTrue(headNode is AssignationType)

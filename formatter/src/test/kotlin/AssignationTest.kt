@@ -43,7 +43,7 @@ class AssignationTest {
                 numberZero
             )
 
-        val result = formatter.execute(listOf(assignationTree, assignationTree2))
+        val result = formatter.execute(listOf(assignationTree, assignationTree2).iterator())
         val expected = "val name: string = \"Tomy\";\n" +
             "let i: number = 0;"
 

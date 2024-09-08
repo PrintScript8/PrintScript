@@ -8,8 +8,9 @@ class FormatterImpl : Formatter {
     private val visitor = StaticFormatterVisitor(this)
     private val output: MutableList<String> = mutableListOf()
 
-    override fun execute(list: List<StaticNode>): String {
-        for (node in list) {
+    override fun execute(iterator: Iterator<StaticNode>): String {
+        while (iterator.hasNext()) {
+            val node = iterator.next()
             node.visit(visitor)
             output.add(visitor.getOutput() + ";")
         }

@@ -13,8 +13,9 @@ class LinterImpl : Linter {
     private val linterVisitor: LinterVisitor = LinterVisitor(LiteralRule(), CamelCaseRule(), this)
     private val log: MutableList<Error> = mutableListOf()
 
-    override fun lint(list: List<StaticNode>): List<Error> {
-        for (node in list) {
+    override fun lint(iterator: Iterator<StaticNode>): List<Error> {
+        while (iterator.hasNext()) {
+            val node = iterator.next()
             node.visit(linterVisitor)
         }
         return log

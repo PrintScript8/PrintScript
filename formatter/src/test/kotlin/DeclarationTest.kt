@@ -24,7 +24,7 @@ class DeclarationTest {
             "i"
         )
 
-        val result = formatter.execute(listOf(nameDeclaration, variableDeclaration))
+        val result = formatter.execute(listOf(nameDeclaration, variableDeclaration).iterator())
         val expected = "val name: string;\n" +
             "let i: string;"
 

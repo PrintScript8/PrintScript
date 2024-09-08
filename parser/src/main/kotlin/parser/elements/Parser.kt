@@ -7,10 +7,8 @@ import token.TokenInterface
 
 class Parser(private val tokenHandler: TokenHandler, private val iterator: Iterator<TokenInterface>) : ParserInterface {
 
-    // Este metodo parse ahora usará el iterador que se pasa al constructor
-    // No necesita recibir el iterador como parámetro
-    override fun parse(): List<StaticNode> {
-        val astList = mutableListOf<StaticNode>()
+    // Este metodo parse ahora procesará un solo statement
+    override fun parse(): StaticNode? {
         val statementTokens = mutableListOf<TokenInterface>()
         var currentToken: TokenInterface? = null
 
@@ -20,35 +18,39 @@ class Parser(private val tokenHandler: TokenHandler, private val iterator: Itera
             statementTokens.add(currentToken)
             if (currentToken.type == Ending) {
                 // Lógica de parseo
-                astList.addAll(parseStatement(statementTokens)) // El parseStatement se encarga del parseo del statement
+                val statementNodes = parseStatement(statementTokens)
                 statementTokens.clear()
+                return statementNodes.firstOrNull() // Devuelve el primer StaticNode del statement
             }
         }
-
-        require(currentToken != null) { "No tokens received to parse" }
-        require(statementTokens.isEmpty()) { "Missing ';' at: ${currentToken.position}" }
-        return astList
+        return if (currentToken == null) {
+            null
+        } else {
+            require(statementTokens.isEmpty()) { "Missing ';' at: ${currentToken.position}" }
+            null
+        }
     }
 
-    // Met odo que devuelve un iterador para el AST construido
     override fun iterator(): Iterator<StaticNode> {
         return object : Iterator<StaticNode> {
-            private val astList = parse() // Usa el met odo parse sin pasar tokens
-            private var currentIndex = 0
+            private var nextNode: StaticNode? = null
 
             override fun hasNext(): Boolean {
-                return currentIndex < astList.size
+                if (nextNode == null) {
+                    nextNode = parse()
+                }
+                return nextNode != null
             }
 
             override fun next(): StaticNode {
                 if (!hasNext()) throw NoSuchElementException()
-                return astList[currentIndex++]
+                val currentNode = nextNode
+                nextNode = null
+                return currentNode!!
             }
         }
     }
 
-    // Met odo privado que parsea un statement
-    // Se renombra para mayor claridad: parse -> parseStatement
     private fun parseStatement(tokens: List<TokenInterface>): List<StaticNode> {
         var i = 0
         val astList: MutableList<StaticNode> = mutableListOf()
@@ -65,7 +67,6 @@ class Parser(private val tokenHandler: TokenHandler, private val iterator: Itera
         return astList
     }
 
-    // Met odo para manejar el token de fin de statement
     private fun handleEnding(
         tokenInterfaces: List<TokenInterface>,
         i: Int,
@@ -84,7 +85,6 @@ class Parser(private val tokenHandler: TokenHandler, private val iterator: Itera
         return i1
     }
 
-    // Met odo para agregar un StaticNode a la lista de AST
     private fun addStaticNodeToAstList(
         statementNodes: MutableList<Node>,
         astList: MutableList<StaticNode>

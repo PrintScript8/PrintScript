@@ -23,7 +23,7 @@ class CamelCaseTest {
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
 
-        assertEquals(linter.lint(listOf(root)), emptyList<Any>())
+        assertEquals(linter.lint(listOf(root).iterator()), emptyList<Any>())
     }
 
     @Test
@@ -37,7 +37,7 @@ class CamelCaseTest {
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
         assertEquals(
-            linter.lint(listOf(root)).first().toString(),
+            linter.lint(listOf(root).iterator()).first().toString(),
             "Error(type=TYPO, message='Declaration name my_created_variable is not in camelCase')"
         )
     }
@@ -53,7 +53,7 @@ class CamelCaseTest {
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
         assertEquals(
-            linter.lint(listOf(root)).first().toString(),
+            linter.lint(listOf(root).iterator()).first().toString(),
             "Error(type=TYPO, message='Declaration name MyCreatedVariable is not in camelCase')"
         )
     }
@@ -69,7 +69,7 @@ class CamelCaseTest {
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
         assertEquals(
-            linter.lint(listOf(root)).first().toString(),
+            linter.lint(listOf(root).iterator()).first().toString(),
             "Error(type=TYPO, message='Declaration name my-created-variable is not in camelCase')"
         )
     }
