@@ -1,5 +1,6 @@
 
 import node.staticpkg.AssignationType
+import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Test
 import runner.Operations
 import java.io.File
@@ -53,5 +54,16 @@ class TestRunner {
 
     private fun readFile(file: File): String {
         return file.readText()
+    }
+
+    @Test
+    fun testPrint() {
+        val input = "println(\"This is a text\");\n" +
+            "println(\"This is a text\");\n" +
+            "println(\"This is a text\");\n" +
+            "println(\"This is a text\");\n" +
+            "println(\"This is a text\");"
+        val runner = Operations(input, "1.0")
+        assertIs<PrintLnType>(runner.validate().get(0))
     }
 }

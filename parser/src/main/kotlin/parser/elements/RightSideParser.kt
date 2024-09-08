@@ -39,7 +39,9 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
         opStack.clear()
         require(expressionQueue.isNotEmpty()) { "Missing assignee in assignment! at ${tokens[index].position}" }
         processQueue(expressionQueue, opStack, tokens, index)
-        return Pair(opStack.pop(), index)
+        val result = Pair(opStack.pop(), index)
+        opStack.clear() // Clear after use
+        return result
     }
 
     private fun processQueue(
