@@ -89,7 +89,8 @@ class Parser(private val tokenHandler: TokenHandler, private val iterator: Itera
         statementNodes: MutableList<Node>,
         astList: MutableList<StaticNode>
     ) {
-        for (node in statementNodes.asReversed()) {
+        for (i in statementNodes.size - 1 downTo 0) {
+            val node = statementNodes[i]
             if (node is StaticNode) {
                 astList.add(node)
                 return
