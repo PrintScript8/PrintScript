@@ -1,6 +1,6 @@
 package type
 
-import interpreter.IntepreterProvider
+import interpreter.InterpreterProvider
 import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -48,7 +48,7 @@ class SumTypeTest {
                 null
             )
         )
-        val interpreter = IntepreterProvider(
+        val interpreter = InterpreterProvider(
             listOf(assignationType, multiplyType).iterator()
         ).provideInterpreter("1.0")
         assertThrows<IllegalArgumentException> {
@@ -71,7 +71,7 @@ class SumTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider(
+        val interpreter = InterpreterProvider(
             listOf(assignationType, printLnType).iterator()
         ).provideInterpreter("1.0")
         val output: List<String> = interpreter.execute()
@@ -93,7 +93,7 @@ class SumTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider(
+        val interpreter = InterpreterProvider(
             listOf(assignationType, printLnType).iterator()
         ).provideInterpreter("1.0")
         val output: List<String> = interpreter.execute()
@@ -119,7 +119,7 @@ class SumTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider(
+        val interpreter = InterpreterProvider(
             listOf(assignationType, sumType, printLnType).iterator()
         ).provideInterpreter("1.0")
         val output: List<String> = interpreter.execute()

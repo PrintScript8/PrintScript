@@ -1,6 +1,6 @@
 package type
 
-import interpreter.IntepreterProvider
+import interpreter.InterpreterProvider
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.staticpkg.PrintLnType
@@ -20,7 +20,7 @@ class NumberTypeTest {
     fun testPrint() {
         val numberType = LiteralType(LiteralValue.NumberValue(1))
         val numberPrintLnType = PrintLnType(numberType)
-        val interpreter = IntepreterProvider(
+        val interpreter = InterpreterProvider(
             listOf(numberPrintLnType).iterator()
         ).provideInterpreter("1.0")
         assertEquals(listOf("1"), interpreter.execute())

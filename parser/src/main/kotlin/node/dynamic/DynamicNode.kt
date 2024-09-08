@@ -11,4 +11,5 @@ sealed interface DynamicNode : Node {
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
         version: String
     ): TypeValue
+    fun format(version: String): String
 }

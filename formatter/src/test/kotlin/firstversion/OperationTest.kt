@@ -1,4 +1,5 @@
-import formatter.FormatterImpl
+package firstversion
+
 import node.PrimType
 import node.dynamic.DivisionType
 import node.dynamic.LiteralType
@@ -13,11 +14,10 @@ import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 import kotlin.test.assertEquals
 
 class OperationTest {
-
-    private val formatter = FormatterImpl()
 
     @Test
     fun testSum() {
@@ -38,7 +38,9 @@ class OperationTest {
             multiplyType
         )
 
-        val result = formatter.execute(listOf(assignation).iterator())
+        val astList = listOf(assignation)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "let a: number = 5 + 5;"
 
         assertEquals(expected, result)
@@ -63,7 +65,9 @@ class OperationTest {
             subtractType
         )
 
-        val result = formatter.execute(listOf(assignation).iterator())
+        val astList = listOf(assignation)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "let a: number = 5 - 5;"
 
         assertEquals(expected, result)
@@ -88,7 +92,9 @@ class OperationTest {
             multiplyType
         )
 
-        val result = formatter.execute(listOf(assignation).iterator())
+        val astList = listOf(assignation)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "let a: number = 5 * 5;"
 
         assertEquals(expected, result)
@@ -113,7 +119,9 @@ class OperationTest {
             divisionType
         )
 
-        val result = formatter.execute(listOf(assignation).iterator())
+        val astList = listOf(assignation)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "let a: number = 5 / 5;"
 
         assertEquals(expected, result)
@@ -143,7 +151,9 @@ class OperationTest {
             multiplyType
         )
 
-        val result = formatter.execute(listOf(assignationType, assignation).iterator())
+        val astList = listOf(assignationType, assignation)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "let a: number = 5;\n" +
             "let a: number = 1 + a;"
 
@@ -192,7 +202,9 @@ class OperationTest {
             multiplyType2
         )
 
-        val result = formatter.execute(listOf(assignation, assignation2).iterator())
+        val astList = listOf(assignation, assignation2)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected =
             "let a: number = 1 + \"x\" * 5;\n" +
                 "let a: number = 1 + a * 5;"

@@ -17,6 +17,10 @@ class PrintLnType(val argument: DynamicNode) : StaticNode {
         return StaticResult(valueMap, listOf(output.value.toString()))
     }
 
+    override fun format(version: String): String {
+        return "println(${argument.format(version)});"
+    }
+
     override fun toString(): String {
         return "PrintLnType(argument='$argument')"
     }

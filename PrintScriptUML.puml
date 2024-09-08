@@ -43,22 +43,6 @@ class LexerImplementation {
 - splitText(splitter: ElementSplitter, text: String): List<Token>
 }
 
-class ElementSplitter {
-- input: String
-+ split(text: String): List<String>
-- isQuote(c: Char): Boolean
-- handleQuote(c: Char): void
-- handleWhitespace(): void
-- isSeparator(c: Char): Boolean
-- handleSeparator(c: Char): void
-- handleOpeningParenthesis(c: Char): void
-- handleClosingParenthesis(c: Char): void
-- handleDefault(c: char): void
-- isDoubleCharOperator(): Boolean
-- addTokenIfNotEmpty(): void
-- addRemainingToken(): void
-}
-
 interface Parser {
 +getAst(tkList: List<Token>): List<Node>
 }

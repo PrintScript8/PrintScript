@@ -1,6 +1,6 @@
 package type
 
-import interpreter.IntepreterProvider
+import interpreter.InterpreterProvider
 import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -46,7 +46,7 @@ class ExpressionTypeTest {
             VariableType("b", null, false)
         )
         val list = listOf(assignationTypeA, assignationTypeB, expressionType)
-        val interpreter = IntepreterProvider(list.iterator()).provideInterpreter("1.0")
+        val interpreter = InterpreterProvider(list.iterator()).provideInterpreter("1.0")
         assertThrows<IllegalArgumentException> {
             interpreter.execute()
         }
@@ -82,7 +82,7 @@ class ExpressionTypeTest {
         )
         val printLnType = PrintLnType(VariableType("a", null, false))
         val list = listOf(assignationTypeA, assignationTypeB, expressionType, printLnType)
-        val interpreter = IntepreterProvider(list.iterator()).provideInterpreter("1.0")
+        val interpreter = InterpreterProvider(list.iterator()).provideInterpreter("1.0")
         assertEquals(listOf("2"), interpreter.execute())
     }
 }

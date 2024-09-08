@@ -1,14 +1,14 @@
-import formatter.FormatterImpl
+package firstversion
+
 import node.PrimType
 import node.staticpkg.DeclarationType
 import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 
 class DeclarationTest {
-
-    private val formatter = FormatterImpl()
 
     @Test
     fun declaration() {
@@ -24,7 +24,9 @@ class DeclarationTest {
             "i"
         )
 
-        val result = formatter.execute(listOf(nameDeclaration, variableDeclaration).iterator())
+        val astList = listOf(nameDeclaration, variableDeclaration)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "val name: string;\n" +
             "let i: string;"
 

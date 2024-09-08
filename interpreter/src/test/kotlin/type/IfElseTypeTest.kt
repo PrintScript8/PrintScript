@@ -1,6 +1,6 @@
 package type
 
-import interpreter.IntepreterProvider
+import interpreter.InterpreterProvider
 import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -44,10 +44,10 @@ class IfElseTypeTest {
 
         // Act
         val validInput = listOf(ifElseType, printLnTypeLeft)
-        val validInterpreter = IntepreterProvider(validInput.iterator()).provideInterpreter(version)
+        val validInterpreter = InterpreterProvider(validInput.iterator()).provideInterpreter(version)
 
         val invalidInput = listOf(ifElseType, printLnTypeRight)
-        val invalidInterpreter = IntepreterProvider(invalidInput.iterator()).provideInterpreter(version)
+        val invalidInterpreter = InterpreterProvider(invalidInput.iterator()).provideInterpreter(version)
 
         // Assert
         assertEquals(listOf("1"), validInterpreter.execute())
@@ -84,10 +84,10 @@ class IfElseTypeTest {
 
         // Act
         val validInput = listOf(ifElseType, printLnTypeRight)
-        val validInterpreter = IntepreterProvider(validInput.iterator()).provideInterpreter(version)
+        val validInterpreter = InterpreterProvider(validInput.iterator()).provideInterpreter(version)
 
         val invalidInput = listOf(ifElseType, printLnTypeLeft)
-        val invalidInterpreter = IntepreterProvider(invalidInput.iterator()).provideInterpreter(version)
+        val invalidInterpreter = InterpreterProvider(invalidInput.iterator()).provideInterpreter(version)
 
         // Assert
         assertEquals(listOf("3"), validInterpreter.execute())
@@ -124,10 +124,10 @@ class IfElseTypeTest {
 
         // Act
         val validInput = listOf(ifElseType, printLnTypeLeft)
-        val validInterpreter = IntepreterProvider(validInput.iterator()).provideInterpreter(version)
+        val validInterpreter = InterpreterProvider(validInput.iterator()).provideInterpreter(version)
 
         val invalidInput = listOf(ifElseType, printLnTypeRight)
-        val invalidInterpreter = IntepreterProvider(invalidInput.iterator()).provideInterpreter(version)
+        val invalidInterpreter = InterpreterProvider(invalidInput.iterator()).provideInterpreter(version)
 
         // Assert
         assertEquals(listOf("1"), validInterpreter.execute())

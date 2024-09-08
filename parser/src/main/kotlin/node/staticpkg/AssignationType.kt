@@ -18,6 +18,11 @@ class AssignationType(val declaration: DeclarationType, val value: DynamicNode) 
         return StaticResult(updateValueMap(map, declaration.name, output), emptyList())
     }
 
+    override fun format(version: String): String {
+        val decl = (declaration.format(version)).dropLast(1)
+        return "$decl = ${value.format(version)};"
+    }
+
     override fun toString(): String {
         return "AssignationType(declaration='$declaration', value=$value)"
     }

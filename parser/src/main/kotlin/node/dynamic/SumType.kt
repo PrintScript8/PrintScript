@@ -16,6 +16,10 @@ class SumType(val left: DynamicNode, val right: DynamicNode, override var result
         return TypeValue(left.value!! + right.value!!, type)
     }
 
+    override fun format(version: String): String {
+        return "${left.format(version)} + ${right.format(version)}"
+    }
+
     override fun toString(): String {
         return "SumType(left='$left', right=$right)"
     }

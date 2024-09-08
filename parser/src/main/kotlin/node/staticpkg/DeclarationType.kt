@@ -19,6 +19,10 @@ class DeclarationType(val modifier: ModifierType, val type: IdentifierType, val 
         return StaticResult(newMap, emptyList())
     }
 
+    override fun format(version: String): String {
+        return "${modifier.format(version)} $name: ${type.format(version)};"
+    }
+
     override fun toString(): String {
         return "DeclarationType( \n modifier= '$modifier' , type= $type \n, name= $name \n)"
     }

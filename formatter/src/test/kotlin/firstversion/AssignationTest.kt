@@ -1,4 +1,5 @@
-import formatter.FormatterImpl
+package firstversion
+
 import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -9,10 +10,9 @@ import node.staticpkg.ModifierType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 
 class AssignationTest {
-
-    private val formatter = FormatterImpl()
 
     @Test
     fun testAssignation() {
@@ -43,7 +43,9 @@ class AssignationTest {
                 numberZero
             )
 
-        val result = formatter.execute(listOf(assignationTree, assignationTree2).iterator())
+        val astList = listOf(assignationTree, assignationTree2)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "val name: string = \"Tomy\";\n" +
             "let i: number = 0;"
 

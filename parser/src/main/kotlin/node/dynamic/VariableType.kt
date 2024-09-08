@@ -13,6 +13,10 @@ class VariableType(val name: String, override var result: LiteralValue?, var can
         return valueMap[name]!!.second
     }
 
+    override fun format(version: String): String {
+        return name
+    }
+
     override fun toString(): String {
         return "VariableType(name='$name')"
     }

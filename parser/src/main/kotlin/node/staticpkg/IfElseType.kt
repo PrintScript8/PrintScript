@@ -21,4 +21,14 @@ class IfElseType(
             elseBranch.run(valueMap, version)
         }
     }
+
+    override fun format(version: String): String {
+        val ifBody: String = ifBranch.format(version)
+        val elseBody: String = elseBranch.format(version)
+        return "if ($boolean) {\n" +
+            "    $ifBody\n" +
+            "} else {\n" +
+            "    $elseBody\n" +
+            "}"
+    }
 }

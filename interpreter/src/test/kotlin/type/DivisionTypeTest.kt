@@ -1,6 +1,6 @@
 package type
 
-import interpreter.IntepreterProvider
+import interpreter.InterpreterProvider
 import node.PrimType
 import node.dynamic.DivisionType
 import node.dynamic.LiteralType
@@ -48,7 +48,7 @@ class DivisionTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider(
+        val interpreter = InterpreterProvider(
             listOf(
                 assignationType, divisionType, printLnType
             ).iterator()
@@ -78,7 +78,7 @@ class DivisionTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider(
+        val interpreter = InterpreterProvider(
             listOf(
                 assignationType, divisionType, printLnType
             ).iterator()

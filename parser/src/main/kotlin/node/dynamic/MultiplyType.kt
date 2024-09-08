@@ -14,6 +14,10 @@ class MultiplyType(val left: DynamicNode, val right: DynamicNode, override var r
         return TypeValue(left.value!! * right.value!!, left.type)
     }
 
+    override fun format(version: String): String {
+        return "${left.format(version)} * ${right.format(version)}"
+    }
+
     override fun toString(): String {
         return "MultiplyType(left='$left', right=$right)"
     }
