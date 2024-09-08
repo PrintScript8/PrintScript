@@ -26,13 +26,17 @@ import java.util.Stack
 
 class RightSideParser(private val allowedTypes: Set<TokenType>) {
 
+    private val opStack = Stack<DynamicNode>()
+    private val tokenStack = Stack<TokenInterface>()
+    private val queue = LinkedList<TokenInterface>()
+
     fun parseRightHandSide(
         tokens: List<TokenInterface>,
         startIndex: Int,
         endTokenType: TokenType
     ): Pair<DynamicNode, Int> {
         val (expressionQueue, index) = buildQueue(tokens, startIndex, endTokenType)
-        val opStack = Stack<DynamicNode>()
+        opStack.clear()
         require(expressionQueue.isNotEmpty()) { "Missing assignee in assignment! at ${tokens[index].position}" }
         processQueue(expressionQueue, opStack, tokens, index)
         return Pair(opStack.pop(), index)
@@ -105,19 +109,19 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
     private fun buildQueue(tokens: List<TokenInterface>, startIndex: Int, endTokenType: TokenType):
         Pair<Queue<TokenInterface>, Int> {
         var currentIndex = startIndex
-        val stack = Stack<TokenInterface>()
-        val queue = LinkedList<TokenInterface>()
+        tokenStack.clear()
+        queue.clear()
 
         while (currentIndex < tokens.size && tokens[currentIndex].type != endTokenType) {
             val token = tokens[currentIndex]
-            handleToken(token, stack, queue, tokens, currentIndex)
+            handleToken(token, tokenStack, queue, tokens, currentIndex)
             currentIndex++
         }
-        while (stack.isNotEmpty()) {
+        while (tokenStack.isNotEmpty()) {
             require(queue.peek().type != OpenParenthesis) {
                 "Parenthesis was opened and never closed at at ${tokens[currentIndex].position}"
             }
-            queue.add(stack.pop())
+            queue.add(tokenStack.pop())
         }
         return Pair(queue, currentIndex)
     }
