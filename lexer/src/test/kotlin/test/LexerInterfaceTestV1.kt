@@ -90,7 +90,7 @@ class LexerInterfaceTestV1 {
             Token(Modifier, "let", Position(1, 1, 3)),
             Token(Identifier, "a", Position(1, 5, 5)),
             Token(Declaration, ":", Position(1, 6, 6)),
-            Token(TypeId, "Number", Position(1, 8, 13)),
+            Token(TypeId, "number", Position(1, 8, 13)),
             Token(Assignment, "=", Position(1, 15, 15)),
             Token(NativeMethod, "println", Position(1, 17, 23)),
             Token(OpenParenthesis, "(", Position(1, 24, 24)),

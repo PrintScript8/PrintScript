@@ -6,21 +6,20 @@ import token.Position
 import token.Token
 import token.TokenInterface
 
-class ModifierRule : TokenRule {
-    override fun match(input: String, position: Position): TokenInterface? {
-        val modifierKeywords = listOf("let", "const")
-        for (keyword in modifierKeywords) {
-            if (input.startsWith(keyword)) {
-                return Token(
-                    Modifier, keyword,
-                    Position(
-                        position.row,
-                        position.startColumn,
-                        position.startColumn + keyword.length - 1
-                    )
-                )
+abstract class ModifierRule(private val keyword: String) : TokenRule {
+    override fun match(input: String, currentIndex: Int, position: Position): TokenInterface? {
+        for (i in keyword.indices) {
+            if (currentIndex + i >= input.length || input[currentIndex + i] != keyword[i]) {
+                return null
             }
         }
-        return null
+        return Token(
+            Modifier, keyword,
+            Position(
+                position.row,
+                position.startColumn,
+                position.startColumn + keyword.length - 1
+            )
+        )
     }
 }

@@ -4,5 +4,5 @@ import token.Position
 import token.TokenInterface
 
 interface TokenRule {
-    fun match(input: String, position: Position): TokenInterface?
+    fun match(input: String, currentIndex: Int, position: Position): TokenInterface?
 }

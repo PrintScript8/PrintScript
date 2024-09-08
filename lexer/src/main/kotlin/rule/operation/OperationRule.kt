@@ -10,42 +10,39 @@ import token.Token
 import token.TokenInterface
 import token.TokenType
 
-// Define una interfaz para operaciones
 interface Operation {
-    val symbol: String
+    val symbol: Char
     val tokenType: TokenType
 }
 
-// Implementa las operaciones básicas
 object PlusOperation : Operation {
-    override val symbol = "+"
+    override val symbol = '+'
     override val tokenType = Plus
 }
 
 object MinusOperation : Operation {
-    override val symbol = "-"
+    override val symbol = '-'
     override val tokenType = Minus
 }
 
 object MultiplyOperation : Operation {
-    override val symbol = "*"
+    override val symbol = '*'
     override val tokenType = Multiply
 }
 
 object DivideOperation : Operation {
-    override val symbol = "/"
+    override val symbol = '/'
     override val tokenType = Divide
 }
 
-// Implementa la regla para operaciones
 class OperationRule(private val operations: List<Operation>) : TokenRule {
 
-    override fun match(input: String, position: Position): TokenInterface? {
+    override fun match(input: String, currentIndex: Int, position: Position): TokenInterface? {
         for (operation in operations) {
-            if (input.startsWith(operation.symbol)) {
+            if (input[currentIndex] == operation.symbol) {
                 return Token(
                     operation.tokenType,
-                    operation.symbol,
+                    (operation.symbol).toString(),
                     Position(position.row, position.startColumn, position.startColumn)
                 )
             }
