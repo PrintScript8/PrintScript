@@ -89,4 +89,13 @@ class LiteralType(override var result: LiteralValue?) : DynamicNode {
             else -> error("Unsupported type")
         }
     }
+
+    override fun format(version: String): String {
+        return when (result) {
+            is LiteralValue.BooleanValue -> result.toString()
+            is LiteralValue.NumberValue -> result.toString()
+            is LiteralValue.StringValue -> "\"${result}\""
+            null -> error("Unsupported type")
+        }
+    }
 }

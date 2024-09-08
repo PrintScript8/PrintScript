@@ -1,6 +1,6 @@
 package type
 
-import interpreter.IntepreterProvider
+import interpreter.InterpreterProvider
 import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -48,7 +48,7 @@ class SubtractTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider(
+        val interpreter = InterpreterProvider(
             listOf(assignationType, substractType, printLnType).iterator()
         ).provideInterpreter("1.0")
         assertThrows<IllegalArgumentException> {
@@ -75,7 +75,7 @@ class SubtractTypeTest {
             )
         )
         val printLnType = PrintLnType(VariableType("a", null, true))
-        val interpreter = IntepreterProvider(
+        val interpreter = InterpreterProvider(
             listOf(assignationType, substractType, printLnType).iterator()
         ).provideInterpreter("1.0")
         val output: List<String> = interpreter.execute()

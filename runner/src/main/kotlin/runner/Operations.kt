@@ -1,16 +1,16 @@
 package runner
 
 import error.Error
-import formatter.Formatter
-import formatter.FormatterImpl
-import interpreter.IntepreterProvider
+import formatter.FormatterInterface
 import interpreter.Interpreter
+import interpreter.InterpreterProvider
 import lexer.Lexer
 import lexer.LexerInterface
 import linter.LinterProvider
 import node.staticpkg.StaticNode
 import parser.elements.ParserInterface
 import parser.elements.ParserProvider
+import provider.FormatterProvider
 import rule.basic.EndingRule
 import rule.basic.IdentifierRule
 import rule.basic.LetRule
@@ -62,7 +62,7 @@ class Operations(private val sourceFile: String, private val version: String) {
         val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
         val tokenIterator = lexer.iterator()
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
-        val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
+        val interpreter: Interpreter = InterpreterProvider(parser.iterator()).provideInterpreter(version)
         return interpreter.execute()
     }
 
@@ -70,9 +70,8 @@ class Operations(private val sourceFile: String, private val version: String) {
         val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
         val tokenIterator = lexer.iterator()
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
-        // val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
-        val formatter: Formatter = FormatterImpl()
-        return formatter.execute(parser.parse())
+        val formatter: FormatterInterface = FormatterProvider(parser.iterator()).provideFormatter(version)
+        return formatter.format()
     }
 
     fun analyze(): List<Error> {

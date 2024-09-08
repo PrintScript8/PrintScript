@@ -20,6 +20,10 @@ class ExpressionType(val variable: VariableType, val value: DynamicNode) : Stati
         return StaticResult(updatedMap, emptyList())
     }
 
+    override fun format(version: String): String {
+        return "${variable.format(version)} = ${value.format(version)};"
+    }
+
     override fun toString(): String {
         return "ExpressionType(variable='$variable', value=$value)"
     }

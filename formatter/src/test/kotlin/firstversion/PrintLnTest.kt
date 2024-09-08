@@ -1,4 +1,5 @@
-import formatter.FormatterImpl
+package firstversion
+
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.MultiplyType
@@ -9,10 +10,9 @@ import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 
-class PrintTest {
-
-    private val formatter = FormatterImpl()
+class PrintLnTest {
 
     @Test
     fun printTestWithString() {
@@ -21,7 +21,9 @@ class PrintTest {
         )
         assertNotNull(printType)
 
-        val result = formatter.execute(listOf(printType))
+        val astList = listOf(printType)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "println(\"Hello, World!\");"
 
         assertEquals(expected, result)
@@ -37,7 +39,9 @@ class PrintTest {
 
         val printType: StaticNode = PrintLnType(sum)
 
-        val result = formatter.execute(listOf(printType))
+        val astList = listOf(printType)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "println(1 + 2);"
 
         assertEquals(expected, result)
@@ -48,7 +52,9 @@ class PrintTest {
         val variable = VariableType("a", null, false)
         val printType: StaticNode = PrintLnType(variable)
 
-        val result = formatter.execute(listOf(printType))
+        val astList = listOf(printType)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "println(a);"
 
         assertEquals(expected, result)
@@ -70,7 +76,9 @@ class PrintTest {
 
         val printType: StaticNode = PrintLnType(SumType(sum, multiply, null))
 
-        val result = formatter.execute(listOf(printType))
+        val astList = listOf(printType)
+        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
+        val result = formatter.format()
         val expected = "println(x + \"y\" + 3 * 4);"
 
         assertEquals(expected, result)
