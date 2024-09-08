@@ -15,7 +15,7 @@ class LiteralArgumentTest {
             LiteralType(LiteralValue.StringValue("Hello World"))
         )
 
-        assertEquals(linter.lint(listOf(root)), emptyList<Any>())
+        assertEquals(linter.lint(listOf(root).iterator()), emptyList<Any>())
     }
 
     @Test
@@ -24,7 +24,7 @@ class LiteralArgumentTest {
             LiteralType(LiteralValue.NumberValue(5))
         )
 
-        assertEquals(linter.lint(listOf(root)), emptyList<Any>())
+        assertEquals(linter.lint(listOf(root).iterator()), emptyList<Any>())
     }
 
     @Test
@@ -38,7 +38,7 @@ class LiteralArgumentTest {
         )
 
         assertEquals(
-            linter.lint(listOf(root)).first().toString(),
+            linter.lint(listOf(root).iterator()).first().toString(),
             "Error(type=ERROR, message='Only literal is allowed as argument')"
         )
     }

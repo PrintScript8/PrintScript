@@ -18,7 +18,7 @@ class ExpressionTest {
             LiteralType(LiteralValue.NumberValue(10))
         )
 
-        val result = formatter.execute(listOf(expression))
+        val result = formatter.execute(listOf(expression).iterator())
         val expected = "name = 10;"
 
         assertEquals(expected, result)

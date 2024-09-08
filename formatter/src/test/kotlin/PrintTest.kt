@@ -21,7 +21,7 @@ class PrintTest {
         )
         assertNotNull(printType)
 
-        val result = formatter.execute(listOf(printType))
+        val result = formatter.execute(listOf(printType).iterator())
         val expected = "println(\"Hello, World!\");"
 
         assertEquals(expected, result)
@@ -37,7 +37,7 @@ class PrintTest {
 
         val printType: StaticNode = PrintLnType(sum)
 
-        val result = formatter.execute(listOf(printType))
+        val result = formatter.execute(listOf(printType).iterator())
         val expected = "println(1 + 2);"
 
         assertEquals(expected, result)
@@ -48,7 +48,7 @@ class PrintTest {
         val variable = VariableType("a", null, false)
         val printType: StaticNode = PrintLnType(variable)
 
-        val result = formatter.execute(listOf(printType))
+        val result = formatter.execute(listOf(printType).iterator())
         val expected = "println(a);"
 
         assertEquals(expected, result)
@@ -70,7 +70,7 @@ class PrintTest {
 
         val printType: StaticNode = PrintLnType(SumType(sum, multiply, null))
 
-        val result = formatter.execute(listOf(printType))
+        val result = formatter.execute(listOf(printType).iterator())
         val expected = "println(x + \"y\" + 3 * 4);"
 
         assertEquals(expected, result)

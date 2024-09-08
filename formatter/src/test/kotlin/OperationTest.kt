@@ -38,7 +38,7 @@ class OperationTest {
             multiplyType
         )
 
-        val result = formatter.execute(listOf(assignation))
+        val result = formatter.execute(listOf(assignation).iterator())
         val expected = "let a: number = 5 + 5;"
 
         assertEquals(expected, result)
@@ -63,7 +63,7 @@ class OperationTest {
             subtractType
         )
 
-        val result = formatter.execute(listOf(assignation))
+        val result = formatter.execute(listOf(assignation).iterator())
         val expected = "let a: number = 5 - 5;"
 
         assertEquals(expected, result)
@@ -88,7 +88,7 @@ class OperationTest {
             multiplyType
         )
 
-        val result = formatter.execute(listOf(assignation))
+        val result = formatter.execute(listOf(assignation).iterator())
         val expected = "let a: number = 5 * 5;"
 
         assertEquals(expected, result)
@@ -113,7 +113,7 @@ class OperationTest {
             divisionType
         )
 
-        val result = formatter.execute(listOf(assignation))
+        val result = formatter.execute(listOf(assignation).iterator())
         val expected = "let a: number = 5 / 5;"
 
         assertEquals(expected, result)
@@ -143,7 +143,7 @@ class OperationTest {
             multiplyType
         )
 
-        val result = formatter.execute(listOf(assignationType, assignation))
+        val result = formatter.execute(listOf(assignationType, assignation).iterator())
         val expected = "let a: number = 5;\n" +
             "let a: number = 1 + a;"
 
@@ -192,7 +192,7 @@ class OperationTest {
             multiplyType2
         )
 
-        val result = formatter.execute(listOf(assignation, assignation2))
+        val result = formatter.execute(listOf(assignation, assignation2).iterator())
         val expected =
             "let a: number = 1 + \"x\" * 5;\n" +
                 "let a: number = 1 + a * 5;"
