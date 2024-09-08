@@ -55,7 +55,7 @@ class Operations(private val sourceFile: String, private val version: String) {
         val lexer: LexerInterface = Lexer(lexerRules, sourceFile)
         val tokenIterator = lexer.iterator()
         val parser: ParserInterface = ParserProvider(tokenIterator).getParser(version)
-        return parser.parse()
+        return parser.iterator().asSequence().toList()
     }
 
     fun execute(): List<String> {
@@ -81,6 +81,6 @@ class Operations(private val sourceFile: String, private val version: String) {
         // val interpreter: Interpreter = IntepreterProvider(parser.iterator()).provideInterpreter(version)
         // val formatter: Formatter = FormatterImpl()
         val linter = LinterProvider().provideLinter("{ \"case\": \"camelCase\" , \"argument\": \"literal\" }")
-        return linter.lint(parser.parse())
+        return linter.lint(parser.iterator())
     }
 }
