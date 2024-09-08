@@ -1,12 +1,13 @@
-package rule.inherent
+package rule.control
 
 import rule.TokenRule
-import token.NativeMethod
+import token.Else
+import token.If
 import token.Position
 import token.Token
 import token.TokenInterface
 
-abstract class BaseNativeMethodRule(private val keyword: String) : TokenRule {
+abstract class ConditionalRule(private val keyword: String) : TokenRule {
     override fun match(input: String, currentIndex: Int, position: Position): TokenInterface? {
         val lastIndex = currentIndex + keyword.length
         var token: TokenInterface? = null
@@ -19,9 +20,10 @@ abstract class BaseNativeMethodRule(private val keyword: String) : TokenRule {
                     break
                 }
             }
-            if (match && isValidNextChar(input, lastIndex)) {
+            if (match && (lastIndex == input.length || input[lastIndex].isWhitespace())) {
+                val tokenType = if (keyword == "if") If else Else
                 token = Token(
-                    NativeMethod, keyword,
+                    tokenType, keyword,
                     Position(
                         position.row,
                         position.startColumn,
@@ -31,9 +33,5 @@ abstract class BaseNativeMethodRule(private val keyword: String) : TokenRule {
             }
         }
         return token
-    }
-
-    private fun isValidNextChar(input: String, lastIndex: Int): Boolean {
-        return lastIndex == input.length || input[lastIndex] == ' ' || input[lastIndex] == '('
     }
 }

@@ -7,15 +7,14 @@ import token.TokenInterface
 import token.Whitespace
 
 class WhiteSpaceRule : TokenRule {
-    override fun match(input: String, position: Position): TokenInterface? {
-        val regex = Regex("^\\s+")
-        val matchResult = regex.find(input) ?: return null
-        val tokenText = matchResult.value
-        val length = tokenText.length
-        return Token(
-            Whitespace,
-            tokenText,
-            Position(position.row, position.startColumn, position.startColumn + length - 1)
-        )
+    override fun match(input: String, currentIndex: Int, position: Position): TokenInterface? {
+        if (currentIndex < input.length && input[currentIndex].isWhitespace()) {
+            return Token(
+                Whitespace,
+                input[currentIndex].toString(),
+                Position(position.row, position.startColumn, position.startColumn + 1)
+            )
+        }
+        return null
     }
 }

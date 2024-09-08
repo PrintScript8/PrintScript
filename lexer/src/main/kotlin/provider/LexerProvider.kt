@@ -3,10 +3,10 @@ package provider
 import lexer.Lexer
 import lexer.LexerInterface
 import rule.TokenRule
+import rule.basic.ConstRule
 import rule.basic.EndingRule
 import rule.basic.IdentifierRule
-import rule.basic.ModifierRule
-import rule.basic.TypeIdRule
+import rule.basic.LetRule
 import rule.basic.WhiteSpaceRule
 import rule.control.BraceRule
 import rule.control.CloseBraceRule
@@ -29,16 +29,18 @@ import rule.operation.MinusOperation
 import rule.operation.MultiplyOperation
 import rule.operation.OperationRule
 import rule.operation.PlusOperation
+import rule.typeid.BooleanIdRule
+import rule.typeid.NumberIdRule
+import rule.typeid.StringIdRule
 
 class LexerProvider(private val input: String) {
 
     private fun commonRules(): List<TokenRule> = listOf(
         WhiteSpaceRule(),
-        ModifierRule(),
+        LetRule(),
         PrintlnRule(),
-        ReadInputRule(),
-        ReadEnvRule(),
-        TypeIdRule(),
+        StringIdRule(),
+        NumberIdRule(),
         IdentifierRule(),
         NumberLiteralRule(),
         StringLiteralRule(),
@@ -52,8 +54,12 @@ class LexerProvider(private val input: String) {
     private val rulesV1: List<TokenRule> = commonRules()
 
     private val rulesV2: List<TokenRule> = listOf(
+        BooleanIdRule(),
         IfRule(),
         ElseRule(),
+        ConstRule(),
+        ReadInputRule(),
+        ReadEnvRule(),
         BraceRule(listOf(OpenBraceRule, CloseBraceRule)),
         BooleanLiteralRule()
     ) + commonRules()

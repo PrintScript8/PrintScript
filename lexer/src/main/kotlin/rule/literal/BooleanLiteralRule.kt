@@ -1,18 +1,19 @@
 package rule.literal
 
 import rule.TokenRule
-import token.Boolean
 import token.Position
 import token.Token
 import token.TokenInterface
 
 class BooleanLiteralRule : TokenRule {
-    override fun match(input: String, position: Position): TokenInterface? {
+    override fun match(input: String, currentIndex: Int, position: Position): TokenInterface? {
         val boolKeywords = listOf("true", "false")
         for (keyword in boolKeywords) {
-            if (input.startsWith(keyword)) {
+            if (currentIndex + keyword.length > input.length) continue
+
+            if (isMatch(input, currentIndex, keyword)) {
                 return Token(
-                    Boolean, keyword,
+                    token.Boolean, keyword,
                     Position(
                         position.row,
                         position.startColumn,
@@ -22,5 +23,14 @@ class BooleanLiteralRule : TokenRule {
             }
         }
         return null
+    }
+
+    private fun isMatch(input: String, currentIndex: Int, keyword: String): kotlin.Boolean {
+        for (i in keyword.indices) {
+            if (input[currentIndex + i] != keyword[i]) {
+                return false
+            }
+        }
+        return true
     }
 }

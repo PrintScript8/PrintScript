@@ -13,8 +13,7 @@ import parser.elements.ParserInterface
 import parser.elements.ParserProvider
 import rule.basic.EndingRule
 import rule.basic.IdentifierRule
-import rule.basic.ModifierRule
-import rule.basic.TypeIdRule
+import rule.basic.LetRule
 import rule.basic.WhiteSpaceRule
 import rule.control.CloseParenthesisRule
 import rule.control.OpenParenthesisRule
@@ -29,13 +28,18 @@ import rule.operation.MinusOperation
 import rule.operation.MultiplyOperation
 import rule.operation.OperationRule
 import rule.operation.PlusOperation
+import rule.typeid.BooleanIdRule
+import rule.typeid.NumberIdRule
+import rule.typeid.StringIdRule
 
 class Operations(private val sourceFile: String, private val version: String) {
 
     private val lexerRules = listOf(
-        ModifierRule(),
+        LetRule(),
         PrintlnRule(),
-        TypeIdRule(),
+        NumberIdRule(),
+        BooleanIdRule(),
+        StringIdRule(),
         WhiteSpaceRule(),
         IdentifierRule(),
         NumberLiteralRule(),
