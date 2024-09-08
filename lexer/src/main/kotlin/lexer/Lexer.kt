@@ -16,7 +16,7 @@ class Lexer(private val rules: List<TokenRule>, private val input: String) : Lex
 
             override fun hasNext(): Boolean {
                 if (nextToken == null && currentIndex < input.length) {
-                    val (token, newPosition, updatedIndex) = matchToken(input, position, currentIndex)
+                    val (token, newPosition, updatedIndex) = matchToken(position, currentIndex)
                         ?: throw IllegalArgumentException(
                             "Unexpected character at row ${position.row}, column ${position.startColumn}"
                         )
@@ -42,7 +42,6 @@ class Lexer(private val rules: List<TokenRule>, private val input: String) : Lex
     }
 
     private fun matchToken(
-        input: String,
         position: Position,
         currentIndex: Int
     ): Triple<Token?, Position, Int>? {
