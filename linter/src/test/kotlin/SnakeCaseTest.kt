@@ -1,3 +1,4 @@
+import linter.Linter
 import linter.LinterProvider
 import node.PrimType
 import node.dynamic.LiteralType
@@ -10,7 +11,11 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class SnakeCaseTest {
-    private val linter = LinterProvider().provideLinter("{ \"case\": \"snakeCase\" , \"argument\": \"literal\" }")
+    private val linter1 = LinterProvider().provideLinter("{ \"identifier_format\": \"snake case\"}", "1.0")
+    private val linter2: Linter = LinterProvider().provideLinter(
+        "{ \"identifier_format\": \"snake case\"}",
+        "1.1"
+    )
 
     @Test
     fun testCorrectSnakeCase() {
@@ -23,7 +28,8 @@ class SnakeCaseTest {
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
 
-        assertEquals(linter.lint(listOf(root).iterator()), emptyList<Any>())
+        assertEquals(linter1.lint(listOf(root).iterator()), emptyList<Any>())
+        assertEquals(linter1.lint(listOf(root).iterator()), linter2.lint(listOf(root).iterator()))
     }
 
     @Test
@@ -37,8 +43,12 @@ class SnakeCaseTest {
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
         assertEquals(
-            linter.lint(listOf(root).iterator()).first().toString(),
+            linter1.lint(listOf(root).iterator()).first().toString(),
             "Error(type=TYPO, message='Declaration name myCreatedVariable is not in snake_case')"
+        )
+        assertEquals(
+            linter1.lint(listOf(root).iterator()).first().toString(),
+            linter2.lint(listOf(root).iterator()).first().toString()
         )
     }
 
@@ -53,8 +63,12 @@ class SnakeCaseTest {
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
         assertEquals(
-            linter.lint(listOf(root).iterator()).first().toString(),
+            linter1.lint(listOf(root).iterator()).first().toString(),
             "Error(type=TYPO, message='Declaration name MyCreatedVariable is not in snake_case')"
+        )
+        assertEquals(
+            linter1.lint(listOf(root).iterator()).first().toString(),
+            linter2.lint(listOf(root).iterator()).first().toString()
         )
     }
 
@@ -69,8 +83,12 @@ class SnakeCaseTest {
             LiteralType(LiteralValue.StringValue("camelCase"))
         )
         assertEquals(
-            linter.lint(listOf(root).iterator()).first().toString(),
+            linter1.lint(listOf(root).iterator()).first().toString(),
             "Error(type=TYPO, message='Declaration name my-created-variable is not in snake_case')"
+        )
+        assertEquals(
+            linter1.lint(listOf(root).iterator()).first().toString(),
+            linter2.lint(listOf(root).iterator()).first().toString()
         )
     }
 }

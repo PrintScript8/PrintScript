@@ -26,7 +26,7 @@ class InterpreterV1(var iterator: Iterator<StaticNode>) : Interpreter {
         when (node) {
             is AssignationType, is DeclarationType, is ExpressionType,
             is IdentifierType, is ModifierType, is PrintLnType -> {
-                val (map, result) = node.run(valueMap, "1.0")
+                val (map, result) = node.execute(valueMap, "1.0")
                 valueMap.putAll(map)
                 output.addAll(result)
             }

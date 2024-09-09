@@ -5,13 +5,12 @@ import node.dynamic.DynamicNode
 import node.dynamic.VariableType
 import operations.StaticVisitorV1
 
-// Sirve para nombre = "valor"
 class ExpressionType(val variable: VariableType, val value: DynamicNode) : StaticNode {
     override fun visit(visitor: StaticVisitorV1) {
         visitor.acceptExpression(this)
     }
 
-    override fun run(
+    override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
         version: String
     ): StaticResult {

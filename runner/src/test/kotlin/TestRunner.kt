@@ -44,7 +44,7 @@ class TestRunner {
     fun `Test linter`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file4")))
         val runner = Operations(input, "1.0")
-        assertEquals(runner.analyze(), listOf())
+        assertEquals(runner.analyze("{}"), listOf())
     }
 
     private fun getAbsolutePath(relativePath: String): String {

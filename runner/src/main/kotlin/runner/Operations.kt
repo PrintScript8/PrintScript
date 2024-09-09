@@ -6,7 +6,6 @@ import interpreter.Interpreter
 import interpreter.InterpreterProvider
 import lexer.Lexer
 import lexer.LexerInterface
-import linter.Linter
 import linter.LinterProvider
 import node.staticpkg.StaticNode
 import parser.elements.ParserInterface
@@ -58,7 +57,6 @@ class Operations(private var sourceFile: String, private var version: String) {
     private val parser: ParserInterface
     private val interpreter: Interpreter
     private val formatter: FormatterInterface
-    private val linter: Linter
 
     init {
         lexer = Lexer(lexerRules, sourceFile)
@@ -66,7 +64,7 @@ class Operations(private var sourceFile: String, private var version: String) {
         parser = ParserProvider(tokenIterator).getParser(version)
         interpreter = InterpreterProvider(parser.iterator()).provideInterpreter(version)
         formatter = FormatterProvider(parser.iterator()).provideFormatter(version)
-        linter = LinterProvider().provideLinter("{ \"case\": \"camelCase\" , \"argument\": \"literal\" }")
+
         sourceFile = ""
     }
 
@@ -82,7 +80,8 @@ class Operations(private var sourceFile: String, private var version: String) {
         return formatter.format()
     }
 
-    fun analyze(): List<Error> {
+    fun analyze(json: String): List<Error> {
+        val linter = LinterProvider().provideLinter(json, version)
         return linter.lint(parser.iterator())
     }
 }
