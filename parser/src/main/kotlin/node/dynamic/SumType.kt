@@ -2,12 +2,8 @@ package node.dynamic
 
 import node.PrimType
 import node.TypeValue
-import operations.DynamicVisitorV1
 
 class SumType(val left: DynamicNode, val right: DynamicNode, override var result: LiteralValue?) : DynamicNode {
-    override fun visit(visitor: DynamicVisitorV1) {
-        visitor.acceptSum(this)
-    }
 
     override fun execute(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): TypeValue {
         val left = left.execute(valueMap, version)
