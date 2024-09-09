@@ -17,8 +17,8 @@ class LinterProvider {
 
     @Serializable
     data class LinterConfig(
-        @SerialName("identifier_format") val case: String = "camel case",
-        @SerialName("mandatory-variable-or-literal-in-println") val argument: Boolean = true
+        @SerialName("identifier_format") val case: String = "snake case",
+        @SerialName("mandatory-variable-or-literal-in-println") val argument: Boolean = false
     )
 
     fun provideLinter(json: String, version: String): Linter {
