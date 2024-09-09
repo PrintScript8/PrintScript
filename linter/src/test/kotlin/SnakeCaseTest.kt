@@ -46,7 +46,8 @@ class SnakeCaseTest {
             linter1.lint(listOf(root).iterator()).first().toString(),
             "Error(type=TYPO, message='Declaration name myCreatedVariable is not in snake_case')"
         )
-        assertEquals(linter1.lint(listOf(root).iterator()).first().toString(),
+        assertEquals(
+            linter1.lint(listOf(root).iterator()).first().toString(),
             linter2.lint(listOf(root).iterator()).first().toString()
         )
     }
@@ -65,7 +66,8 @@ class SnakeCaseTest {
             linter1.lint(listOf(root).iterator()).first().toString(),
             "Error(type=TYPO, message='Declaration name MyCreatedVariable is not in snake_case')"
         )
-        assertEquals(linter1.lint(listOf(root).iterator()).first().toString(),
+        assertEquals(
+            linter1.lint(listOf(root).iterator()).first().toString(),
             linter2.lint(listOf(root).iterator()).first().toString()
         )
     }
@@ -84,7 +86,8 @@ class SnakeCaseTest {
             linter1.lint(listOf(root).iterator()).first().toString(),
             "Error(type=TYPO, message='Declaration name my-created-variable is not in snake_case')"
         )
-        assertEquals(linter1.lint(listOf(root).iterator()).first().toString(),
+        assertEquals(
+            linter1.lint(listOf(root).iterator()).first().toString(),
             linter2.lint(listOf(root).iterator()).first().toString()
         )
     }
