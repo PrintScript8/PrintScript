@@ -41,7 +41,7 @@ class OutputRunner {
         println("Analyzing file...")
         val operations = Operations(sourceFile, "1.0")
         return try {
-            val errorList = operations.analyze()
+            val errorList = operations.analyze("{}")
             if (errorList.isEmpty()) {
                 "No errors found"
             } else {

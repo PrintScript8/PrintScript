@@ -9,7 +9,7 @@ class PrintLnType(val argument: DynamicNode) : StaticNode {
         visitor.acceptPrintLn(this)
     }
 
-    override fun run(
+    override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
         version: String
     ): StaticResult {

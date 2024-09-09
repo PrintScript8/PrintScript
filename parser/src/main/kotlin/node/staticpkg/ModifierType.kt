@@ -8,7 +8,7 @@ class ModifierType(val value: String, val canModify: Boolean) : StaticNode {
         visitor.acceptModifier(this)
     }
 
-    override fun run(
+    override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
         version: String
     ): StaticResult {
