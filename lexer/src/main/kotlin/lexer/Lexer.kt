@@ -1,35 +1,35 @@
 package lexer
 
+import reader.ReaderInterface
 import rule.TokenRule
 import token.Position
 import token.Token
 import token.TokenInterface
 import token.Whitespace
 
-class Lexer(private val rules: List<TokenRule>, private val input: String) : LexerInterface {
+class Lexer(private val rules: List<TokenRule>, private val reader: ReaderInterface) : LexerInterface {
 
     override fun iterator(): Iterator<TokenInterface> {
         return object : Iterator<TokenInterface> {
             var position = Position.initial()
             var currentIndex = 0
             var nextToken: TokenInterface? = null
+            var currentSentence: String = ""
 
             override fun hasNext(): Boolean {
-                if (nextToken == null && currentIndex < input.length) {
-                    val (token, newPosition, updatedIndex) = matchToken(position, currentIndex)
-                        ?: throw IllegalArgumentException(
-                            "Unexpected character at row ${position.row}, column ${position.startColumn}"
-                        )
-                    if (token!!.type != Whitespace) {
-                        nextToken = token
+                while (nextToken == null) {
+                    if (currentIndex >= currentSentence.length) {
+                        currentIndex = 0
+                        currentSentence = reader.readUntil(';')
                     }
-                    position = newPosition
-                    currentIndex = updatedIndex
-                    if (token.type == Whitespace) {
-                        hasNext() // Sigue buscando el siguiente token no vacío
+
+                    if (currentSentence.isNotEmpty()) {
+                        processTokens()
+                    } else if (!reader.hasNextChar()) {
+                        return false
                     }
                 }
-                return nextToken != null
+                return true
             }
 
             override fun next(): TokenInterface {
@@ -38,23 +38,47 @@ class Lexer(private val rules: List<TokenRule>, private val input: String) : Lex
                 nextToken = null
                 return token!!
             }
+
+            private fun processTokens() {
+                while (currentIndex < currentSentence.length) {
+                    val (newToken, newIndex, updatedPosition) = matchToken(currentSentence, currentIndex, position)
+                    position = updatedPosition
+                    currentIndex = newIndex
+
+                    if (newToken != null) {
+                        nextToken = newToken
+                        return
+                    }
+                }
+            }
         }
     }
 
     private fun matchToken(
-        position: Position,
-        currentIndex: Int
-    ): Triple<Token?, Position, Int>? {
+        tokenText: String,
+        currentIndex: Int,
+        position: Position
+    ): Triple<Token?, Int, Position> {
+        require(currentIndex < tokenText.length) {
+            "Index out of bounds: currentIndex ($currentIndex) " +
+                "exceeds tokenText length (${tokenText.length})"
+        }
+
         for (rule in rules) {
-            val token = rule.match(input, currentIndex, position) // Pasamos currentIndex directamente
+            val token = rule.match(tokenText, currentIndex, position)
             if (token != null) {
                 val tokenLength = token.text.length
                 val newPosition = updatePosition(position, token.text, tokenLength)
-                val newIndex = currentIndex + tokenLength
-                return Triple(token as Token, newPosition, newIndex)
+
+                // Si es un espacio en blanco, solo actualizamos posición
+                if (token.type == Whitespace) {
+                    return Triple(null, currentIndex + tokenLength, newPosition)
+                }
+
+                return Triple(token as Token, currentIndex + tokenLength, newPosition)
             }
         }
-        return null
+        throw IllegalArgumentException("Unexpected character at row ${position.row}, column ${position.startColumn}")
     }
 
     private fun updatePosition(
@@ -63,7 +87,6 @@ class Lexer(private val rules: List<TokenRule>, private val input: String) : Lex
         tokenLength: Int
     ): Position {
         val newRow = position.row + tokenText.count { it == '\n' }
-
         val lastNewLineIndex = tokenText.lastIndexOf('\n')
         val newColumn = if (lastNewLineIndex >= 0) {
             tokenText.length - lastNewLineIndex

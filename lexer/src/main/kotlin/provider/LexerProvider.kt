@@ -2,6 +2,7 @@ package provider
 
 import lexer.Lexer
 import lexer.LexerInterface
+import reader.ReaderInterface
 import rule.TokenRule
 import rule.basic.ConstRule
 import rule.basic.EndingRule
@@ -33,7 +34,7 @@ import rule.typeid.BooleanIdRule
 import rule.typeid.NumberIdRule
 import rule.typeid.StringIdRule
 
-class LexerProvider(private val input: String) {
+class LexerProvider(private val reader: ReaderInterface) {
 
     private fun commonRules(): List<TokenRule> = listOf(
         WhiteSpaceRule(),
@@ -70,6 +71,6 @@ class LexerProvider(private val input: String) {
             "1.1" -> rulesV2
             else -> throw IllegalArgumentException("Invalid version")
         }
-        return Lexer(rules, input)
+        return Lexer(rules, reader)
     }
 }
