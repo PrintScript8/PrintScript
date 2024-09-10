@@ -1,12 +1,15 @@
 package node.dynamic
 
+import node.PrimType
 import node.TypeValue
 
 class ReadInputType(val argument: DynamicNode, override var result: LiteralValue?) : DynamicNode {
 
     override fun execute(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): TypeValue {
-        /*
-        print("$text:\n> ")
+        require(argument.execute(valueMap, version).component2() == PrimType.STRING) {
+            "readInput method can only have String arguments, not ${argument.execute(valueMap, version).component2()}"
+        }
+        print("${argument.execute(valueMap, version).value}:\n> ")
         val input = readlnOrNull()
 
         return if (input != null) {
@@ -26,16 +29,14 @@ class ReadInputType(val argument: DynamicNode, override var result: LiteralValue
                 }
             }
         } else {
-            // default case
-            TypeValue(LiteralValue.StringValue(""), PrimType.STRING)
+            throw IllegalArgumentException(
+                "No value passed for input asked by: '" +
+                    "${argument.execute(valueMap, version).value}'"
+            )
         }
-
-         */
-        TODO("Not yet implemented")
     }
 
     override fun format(version: String): String {
-        TODO("Not yet implemented")
-        // return "readInput(\"$text\")"
+        return "readInput(${argument.format(version)})"
     }
 }
