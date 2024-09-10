@@ -12,12 +12,15 @@ import node.staticpkg.StaticNode
 import rules.argument.ArgumentRule
 import rules.format.FormatRule
 
-class LinterV2(private val argumentRule: ArgumentRule, private val formatRule: FormatRule) : Linter {
+class LinterV2(private val argumentRule: ArgumentRule?, private val formatRule: FormatRule?) : Linter {
 
     private val log: MutableList<Error> = mutableListOf()
 
     override fun lint(iterator: Iterator<StaticNode>): List<Error> {
         log.clear()
+        if (formatRule == null && argumentRule == null) {
+            return log
+        }
         while (iterator.hasNext()) {
             val node = iterator.next()
             matchNode(node)
@@ -28,10 +31,10 @@ class LinterV2(private val argumentRule: ArgumentRule, private val formatRule: F
     private fun matchNode(node: StaticNode) {
         when (node) {
             is DeclarationType -> {
-                log.addAll(formatRule.analyzeFormat(node))
+                if (formatRule != null) log.addAll(formatRule.analyzeFormat(node))
             }
             is PrintLnType -> {
-                log.addAll(argumentRule.analyzeArguments(node))
+                if (argumentRule != null) log.addAll(argumentRule.analyzeArguments(node))
             }
             is AssignationType -> {
                 matchNode(node.declaration)
