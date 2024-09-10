@@ -11,6 +11,7 @@ import node.staticpkg.StaticNode
 import parser.elements.ParserInterface
 import parser.elements.ParserProvider
 import provider.FormatterProvider
+import reader.InputStreamReader
 import rule.basic.EndingRule
 import rule.basic.IdentifierRule
 import rule.basic.LetRule
@@ -59,7 +60,7 @@ class Operations(private var sourceFile: String, private var version: String) {
     private val formatter: FormatterInterface
 
     init {
-        lexer = Lexer(lexerRules, sourceFile)
+        lexer = Lexer(lexerRules, InputStreamReader(sourceFile.byteInputStream()))
         tokenIterator = lexer.iterator()
         parser = ParserProvider(tokenIterator).getParser(version)
         interpreter = InterpreterProvider(parser.iterator()).provideInterpreter(version)
