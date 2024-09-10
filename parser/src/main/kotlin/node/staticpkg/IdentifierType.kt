@@ -10,7 +10,7 @@ class IdentifierType(val type: PrimType) : StaticNode {
         visitor.acceptIdentifier(this)
     }
 
-    override fun run(
+    override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
         version: String
     ): StaticResult {

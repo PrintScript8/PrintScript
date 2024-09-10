@@ -8,7 +8,7 @@ class DeclarationType(val modifier: ModifierType, val type: IdentifierType, val 
         visitor.acceptDeclaration(this)
     }
 
-    override fun run(
+    override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
         version: String
     ): StaticResult {

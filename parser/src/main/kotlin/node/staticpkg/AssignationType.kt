@@ -9,11 +9,11 @@ class AssignationType(val declaration: DeclarationType, val value: DynamicNode) 
         visitor.acceptAssignation(this)
     }
 
-    override fun run(
+    override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
         version: String
     ): StaticResult {
-        val (map, _) = declaration.run(valueMap, version)
+        val (map, _) = declaration.execute(valueMap, version)
         val output = value.execute(map, version)
         return StaticResult(updateValueMap(map, declaration.name, output), emptyList())
     }

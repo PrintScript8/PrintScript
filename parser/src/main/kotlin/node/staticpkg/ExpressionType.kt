@@ -10,7 +10,7 @@ class ExpressionType(val variable: VariableType, val value: DynamicNode) : Stati
         visitor.acceptExpression(this)
     }
 
-    override fun run(
+    override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
         version: String
     ): StaticResult {

@@ -13,12 +13,12 @@ class IfElseType(
         TODO("Not yet implemented")
     }
 
-    override fun run(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): StaticResult {
+    override fun execute(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): StaticResult {
         require(version != "1.0") { "IfElse is not supported in version 1.0" }
         return if (boolean.boolean) {
-            ifBranch.run(valueMap, version)
+            ifBranch.execute(valueMap, version)
         } else {
-            elseBranch.run(valueMap, version)
+            elseBranch.execute(valueMap, version)
         }
     }
 
