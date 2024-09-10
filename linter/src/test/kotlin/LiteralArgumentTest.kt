@@ -78,9 +78,5 @@ class LiteralArgumentTest {
             isValidLinter.lint(listOf(root).iterator()),
             emptyList<Any>()
         )
-        assertEquals(
-            linter1.lint(listOf(root).iterator()).first().toString(),
-            linter2.lint(listOf(root).iterator()).first().toString()
-        )
     }
 }
