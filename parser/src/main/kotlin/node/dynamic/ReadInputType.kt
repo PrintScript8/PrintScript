@@ -1,11 +1,11 @@
 package node.dynamic
 
-import node.PrimType
 import node.TypeValue
 
-class ReadInputType(private val text: String, override var result: LiteralValue?) : DynamicNode {
+class ReadInputType(val argument: DynamicNode, override var result: LiteralValue?) : DynamicNode {
 
     override fun execute(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): TypeValue {
+        /*
         print("$text:\n> ")
         val input = readlnOrNull()
 
@@ -29,9 +29,13 @@ class ReadInputType(private val text: String, override var result: LiteralValue?
             // default case
             TypeValue(LiteralValue.StringValue(""), PrimType.STRING)
         }
+
+         */
+        TODO("Not yet implemented")
     }
 
     override fun format(version: String): String {
-        return "readInput(\"$text\")"
+        TODO("Not yet implemented")
+        // return "readInput(\"$text\")"
     }
 }
