@@ -25,7 +25,7 @@ class BooleanLiteralRule : TokenRule {
         return null
     }
 
-    private fun isMatch(input: String, currentIndex: Int, keyword: String): kotlin.Boolean {
+    private fun isMatch(input: String, currentIndex: Int, keyword: String): Boolean {
         for (i in keyword.indices) {
             if (input[currentIndex + i] != keyword[i]) {
                 return false

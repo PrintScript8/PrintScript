@@ -3,6 +3,8 @@ package test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import provider.LexerProvider
+import reader.InputStreamReader
+import reader.ReaderInterface
 import token.Assignment
 import token.Boolean
 import token.CloseBrace
@@ -18,6 +20,7 @@ import token.OpenParenthesis
 import token.Position
 import token.StringLiteral
 import token.Token
+import java.io.ByteArrayInputStream
 import java.io.File
 import java.nio.file.Paths
 
@@ -32,9 +35,15 @@ class LexerInterfaceTestV2 {
         return file.readText()
     }
 
+    private fun getReader(path: String): InputStreamReader {
+        val absolutePath = getAbsolutePath(path)
+        val data = readFile(File(absolutePath))
+        return InputStreamReader(ByteArrayInputStream(data.toByteArray()))
+    }
+
     @Test
     fun `test if-else tokenization`() {
-        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv2/file1")))
+        val input: ReaderInterface = getReader("src/test/kotlin/textfile/testv2/file1")
         val expectedTokens = listOf(
             Token(If, "if", Position(1, 1, 2)),
             Token(Boolean, "false", Position(1, 4, 8)),
@@ -47,7 +56,7 @@ class LexerInterfaceTestV2 {
 
     @Test
     fun `if-else-bool brace tokenization`() {
-        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv2/file2")))
+        val input: ReaderInterface = getReader("src/test/kotlin/textfile/testv2/file2")
         val expectedTokens = listOf(
             Token(If, "if", Position(1, 1, 2)),
             Token(OpenParenthesis, "(", Position(1, 4, 4)),
@@ -74,7 +83,7 @@ class LexerInterfaceTestV2 {
 
     @Test
     fun `fake if-else test`() {
-        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv2/file3")))
+        val input: ReaderInterface = getReader("src/test/kotlin/textfile/testv2/file3")
         val expectedTokens = listOf(
             Token(Identifier, "ifer", Position(1, 1, 4)),
             Token(Identifier, "elser", Position(1, 6, 10))
@@ -99,7 +108,7 @@ class LexerInterfaceTestV2 {
 
     @Test
     fun `readEnv and readInput test`() {
-        val input = readFile(File(getAbsolutePath("src/test/kotlin/textfile/testv2/file5")))
+        val input: ReaderInterface = getReader("src/test/kotlin/textfile/testv2/file5")
         val expectedTokens = listOf(
             Token(NativeMethod, "readEnv", Position(1, 1, 7)),
             Token(OpenParenthesis, "(", Position(1, 8, 8)),
