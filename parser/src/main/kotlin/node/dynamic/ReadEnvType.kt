@@ -3,7 +3,7 @@ package node.dynamic
 import node.PrimType
 import node.TypeValue
 
-class ReadInputType(val argument: DynamicNode, override var result: LiteralValue?) : DynamicNode {
+class ReadEnvType(val argument: DynamicNode, override var result: LiteralValue?) : DynamicNode {
 
     override fun execute(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): TypeValue {
 
@@ -12,8 +12,8 @@ class ReadInputType(val argument: DynamicNode, override var result: LiteralValue
         require(argument.execute(valueMap, version).component2() == PrimType.STRING) {
             "readInput method can only have String arguments, not ${argument.execute(valueMap, version).component2()}"
         }
-        print("${argument.execute(valueMap, version).value}:\n> ")
-        val input = readlnOrNull()
+
+        val input = System.getenv(argument.execute(valueMap, version).value.toString())
 
         return if (input != null) {
             when {
@@ -33,13 +33,13 @@ class ReadInputType(val argument: DynamicNode, override var result: LiteralValue
             }
         } else {
             throw IllegalArgumentException(
-                "No value passed for input asked by: '" +
+                "No value found for environment variable: '" +
                     "${argument.execute(valueMap, version).value}'"
             )
         }
     }
 
     override fun format(version: String): String {
-        return "readInput(${argument.format(version)})"
+        return "readEnv(${argument.format(version)})"
     }
 }

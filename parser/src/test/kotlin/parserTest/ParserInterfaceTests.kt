@@ -7,7 +7,6 @@ import node.dynamic.SumType
 import node.staticpkg.AssignationType
 import node.staticpkg.DeclarationType
 import node.staticpkg.ExpressionType
-import node.staticpkg.PrintLnType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -21,7 +20,6 @@ import token.Ending
 import token.Identifier
 import token.Minus
 import token.Modifier
-import token.NativeMethod
 import token.NumberLiteral
 import token.OpenParenthesis
 import token.Plus
@@ -192,25 +190,6 @@ class ParserInterfaceTests {
     }
 
     @Test
-    fun printLnTest() {
-        val tokenList: List<Token> = listOf(
-            Token(NativeMethod, "printLn", Position(1, 1, 1)),
-            Token(OpenParenthesis, "(", Position(1, 1, 1)),
-            Token(StringLiteral, "Hello World!", Position(1, 1, 1)),
-            Token(CloseParenthesis, ")", Position(1, 1, 1)),
-            Token(Ending, ";", Position(1, 1, 1)),
-        )
-        val parserProvider = ParserProvider(tokenList.iterator())
-        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        val parseList: List<StaticNode> = parserInterface.iterator().asSequence().toList()
-        Assertions.assertEquals(1, parseList.size)
-        val headNode: PrintLnType = parseList[0] as PrintLnType
-        Assertions.assertTrue(headNode.argument is LiteralType)
-        val stringNode: LiteralType = headNode.argument as LiteralType
-        Assertions.assertEquals("Hello World!", (stringNode.result as LiteralValue.StringValue).string)
-    }
-
-    @Test
     fun testBooleanDeclaration() {
         val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
@@ -324,92 +303,9 @@ class ParserInterfaceTests {
     }
 
     @Test
-    fun missingClosingParenthesisInNativeMethod() {
-        val tokenList: List<Token> = listOf(
-            Token(NativeMethod, "printLn", Position(1, 1, 1)),
-            Token(StringLiteral, "Hello World!", Position(1, 1, 1)),
-            Token(Ending, ";", Position(1, 1, 1))
-        )
-        val parserProvider = ParserProvider(tokenList.iterator())
-        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parserInterface.parse()
-        }
-    }
-
-    @Test
     fun missingExpressionTest() {
         val tokenList: List<Token> = listOf(
             Token(Ending, ";", Position(1, 1, 1)),
-        )
-        val parserProvider = ParserProvider(tokenList.iterator())
-        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parserInterface.parse()
-        }
-    }
-
-    @Test
-    fun expressionBeforePrintTest() {
-        val tokenList: List<Token> = listOf(
-            Token(Modifier, "let", Position(1, 1, 1)),
-            Token(NativeMethod, "printLn", Position(1, 1, 1)),
-            Token(StringLiteral, "Hello World!", Position(1, 1, 1)),
-            Token(CloseParenthesis, ")", Position(1, 1, 1)),
-            Token(Ending, ";", Position(1, 1, 1))
-        )
-        val parserProvider = ParserProvider(tokenList.iterator())
-        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parserInterface.parse()
-        }
-    }
-
-    @Test
-    fun missingArgumentsInMethod() {
-        val tokenList: List<Token> = listOf(
-            Token(NativeMethod, "printLn", Position(1, 1, 1)),
-            Token(CloseParenthesis, ")", Position(1, 1, 1)),
-            Token(Ending, ";", Position(1, 1, 1))
-        )
-        val parserProvider = ParserProvider(tokenList.iterator())
-        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parserInterface.parse()
-        }
-    }
-
-    @Test
-    fun missingParenthesisAndArgumentInMethod() {
-        val tokenList: List<Token> = listOf(
-            Token(NativeMethod, "printLn", Position(1, 1, 1)),
-            Token(Ending, ";", Position(1, 1, 1))
-        )
-        val parserProvider = ParserProvider(tokenList.iterator())
-        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parserInterface.parse()
-        }
-    }
-
-    @Test
-    fun onlyClosedParenthesis() {
-        val tokenList: List<Token> = listOf(
-            Token(NativeMethod, "printLn", Position(1, 1, 1)),
-            Token(CloseParenthesis, ")", Position(1, 1, 1))
-        )
-        val parserProvider = ParserProvider(tokenList.iterator())
-        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
-            parserInterface.parse()
-        }
-    }
-
-    @Test
-    fun missingOpenParenthesis() {
-        val tokenList: List<Token> = listOf(
-            Token(NativeMethod, "printLn", Position(1, 1, 1)),
-            Token(StringLiteral, "Hello World!", Position(1, 1, 1)),
         )
         val parserProvider = ParserProvider(tokenList.iterator())
         val parserInterface: ParserInterface = parserProvider.getParser("1.0")
