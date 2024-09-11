@@ -17,7 +17,7 @@ import reader.InputStreamReader
 import token.TokenInterface
 import java.io.InputStream
 
-class Operations(sourceFile: InputStream, private var version: String, provider: InputProvider) {
+class Operations(sourceFile: InputStream, private var version: String, provider: InputProvider? = null) {
 
     private val lexer: LexerInterface
     private val tokenIterator: Iterator<TokenInterface>
@@ -31,7 +31,7 @@ class Operations(sourceFile: InputStream, private var version: String, provider:
         parser = ParserProvider(tokenIterator).getParser(version)
         interpreter = InterpreterProvider(parser.iterator()).provideInterpreter(version)
         formatter = FormatterProvider(parser.iterator()).provideFormatter(version)
-        InputQueueService.initialize(provider)
+        provider?.let { InputQueueService.initialize(it) }
     }
 
     fun validate(): List<StaticNode> {
