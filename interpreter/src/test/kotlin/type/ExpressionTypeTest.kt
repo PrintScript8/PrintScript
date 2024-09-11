@@ -47,7 +47,7 @@ class ExpressionTypeTest {
         )
         val list = listOf(assignationTypeA, assignationTypeB, expressionType)
         val interpreter = InterpreterProvider(list.iterator()).provideInterpreter("1.0")
-        val output: Iterator<String> = interpreter.execute()
+        val output: Iterator<String> = interpreter.iterator()
         assertThrows<IllegalArgumentException> {
             output.asSequence().toList()
         }
@@ -84,6 +84,6 @@ class ExpressionTypeTest {
         val printLnType = PrintLnType(VariableType("a", null, false))
         val list = listOf(assignationTypeA, assignationTypeB, expressionType, printLnType)
         val interpreter = InterpreterProvider(list.iterator()).provideInterpreter("1.0")
-        assertEquals("2", interpreter.execute().next())
+        assertEquals("2", interpreter.iterator().next())
     }
 }

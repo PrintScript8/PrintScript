@@ -1,5 +1,6 @@
 package node.dynamic
 
+import inputreader.InputQueueService
 import node.PrimType
 import node.TypeValue
 
@@ -12,8 +13,8 @@ class ReadInputType(val argument: DynamicNode, override var result: LiteralValue
         require(argument.execute(valueMap, version).component2() == PrimType.STRING) {
             "readInput method can only have String arguments, not ${argument.execute(valueMap, version).component2()}"
         }
-        print("${argument.execute(valueMap, version).value}:\n> ")
-        val input = readlnOrNull()
+        print("${argument.execute(valueMap, version).value}\n> ")
+        val input = InputQueueService.getInput()
 
         return if (input != null) {
             when {

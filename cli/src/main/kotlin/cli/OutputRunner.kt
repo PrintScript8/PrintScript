@@ -1,12 +1,13 @@
 package cli
 
 import runner.Operations
+import java.util.Queue
 
 class OutputRunner {
 
-    fun validate(sourceFile: String): String {
+    fun validate(sourceFile: String, inputQueue: Queue<String>): String {
         println("Validating file...")
-        val operations = Operations(sourceFile.byteInputStream(), "1.0")
+        val operations = Operations(sourceFile.byteInputStream(), "1.0", inputQueue)
         return try {
             operations.validate()
             "Validation successful"
@@ -15,9 +16,9 @@ class OutputRunner {
         }
     }
 
-    fun execute(sourceFile: String, version: String): String {
+    fun execute(sourceFile: String, version: String, inputQueue: Queue<String>): String {
         println("Executing file with version $version...")
-        val operations = Operations(sourceFile.byteInputStream(), version)
+        val operations = Operations(sourceFile.byteInputStream(), version, inputQueue)
         return try {
             val result: Iterator<String> = operations.execute()
             val output = StringBuilder()
@@ -33,9 +34,9 @@ class OutputRunner {
         }
     }
 
-    fun format(sourceFile: String, configFile: String?): String {
+    fun format(sourceFile: String, configFile: String?, inputQueue: Queue<String>): String {
         println("Formatting file with config file $configFile...")
-        val operations = Operations(sourceFile.byteInputStream(), "1.0")
+        val operations = Operations(sourceFile.byteInputStream(), "1.0", inputQueue)
         return try {
             val formatted = operations.format()
             "Formatted: $formatted"
@@ -44,9 +45,9 @@ class OutputRunner {
         }
     }
 
-    fun analyze(sourceFile: String): String {
+    fun analyze(sourceFile: String, inputQueue: Queue<String>): String {
         println("Analyzing file...")
-        val operations = Operations(sourceFile.byteInputStream(), "1.0")
+        val operations = Operations(sourceFile.byteInputStream(), "1.0", inputQueue)
         return try {
             val errorList = operations.analyze("{}")
             if (errorList.isEmpty()) {

@@ -51,7 +51,7 @@ class SubtractTypeTest {
         val interpreter = InterpreterProvider(
             listOf(assignationType, substractType, printLnType).iterator()
         ).provideInterpreter("1.0")
-        val output: Iterator<String> = interpreter.execute()
+        val output: Iterator<String> = interpreter.iterator()
         assertThrows<IllegalArgumentException> {
             output.asSequence().toList()
         }
@@ -79,7 +79,7 @@ class SubtractTypeTest {
         val interpreter = InterpreterProvider(
             listOf(assignationType, substractType, printLnType).iterator()
         ).provideInterpreter("1.0")
-        val output: Iterator<String> = interpreter.execute()
+        val output: Iterator<String> = interpreter.iterator()
         assertEquals("-4", output.next())
     }
 }

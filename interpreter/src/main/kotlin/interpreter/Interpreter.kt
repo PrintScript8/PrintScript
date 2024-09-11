@@ -1,5 +1,5 @@
 package interpreter
 
 interface Interpreter {
-    fun execute(): Iterator<String>
+    fun iterator(): Iterator<String>
 }

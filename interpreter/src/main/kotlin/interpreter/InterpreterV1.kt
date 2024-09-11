@@ -9,12 +9,12 @@ import node.staticpkg.ModifierType
 import node.staticpkg.PrintLnType
 import node.staticpkg.StaticNode
 
-class InterpreterV1(var iterator: Iterator<StaticNode>) : Interpreter {
+class InterpreterV1(private var nodeIterator: Iterator<StaticNode>) : Interpreter {
 
     private val valueMap: MutableMap<String, Pair<Boolean, TypeValue>> = mutableMapOf()
 
-    override fun execute(): Iterator<String> {
-        return processNodes(iterator).iterator()
+    override fun iterator(): Iterator<String> {
+        return processNodes(nodeIterator).iterator()
     }
 
     private fun processNodes(iterator: Iterator<StaticNode>): Sequence<String> {

@@ -14,7 +14,7 @@ class InterpreterV2(var iterator: Iterator<StaticNode>) : Interpreter {
 
     private val valueMap: MutableMap<String, Pair<Boolean, TypeValue>> = mutableMapOf()
 
-    override fun execute(): Iterator<String> {
+    override fun iterator(): Iterator<String> {
         return processNodes(iterator).iterator()
     }
 
