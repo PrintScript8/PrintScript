@@ -42,18 +42,19 @@ class IfElseType(
     }
 
     override fun format(version: String): String {
-        val ifBody: String = ifBranch.first().format(version) // HARDCODED
-        val elseBody: String? = elseBranch?.first()?.format(version) // HARDCODED
+        val ifBody = ifBranch.joinToString(separator = "\n") { "    ${it.format(version)}" }
+        val elseBody = elseBranch?.joinToString(separator = "\n") { "    ${it.format(version)}" }
         return if (elseBody == null) {
             "if (${boolean.format(version)}) {\n" +
-                "    $ifBody\n" +
-                "}"
+                    "$ifBody\n" +
+                    "}"
         } else {
             "if (${boolean.format(version)}) {\n" +
-                "    $ifBody\n" +
-                "} else {\n" +
-                "    $elseBody\n" +
-                "}"
+                    "$ifBody\n" +
+                    "} else {\n" +
+                    "$elseBody\n" +
+                    "}"
         }
     }
 }
+
