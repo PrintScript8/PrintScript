@@ -36,8 +36,8 @@ class UnsupportedTypeTest {
             LiteralType(LiteralValue.NumberValue(3))
         )
 
-        val boolean = LiteralValue.BooleanValue(true)
-        val ifElseType = IfElseType(ifBranch, elseBranch, boolean)
+        val boolean = LiteralType(LiteralValue.BooleanValue(true))
+        val ifElseType = IfElseType(ifBranch, boolean, elseBranch)
         val version = "1.0"
         val list = listOf(
             ifElseType,
