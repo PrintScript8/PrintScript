@@ -19,8 +19,15 @@ class OutputRunner {
         println("Executing file with version $version...")
         val operations = Operations(sourceFile, version)
         return try {
-            val result: List<String> = operations.execute()
-            "Result:\n${result.joinToString(separator = "\n")}"
+            val result: Iterator<String> = operations.execute()
+            val output = StringBuilder()
+            while (result.hasNext()) {
+                output.append(result.next())
+                if (result.hasNext()) {
+                    output.append("\n")
+                }
+            }
+            "Result:\n$output"
         } catch (e: IllegalArgumentException) {
             "Error: ${e.message}"
         }

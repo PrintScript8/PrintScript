@@ -73,7 +73,7 @@ class Operations(private var sourceFile: String, private var version: String) {
         return this.parser.iterator().asSequence().toList()
     }
 
-    fun execute(): List<String> {
+    fun execute(): Iterator<String> {
         return interpreter.execute()
     }
 

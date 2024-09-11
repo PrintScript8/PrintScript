@@ -18,7 +18,7 @@ class IdentifierType(val type: PrimType) : StaticNode {
     }
 
     override fun format(version: String): String {
-        return type.name.toLowerCase()
+        return type.name.lowercase()
     }
 
     override fun toString(): String {
