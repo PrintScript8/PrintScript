@@ -13,14 +13,14 @@ class TestRunner {
     @Test
     fun `Test lexer and parser`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file1")))
-        val runner = Operations(input, "1.0")
+        val runner = Operations(input.byteInputStream(), "1.0")
         assertIs<AssignationType>(runner.validate().get(0))
     }
 
     @Test
     fun `Test interpreter`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file2")))
-        val runner = Operations(input, "1.0")
+        val runner = Operations(input.byteInputStream(), "1.1")
         val output = runner.execute()
         assertEquals(
             "1.57",
@@ -31,7 +31,7 @@ class TestRunner {
     @Test
     fun `Test formatter`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file3")))
-        val runner = Operations(input, "1.0")
+        val runner = Operations(input.byteInputStream(), "1.0")
         assertEquals(
             runner.format(),
             "let something: string = \"a really cool thing\";\n" +
@@ -44,7 +44,7 @@ class TestRunner {
     @Test
     fun `Test linter`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file4")))
-        val runner = Operations(input, "1.0")
+        val runner = Operations(input.byteInputStream(), "1.0")
         assertEquals(runner.analyze("{}"), listOf())
     }
 
@@ -64,7 +64,7 @@ class TestRunner {
             "println(\"This is a text\");\n" +
             "println(\"This is a text\");\n" +
             "println(\"This is a text\");"
-        val runner = Operations(input, "1.0")
+        val runner = Operations(input.byteInputStream(), "1.0")
         assertIs<PrintLnType>(runner.validate().get(0))
     }
 }
