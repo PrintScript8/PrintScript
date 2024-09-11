@@ -37,7 +37,7 @@ class IfElseTest {
         )
 
         val boolean = LiteralType(LiteralValue.BooleanValue(true))
-        val ifElseType = IfElseType(listOf(ifBranch, ifBranch,ifBranch), boolean, listOf(elseBranch, elseBranch))
+        val ifElseType = IfElseType(listOf(ifBranch, ifBranch, ifBranch), boolean, listOf(elseBranch, elseBranch))
         val version = "1.1"
         val list = listOf(
             ifElseType,

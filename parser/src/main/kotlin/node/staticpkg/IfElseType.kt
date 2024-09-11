@@ -46,15 +46,14 @@ class IfElseType(
         val elseBody = elseBranch?.joinToString(separator = "\n") { "    ${it.format(version)}" }
         return if (elseBody == null) {
             "if (${boolean.format(version)}) {\n" +
-                    "$ifBody\n" +
-                    "}"
+                "$ifBody\n" +
+                "}"
         } else {
             "if (${boolean.format(version)}) {\n" +
-                    "$ifBody\n" +
-                    "} else {\n" +
-                    "$elseBody\n" +
-                    "}"
+                "$ifBody\n" +
+                "} else {\n" +
+                "$elseBody\n" +
+                "}"
         }
     }
 }
-
