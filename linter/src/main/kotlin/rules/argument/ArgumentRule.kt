@@ -1,9 +1,8 @@
 package rules.argument
 
 import error.Error
-import node.staticpkg.PrintLnType
+import node.Node
 
-// Pensando como el chess, las reglas se podrian llegar a anidar entre si (por eso se llama Rule, es unica)
 interface ArgumentRule {
-    fun analyzeArguments(printLnType: PrintLnType): List<Error>
+    fun analyzeArguments(node: Node): List<Error>
 }
