@@ -30,10 +30,10 @@ class Cli(private val provider: InputProvider) {
         val operations = OutputRunner()
 
         return when (operation) {
-            Operation.Validation -> operations.validate(sourceFile, provider)
+            Operation.Validation -> operations.validate(sourceFile)
             Operation.Execution -> operations.execute(sourceFile, version, provider)
-            Operation.Formatting -> operations.format(sourceFile, configFile, provider)
-            Operation.Analyzing -> operations.analyze(sourceFile, provider)
+            Operation.Formatting -> operations.format(sourceFile, configFile)
+            Operation.Analyzing -> operations.analyze(sourceFile)
             null -> throw IllegalArgumentException("No operation provided")
         }
     }
