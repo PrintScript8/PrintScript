@@ -2,6 +2,7 @@ package runner
 
 import error.Error
 import formatter.FormatterInterface
+import inputreader.InputQueueService
 import interpreter.Interpreter
 import interpreter.InterpreterProvider
 import lexer.LexerInterface
@@ -14,8 +15,9 @@ import provider.LexerProvider
 import reader.InputStreamReader
 import token.TokenInterface
 import java.io.InputStream
+import java.util.Queue
 
-class Operations(sourceFile: InputStream, private var version: String) {
+class Operations(sourceFile: InputStream, private var version: String, inputQueue: Queue<String>) {
 
     private val lexer: LexerInterface
     private val tokenIterator: Iterator<TokenInterface>
@@ -29,6 +31,7 @@ class Operations(sourceFile: InputStream, private var version: String) {
         parser = ParserProvider(tokenIterator).getParser(version)
         interpreter = InterpreterProvider(parser.iterator()).provideInterpreter(version)
         formatter = FormatterProvider(parser.iterator()).provideFormatter(version)
+        InputQueueService.initialize(inputQueue)
     }
 
     fun validate(): List<StaticNode> {
@@ -36,7 +39,7 @@ class Operations(sourceFile: InputStream, private var version: String) {
     }
 
     fun execute(): Iterator<String> {
-        return interpreter.execute()
+        return interpreter.iterator()
     }
 
     fun format(): String {

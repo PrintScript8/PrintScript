@@ -53,7 +53,7 @@ class DivisionTypeTest {
                 assignationType, divisionType, printLnType
             ).iterator()
         ).provideInterpreter("1.0")
-        val output: Iterator<String> = interpreter.execute()
+        val output: Iterator<String> = interpreter.iterator()
         assertThrows<IllegalArgumentException> {
             output.asSequence().toList()
         }
@@ -84,7 +84,7 @@ class DivisionTypeTest {
                 assignationType, divisionType, printLnType
             ).iterator()
         ).provideInterpreter("1.0")
-        val output: Iterator<String> = interpreter.execute()
+        val output: Iterator<String> = interpreter.iterator()
         assertEquals("0.2", output.next())
     }
 }

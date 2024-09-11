@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.nio.file.Paths
+import java.util.LinkedList
 
 class CliTest {
 
-    private val cli = Cli()
+    private val cli = Cli(LinkedList())
 
     @Test
     fun `validation test`() {
