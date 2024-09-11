@@ -11,7 +11,6 @@ import node.staticpkg.StaticNode
 import parser.elements.ParserInterface
 import parser.elements.ParserProvider
 import provider.FormatterProvider
-import reader.InputStreamReader
 import rule.basic.EndingRule
 import rule.basic.IdentifierRule
 import rule.basic.LetRule
@@ -33,8 +32,10 @@ import rule.typeid.BooleanIdRule
 import rule.typeid.NumberIdRule
 import rule.typeid.StringIdRule
 import token.TokenInterface
+import java.io.InputStream
+import java.io.InputStreamReader
 
-class Operations(private var sourceFile: String, private var version: String) {
+class Operations(private var sourceFile: InputStream, private var version: String) {
 
     private val lexerRules = listOf(
         LetRule(),
@@ -60,13 +61,11 @@ class Operations(private var sourceFile: String, private var version: String) {
     private val formatter: FormatterInterface
 
     init {
-        lexer = Lexer(lexerRules, InputStreamReader(sourceFile.byteInputStream()))
+        lexer = Lexer(lexerRules, reader.InputStreamReader(sourceFile))
         tokenIterator = lexer.iterator()
         parser = ParserProvider(tokenIterator).getParser(version)
         interpreter = InterpreterProvider(parser.iterator()).provideInterpreter(version)
         formatter = FormatterProvider(parser.iterator()).provideFormatter(version)
-
-        sourceFile = ""
     }
 
     fun validate(): List<StaticNode> {
