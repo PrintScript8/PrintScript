@@ -6,9 +6,9 @@ import node.dynamic.LiteralValue
 import operations.StaticVisitorV1
 
 class IfElseType(
-    private val ifBranch: StaticNode,
+    private val ifBranch: List<StaticNode>,
     val boolean: DynamicNode,
-    private val elseBranch: StaticNode?
+    private val elseBranch: List<StaticNode>?
 ) : StaticNode {
     override fun visit(visitor: StaticVisitorV1) {
         TODO("Not yet implemented")
@@ -19,15 +19,31 @@ class IfElseType(
         val (value, _) = boolean.execute(valueMap, version)
         require(value is LiteralValue.BooleanValue) { "IfElse condition must be a boolean" }
         return if (value.boolean) {
-            ifBranch.execute(valueMap, version)
+            iterateChildren(ifBranch, valueMap, version)
         } else {
-            elseBranch?.execute(valueMap, version) ?: StaticResult(valueMap, listOf())
+            iterateChildren(elseBranch, valueMap, version)
         }
     }
 
+    private fun iterateChildren(
+        children: List<StaticNode>?,
+        valueMap: Map<String, Pair<Boolean, TypeValue>>,
+        version: String
+    ): StaticResult {
+        if (children == null) return StaticResult(valueMap, listOf())
+        val output = mutableListOf<String>()
+        var valueMapCopy = valueMap
+        for (child in children) {
+            val (value, list) = child.execute(valueMap, version)
+            output.addAll(list)
+            valueMapCopy = valueMapCopy.plus(value)
+        }
+        return StaticResult(valueMapCopy, output)
+    }
+
     override fun format(version: String): String {
-        val ifBody: String = ifBranch.format(version)
-        val elseBody: String? = elseBranch?.format(version)
+        val ifBody: String = ifBranch.first().format(version) // HARDCODED
+        val elseBody: String? = elseBranch?.first()?.format(version) // HARDCODED
         return if (elseBody == null) {
             "if (${boolean.format(version)}) {\n" +
                 "    $ifBody\n" +
