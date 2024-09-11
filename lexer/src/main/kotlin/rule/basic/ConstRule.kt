@@ -1,3 +1,3 @@
 package rule.basic
 
-class ConstRule : ModifierRule("let")
+class ConstRule : ModifierRule("const")
