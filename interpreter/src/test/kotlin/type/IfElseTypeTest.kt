@@ -50,9 +50,11 @@ class IfElseTypeTest {
         val invalidInterpreter = InterpreterProvider(invalidInput.iterator()).provideInterpreter(version)
 
         // Assert
-        assertEquals(listOf("1"), validInterpreter.execute())
+        val output = validInterpreter.execute()
+        val invalidOutput = invalidInterpreter.execute()
+        assertEquals("1", output.next())
         assertThrows<IllegalArgumentException> {
-            invalidInterpreter.execute()
+            invalidOutput.asSequence().toList()
         }
     }
 
@@ -90,9 +92,11 @@ class IfElseTypeTest {
         val invalidInterpreter = InterpreterProvider(invalidInput.iterator()).provideInterpreter(version)
 
         // Assert
-        assertEquals(listOf("3"), validInterpreter.execute())
+        val output = validInterpreter.execute()
+        val invalidOutput = invalidInterpreter.execute()
+        assertEquals("3", output.next())
         assertThrows<IllegalArgumentException> {
-            invalidInterpreter.execute()
+            invalidOutput.asSequence().toList()
         }
     }
 
@@ -130,9 +134,11 @@ class IfElseTypeTest {
         val invalidInterpreter = InterpreterProvider(invalidInput.iterator()).provideInterpreter(version)
 
         // Assert
-        assertEquals(listOf("1"), validInterpreter.execute())
+        val output = validInterpreter.execute()
+        val invalidOutput = invalidInterpreter.execute()
+        assertEquals("1", output.next())
         assertThrows<IllegalArgumentException> {
-            invalidInterpreter.execute()
+            invalidOutput.asSequence().toList()
         }
     }
 }

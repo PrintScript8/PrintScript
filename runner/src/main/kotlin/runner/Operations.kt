@@ -13,8 +13,9 @@ import provider.FormatterProvider
 import provider.LexerProvider
 import reader.InputStreamReader
 import token.TokenInterface
+import java.io.InputStream
 
-class Operations(private var sourceFile: String, private var version: String) {
+class Operations(sourceFile: InputStream, private var version: String) {
 
     private val lexer: LexerInterface
     private val tokenIterator: Iterator<TokenInterface>
@@ -23,20 +24,18 @@ class Operations(private var sourceFile: String, private var version: String) {
     private val formatter: FormatterInterface
 
     init {
-        lexer = LexerProvider(InputStreamReader(sourceFile.byteInputStream())).getLexer(version)
+        lexer = LexerProvider(InputStreamReader(sourceFile)).getLexer(version)
         tokenIterator = lexer.iterator()
         parser = ParserProvider(tokenIterator).getParser(version)
         interpreter = InterpreterProvider(parser.iterator()).provideInterpreter(version)
         formatter = FormatterProvider(parser.iterator()).provideFormatter(version)
-
-        sourceFile = ""
     }
 
     fun validate(): List<StaticNode> {
         return this.parser.iterator().asSequence().toList()
     }
 
-    fun execute(): List<String> {
+    fun execute(): Iterator<String> {
         return interpreter.execute()
     }
 

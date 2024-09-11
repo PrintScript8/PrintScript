@@ -6,7 +6,7 @@ class OutputRunner {
 
     fun validate(sourceFile: String): String {
         println("Validating file...")
-        val operations = Operations(sourceFile, "1.0")
+        val operations = Operations(sourceFile.byteInputStream(), "1.0")
         return try {
             operations.validate()
             "Validation successful"
@@ -17,10 +17,17 @@ class OutputRunner {
 
     fun execute(sourceFile: String, version: String): String {
         println("Executing file with version $version...")
-        val operations = Operations(sourceFile, version)
+        val operations = Operations(sourceFile.byteInputStream(), version)
         return try {
-            val result: List<String> = operations.execute()
-            "Result:\n${result.joinToString(separator = "\n")}"
+            val result: Iterator<String> = operations.execute()
+            val output = StringBuilder()
+            while (result.hasNext()) {
+                output.append(result.next())
+                if (result.hasNext()) {
+                    output.append("\n")
+                }
+            }
+            "Result:\n$output"
         } catch (e: IllegalArgumentException) {
             "Error: ${e.message}"
         }
@@ -28,7 +35,7 @@ class OutputRunner {
 
     fun format(sourceFile: String, configFile: String?): String {
         println("Formatting file with config file $configFile...")
-        val operations = Operations(sourceFile, "1.0")
+        val operations = Operations(sourceFile.byteInputStream(), "1.0")
         return try {
             val formatted = operations.format()
             "Formatted: $formatted"
@@ -39,7 +46,7 @@ class OutputRunner {
 
     fun analyze(sourceFile: String): String {
         println("Analyzing file...")
-        val operations = Operations(sourceFile, "1.0")
+        val operations = Operations(sourceFile.byteInputStream(), "1.0")
         return try {
             val errorList = operations.analyze("{}")
             if (errorList.isEmpty()) {
