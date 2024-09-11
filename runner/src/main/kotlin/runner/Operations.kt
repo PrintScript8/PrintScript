@@ -2,7 +2,6 @@ package runner
 
 import error.Error
 import formatter.FormatterInterface
-import inputreader.InputProvider
 import inputreader.InputQueueService
 import interpreter.Interpreter
 import interpreter.InterpreterProvider
@@ -17,7 +16,9 @@ import reader.InputStreamReader
 import token.TokenInterface
 import java.io.InputStream
 
-class Operations(sourceFile: InputStream, private var version: String, provider: InputProvider? = null) {
+class Operations(sourceFile: InputStream, private var version: String, provider: Iterator<String>? = null) {
+
+    constructor(sourceFile: InputStream, version: String) : this(sourceFile, version, null)
 
     private val lexer: LexerInterface
     private val tokenIterator: Iterator<TokenInterface>
