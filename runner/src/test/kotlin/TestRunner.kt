@@ -1,19 +1,16 @@
-
-import inputreader.InputProvider
-import inputreader.QueueInputProvider
 import node.staticpkg.AssignationType
 import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Test
 import runner.Operations
 import java.io.File
 import java.nio.file.Paths
-import java.util.LinkedList
+import java.util.Collections.emptyIterator
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class TestRunner {
 
-    private val provider: InputProvider = QueueInputProvider(LinkedList())
+    private val provider: Iterator<String> = emptyIterator()
 
     @Test
     fun `Test lexer and parser`() {

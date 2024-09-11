@@ -1,16 +1,15 @@
 package test
 
 import cli.Cli
-import inputreader.QueueInputProvider
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.nio.file.Paths
-import java.util.LinkedList
+import java.util.Collections.emptyIterator
 
 class CliTest {
 
-    private val cli = Cli(QueueInputProvider(LinkedList()))
+    private val cli = Cli(emptyIterator())
 
     @Test
     fun `validation test`() {

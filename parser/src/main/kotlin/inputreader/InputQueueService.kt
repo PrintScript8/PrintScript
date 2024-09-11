@@ -1,13 +1,16 @@
 package inputreader
 
 object InputQueueService {
-    private lateinit var queue: InputProvider
+    private lateinit var queue: Iterator<String>
 
-    fun initialize(provider: InputProvider) {
+    fun initialize(provider: Iterator<String>) {
         queue = provider
     }
 
     fun getInput(): String? {
-        return queue.input("")
+        if (queue.hasNext()) {
+            return queue.next()
+        }
+        return null
     }
 }

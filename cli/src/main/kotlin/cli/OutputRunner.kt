@@ -1,6 +1,5 @@
 package cli
 
-import inputreader.InputProvider
 import runner.Operations
 
 class OutputRunner {
@@ -16,7 +15,7 @@ class OutputRunner {
         }
     }
 
-    fun execute(sourceFile: String, version: String, provider: InputProvider): String {
+    fun execute(sourceFile: String, version: String, provider: Iterator<String>): String {
         println("Executing file with version $version...")
         val operations = Operations(sourceFile.byteInputStream(), version, provider)
         return try {

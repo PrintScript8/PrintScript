@@ -1,19 +1,17 @@
 package cli
 
-import inputreader.InputProvider
-import inputreader.QueueInputProvider
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.default
 import operation.Operation
-import java.util.LinkedList
+import java.util.Collections.emptyIterator
 
 fun main(args: Array<String>) {
-    val cli = Cli(QueueInputProvider(LinkedList()))
+    val cli = Cli(emptyIterator())
     cli.run(args)
 }
 
-class Cli(private val provider: InputProvider) {
+class Cli(private val provider: Iterator<String>) {
 
     fun run(args: Array<String>): String {
         val parser = ArgParser("CLI-Tool")

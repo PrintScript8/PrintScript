@@ -7,4 +7,5 @@ plugins {
 rootProject.name = 'PrintScript'
 
 include('lexer', 'parser', 'interpreter', 'formatter', 'linter', 'cli', 'runner')
+include 'adapter'
 
