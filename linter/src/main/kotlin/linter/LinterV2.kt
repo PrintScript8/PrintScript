@@ -1,6 +1,7 @@
 package linter
 
 import error.Error
+import node.dynamic.ReadInputType
 import node.staticpkg.AssignationType
 import node.staticpkg.DeclarationType
 import node.staticpkg.ExpressionType
@@ -33,13 +34,19 @@ class LinterV2(private val argumentRule: ArgumentRule?, private val formatRule: 
             is DeclarationType -> {
                 if (formatRule != null) log.addAll(formatRule.analyzeFormat(node))
             }
-            is PrintLnType -> {
+
+            is PrintLnType, is IfElseType -> {
                 if (argumentRule != null) log.addAll(argumentRule.analyzeArguments(node))
             }
+
             is AssignationType -> {
                 matchNode(node.declaration)
+                if (node.value is ReadInputType && argumentRule != null) {
+                    log.addAll(argumentRule.analyzeArguments(node.value))
+                }
             }
-            is ExpressionType, is IdentifierType, is ModifierType, is IfElseType -> {
+
+            is ExpressionType, is IdentifierType, is ModifierType -> {
                 return
             }
         }

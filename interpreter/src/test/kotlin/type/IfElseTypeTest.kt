@@ -36,8 +36,8 @@ class IfElseTypeTest {
             LiteralType(LiteralValue.NumberValue(3))
         )
 
-        val boolean = LiteralValue.BooleanValue(true)
-        val ifElseType = IfElseType(ifBranch, elseBranch, boolean)
+        val boolean = LiteralType(LiteralValue.BooleanValue(true))
+        val ifElseType = IfElseType(ifBranch, boolean, elseBranch)
         val version = "1.1"
         val printLnTypeLeft = PrintLnType(VariableType("testLeft", null, true))
         val printLnTypeRight = PrintLnType(VariableType("testRight", null, true))
@@ -78,8 +78,8 @@ class IfElseTypeTest {
             LiteralType(LiteralValue.NumberValue(3))
         )
 
-        val boolean = LiteralValue.BooleanValue(false)
-        val ifElseType = IfElseType(ifBranch, elseBranch, boolean)
+        val boolean = LiteralType(LiteralValue.BooleanValue(false))
+        val ifElseType = IfElseType(ifBranch, boolean, elseBranch)
         val version = "1.1"
         val printLnTypeLeft = PrintLnType(VariableType("testLeft", null, true))
         val printLnTypeRight = PrintLnType(VariableType("testRight", null, true))
@@ -120,8 +120,8 @@ class IfElseTypeTest {
             LiteralType(LiteralValue.NumberValue(3))
         )
 
-        val boolean = LiteralValue.BooleanValue(true)
-        val ifElseType = IfElseType(ifBranch, elseBranch, boolean)
+        val boolean = LiteralType(LiteralValue.BooleanValue(true))
+        val ifElseType = IfElseType(ifBranch, boolean, elseBranch)
         val version = "1.1"
         val printLnTypeLeft = PrintLnType(VariableType("testLeft", null, true))
         val printLnTypeRight = PrintLnType(VariableType("testRight", null, true))

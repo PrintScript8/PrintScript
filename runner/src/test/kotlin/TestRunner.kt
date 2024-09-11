@@ -20,7 +20,7 @@ class TestRunner {
     @Test
     fun `Test interpreter`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file2")))
-        val runner = Operations(input.byteInputStream(), "1.1")
+        val runner = Operations(input.byteInputStream(), "1.0")
         val output = runner.execute()
         assertEquals(
             "1.57",
