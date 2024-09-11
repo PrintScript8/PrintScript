@@ -51,8 +51,9 @@ class SumTypeTest {
         val interpreter = InterpreterProvider(
             listOf(assignationType, multiplyType).iterator()
         ).provideInterpreter("1.0")
+        val output: Iterator<String> = interpreter.execute()
         assertThrows<IllegalArgumentException> {
-            interpreter.execute()
+            output.asSequence().toList()
         }
     }
 
@@ -74,8 +75,8 @@ class SumTypeTest {
         val interpreter = InterpreterProvider(
             listOf(assignationType, printLnType).iterator()
         ).provideInterpreter("1.0")
-        val output: List<String> = interpreter.execute()
-        assertEquals(listOf("55"), output)
+        val output: Iterator<String> = interpreter.execute()
+        assertEquals("55", output.next())
     }
 
     @Test
@@ -96,8 +97,8 @@ class SumTypeTest {
         val interpreter = InterpreterProvider(
             listOf(assignationType, printLnType).iterator()
         ).provideInterpreter("1.0")
-        val output: List<String> = interpreter.execute()
-        assertEquals(listOf("10"), output)
+        val output: Iterator<String> = interpreter.execute()
+        assertEquals("10", output.next())
     }
 
     @Test
@@ -122,7 +123,7 @@ class SumTypeTest {
         val interpreter = InterpreterProvider(
             listOf(assignationType, sumType, printLnType).iterator()
         ).provideInterpreter("1.0")
-        val output: List<String> = interpreter.execute()
-        assertEquals(listOf("6"), output)
+        val output: Iterator<String> = interpreter.execute()
+        assertEquals("6", output.next())
     }
 }

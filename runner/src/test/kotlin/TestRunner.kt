@@ -21,9 +21,10 @@ class TestRunner {
     fun `Test interpreter`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file2")))
         val runner = Operations(input, "1.0")
+        val output = runner.execute()
         assertEquals(
-            listOf("1.57"),
-            runner.execute()
+            "1.57",
+            output.next()
         )
     }
 

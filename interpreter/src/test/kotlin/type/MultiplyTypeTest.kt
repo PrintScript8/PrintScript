@@ -51,8 +51,9 @@ class MultiplyTypeTest {
         val interpreter = InterpreterProvider(
             listOf(assignationType, multiplyType, printLnType).iterator()
         ).provideInterpreter("1.0")
+        val output: Iterator<String> = interpreter.execute()
         assertThrows<IllegalArgumentException> {
-            interpreter.execute()
+            output.asSequence().toList()
         }
     }
 
@@ -78,7 +79,7 @@ class MultiplyTypeTest {
         val interpreter = InterpreterProvider(
             listOf(assignationType, multiplyType, printLnType).iterator()
         ).provideInterpreter("1.0")
-        val output: List<String> = interpreter.execute()
-        assertEquals(listOf("5"), output)
+        val output: Iterator<String> = interpreter.execute()
+        assertEquals("5", output.next())
     }
 }
