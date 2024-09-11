@@ -54,6 +54,44 @@ class ParserInterfaceTests {
     }
 
     @Test
+    fun testConstDeclarationError() {
+        val tokenList: List<Token> = listOf(
+            Token(Modifier, "const", Position(1, 1, 1)),
+            Token(Identifier, "name", Position(1, 1, 1)),
+            Token(Declaration, ":", Position(1, 1, 1)),
+            Token(TypeId, "String", Position(1, 1, 1)),
+            Token(Ending, ";", Position(1, 1, 1))
+        )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            parserInterface.parse()
+        }
+    }
+
+    @Test
+    fun testConstDeclaration() {
+        val tokenList: List<Token> = listOf(
+            Token(Modifier, "const", Position(1, 1, 1)),
+            Token(Identifier, "name", Position(1, 1, 1)),
+            Token(Declaration, ":", Position(1, 1, 1)),
+            Token(TypeId, "String", Position(1, 1, 1)),
+            Token(Ending, ";", Position(1, 1, 1))
+        )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.1")
+        val parseList: List<StaticNode> = parserInterface.iterator().asSequence().toList()
+        Assertions.assertEquals(1, parseList.size)
+        val headNode: StaticNode = parseList[0]
+        Assertions.assertTrue(headNode is DeclarationType)
+        val node: DeclarationType = headNode as DeclarationType
+        Assertions.assertEquals("const", node.modifier.value)
+        Assertions.assertEquals(false, node.modifier.canModify)
+        Assertions.assertEquals("name", node.name)
+        Assertions.assertEquals(PrimType.STRING, node.type.type)
+    }
+
+    @Test
     fun testAssignation() {
         val tokenList: List<Token> = listOf(
             Token(Modifier, "let", Position(1, 1, 1)),
