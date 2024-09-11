@@ -1,13 +1,13 @@
 package cli
 
+import inputreader.InputProvider
 import runner.Operations
-import java.util.Queue
 
 class OutputRunner {
 
-    fun validate(sourceFile: String, inputQueue: Queue<String>): String {
+    fun validate(sourceFile: String, provider: InputProvider): String {
         println("Validating file...")
-        val operations = Operations(sourceFile.byteInputStream(), "1.0", inputQueue)
+        val operations = Operations(sourceFile.byteInputStream(), "1.0", provider)
         return try {
             operations.validate()
             "Validation successful"
@@ -16,9 +16,9 @@ class OutputRunner {
         }
     }
 
-    fun execute(sourceFile: String, version: String, inputQueue: Queue<String>): String {
+    fun execute(sourceFile: String, version: String, provider: InputProvider): String {
         println("Executing file with version $version...")
-        val operations = Operations(sourceFile.byteInputStream(), version, inputQueue)
+        val operations = Operations(sourceFile.byteInputStream(), version, provider)
         return try {
             val result: Iterator<String> = operations.execute()
             val output = StringBuilder()
@@ -34,9 +34,9 @@ class OutputRunner {
         }
     }
 
-    fun format(sourceFile: String, configFile: String?, inputQueue: Queue<String>): String {
+    fun format(sourceFile: String, configFile: String?, provider: InputProvider): String {
         println("Formatting file with config file $configFile...")
-        val operations = Operations(sourceFile.byteInputStream(), "1.0", inputQueue)
+        val operations = Operations(sourceFile.byteInputStream(), "1.0", provider)
         return try {
             val formatted = operations.format()
             "Formatted: $formatted"
@@ -45,9 +45,9 @@ class OutputRunner {
         }
     }
 
-    fun analyze(sourceFile: String, inputQueue: Queue<String>): String {
+    fun analyze(sourceFile: String, provider: InputProvider): String {
         println("Analyzing file...")
-        val operations = Operations(sourceFile.byteInputStream(), "1.0", inputQueue)
+        val operations = Operations(sourceFile.byteInputStream(), "1.0", provider)
         return try {
             val errorList = operations.analyze("{}")
             if (errorList.isEmpty()) {

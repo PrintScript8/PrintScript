@@ -1,6 +1,7 @@
 package test
 
 import cli.Cli
+import inputreader.QueueInputProvider
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -9,7 +10,7 @@ import java.util.LinkedList
 
 class CliTest {
 
-    private val cli = Cli(LinkedList())
+    private val cli = Cli(QueueInputProvider(LinkedList()))
 
     @Test
     fun `validation test`() {

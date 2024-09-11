@@ -1,18 +1,19 @@
 package cli
 
+import inputreader.InputProvider
+import inputreader.QueueInputProvider
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.default
 import operation.Operation
 import java.util.LinkedList
-import java.util.Queue
 
 fun main(args: Array<String>) {
-    val cli = Cli(LinkedList())
+    val cli = Cli(QueueInputProvider(LinkedList()))
     cli.run(args)
 }
 
-class Cli(private val inputQueue: Queue<String>) {
+class Cli(private val provider: InputProvider) {
 
     fun run(args: Array<String>): String {
         val parser = ArgParser("CLI-Tool")
@@ -29,10 +30,10 @@ class Cli(private val inputQueue: Queue<String>) {
         val operations = OutputRunner()
 
         return when (operation) {
-            Operation.Validation -> operations.validate(sourceFile, inputQueue)
-            Operation.Execution -> operations.execute(sourceFile, version, inputQueue)
-            Operation.Formatting -> operations.format(sourceFile, configFile, inputQueue)
-            Operation.Analyzing -> operations.analyze(sourceFile, inputQueue)
+            Operation.Validation -> operations.validate(sourceFile, provider)
+            Operation.Execution -> operations.execute(sourceFile, version, provider)
+            Operation.Formatting -> operations.format(sourceFile, configFile, provider)
+            Operation.Analyzing -> operations.analyze(sourceFile, provider)
             null -> throw IllegalArgumentException("No operation provided")
         }
     }
