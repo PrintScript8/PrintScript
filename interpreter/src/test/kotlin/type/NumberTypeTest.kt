@@ -23,6 +23,6 @@ class NumberTypeTest {
         val interpreter = InterpreterProvider(
             listOf(numberPrintLnType).iterator()
         ).provideInterpreter("1.0")
-        assertEquals(listOf("1"), interpreter.execute())
+        assertEquals("1", interpreter.execute().next())
     }
 }

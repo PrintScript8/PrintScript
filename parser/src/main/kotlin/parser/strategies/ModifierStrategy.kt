@@ -6,6 +6,7 @@ import token.TokenInterface
 
 class ModifierStrategy : ParseStrategy {
 
+    // TO DO: Hacer que solo version 1.1 permita const y la otra solo let
     override fun parse(
         tokenInterfaces: List<TokenInterface>,
         currentIndex: Int,

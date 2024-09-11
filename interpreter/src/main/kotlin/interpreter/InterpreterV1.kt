@@ -12,34 +12,30 @@ import node.staticpkg.StaticNode
 class InterpreterV1(var iterator: Iterator<StaticNode>) : Interpreter {
 
     private val valueMap: MutableMap<String, Pair<Boolean, TypeValue>> = mutableMapOf()
-    private val output: MutableList<String> = mutableListOf()
 
-    override fun execute(): List<String> {
-        while (iterator.hasNext()) {
-            val node = iterator.next()
-            matchNode(node)
-        }
-        return output
+    override fun execute(): Iterator<String> {
+        return processNodes(iterator).iterator()
     }
 
-    private fun matchNode(node: StaticNode) {
+    private fun processNodes(iterator: Iterator<StaticNode>): Sequence<String> {
+        return sequence {
+            while (iterator.hasNext()) {
+                val node = iterator.next()
+                val (map, result) = matchNode(node)
+                valueMap.putAll(map)
+                yieldAll(result)
+            }
+        }
+    }
+
+    private fun matchNode(node: StaticNode): Pair<Map<String, Pair<Boolean, TypeValue>>, List<String>> {
         when (node) {
             is AssignationType, is DeclarationType, is ExpressionType,
             is IdentifierType, is ModifierType, is PrintLnType -> {
                 val (map, result) = node.execute(valueMap, "1.0")
-                valueMap.putAll(map)
-                output.addAll(result)
+                return Pair(map, result)
             }
             else -> throw IllegalArgumentException("Operation not supported")
         }
-    }
-
-    fun addToList(value: String) {
-        output.add(value)
-    }
-
-    // no se si este esta bien
-    fun iterator(): Iterator<String> {
-        return output.iterator()
     }
 }

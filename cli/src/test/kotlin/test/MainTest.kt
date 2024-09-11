@@ -2,6 +2,7 @@ package test
 
 import interpreter.InterpreterProvider
 import node.PrimType
+import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.ReadInputType
 import node.dynamic.VariableType
@@ -19,7 +20,7 @@ fun main() {
         "input"
     )
 
-    val readInputType = ReadInputType("Enter a number", null)
+    val readInputType = ReadInputType(LiteralType(LiteralValue.StringValue("Enter a number")), null)
 
     val expression = ExpressionType(
         VariableType("input", LiteralValue.NumberValue(3), true),
@@ -32,8 +33,8 @@ fun main() {
     val version = "1.1"
 
     val interpreter = InterpreterProvider(astList.iterator()).provideInterpreter(version)
-    val output: List<String> = interpreter.execute()
-    val expected = listOf("10")
+    val output: Iterator<String> = interpreter.execute()
+    val expected = "10"
 
-    print(expected == output)
+    print(expected == output.next())
 }

@@ -1,5 +1,6 @@
 package secondversion
 
+import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.ReadInputType
 import node.dynamic.VariableType
@@ -13,7 +14,7 @@ class ReadInputTest {
     @Test
     fun `read input test`() {
 
-        val readInputType = ReadInputType("Enter a number", null)
+        val readInputType = ReadInputType(LiteralType(LiteralValue.StringValue("Enter a number")), null)
         val expression = ExpressionType(
             VariableType("input", LiteralValue.StringValue(""), true),
             readInputType

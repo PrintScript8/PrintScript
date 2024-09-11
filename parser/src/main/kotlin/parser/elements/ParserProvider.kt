@@ -53,18 +53,20 @@ class ParserProvider(private val iterator: Iterator<TokenInterface>) {
 
     private val tokenTypes2: Set<TokenType> = originalTokenTypes + OpenBrace + CloseBrace + If + Else + Boolean
 
+    private val methodStrategy = MethodStrategy(originalTokenTypes, setOf("println"))
     private val ogStrategy: Map<TokenType, ParseStrategy> = mapOf(
         Modifier to ModifierStrategy(),
-        Identifier to DeclarationStrategy(arrayOf(PrimType.STRING, PrimType.NUMBER,)),
-        Assignment to AssignationStrategy(originalTokenTypes),
-        NativeMethod to MethodStrategy(originalTokenTypes)
+        Identifier to DeclarationStrategy(arrayOf(PrimType.STRING, PrimType.NUMBER)),
+        NativeMethod to methodStrategy,
+        Assignment to AssignationStrategy(originalTokenTypes, methodStrategy)
     )
 
+    private val methodStrategy2 = MethodStrategy(tokenTypes2, setOf("println", "readEnv", "readInput"))
     private val strategy2: Map<TokenType, ParseStrategy> = mapOf(
         Modifier to ModifierStrategy(),
         Identifier to DeclarationStrategy(arrayOf(PrimType.STRING, PrimType.NUMBER, PrimType.BOOLEAN)),
-        Assignment to AssignationStrategy(tokenTypes2),
-        NativeMethod to MethodStrategy(tokenTypes2),
+        NativeMethod to methodStrategy2,
+        Assignment to AssignationStrategy(tokenTypes2, methodStrategy2)
     )
 
     private val parsers: Map<String, ParserInterface> = mapOf(
