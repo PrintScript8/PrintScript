@@ -61,6 +61,9 @@ class Parser(tokenHandler: TokenHandler, private val tokenIterator: Iterator<Tok
 
             // Cuando el bloque se cierra completamente
             if (blockLevel == 0) {
+                // TODO: ESTO DEBE VERIFICAR QUE NO HAY UN ELSE INMEDIATAMENTE DESPUES ANTES DE DEVOLVER LO PARSEADO
+                // ESTO ES ASI YA QUE SI HAY UN ELSE DESPUES, ES PARTE DEL NODO IF CREADO
+
                 return statementParser.parseStatement(blockTokens).firstOrNull() ?: throw IllegalStateException("Error parsing block")
             }
         }

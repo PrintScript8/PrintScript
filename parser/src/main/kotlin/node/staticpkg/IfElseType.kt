@@ -6,7 +6,7 @@ import node.dynamic.LiteralValue
 import operations.StaticVisitorV1
 
 class IfElseType(
-    private val ifBranch: List<StaticNode>,
+    val ifBranch: List<StaticNode>,
     val boolean: DynamicNode,
     private val elseBranch: List<StaticNode>?
 ) : StaticNode {
