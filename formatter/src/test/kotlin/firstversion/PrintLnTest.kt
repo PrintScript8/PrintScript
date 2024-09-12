@@ -49,7 +49,7 @@ class PrintLnTest {
 
     @Test
     fun printTestWithVariable() {
-        val variable = VariableType("a", null, false)
+        val variable = VariableType("a", null)
         val printType: StaticNode = PrintLnType(variable)
 
         val astList = listOf(printType)
@@ -63,7 +63,7 @@ class PrintLnTest {
     @Test
     fun printTestWithMultipleOperations() {
         val sum = SumType(
-            VariableType("x", null, false),
+            VariableType("x", null),
             LiteralType(LiteralValue.StringValue("y")),
             null
         )

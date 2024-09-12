@@ -9,16 +9,18 @@ import token.TokenInterface
 
 class StatementParser(private val tokenHandler: TokenHandler) {
 
-     fun parseStatement(tokens: List<TokenInterface>): List<StaticNode> {
+    fun parseStatement(
+        tokens: List<TokenInterface>,
+        statementNodes: MutableList<Node> = mutableListOf()
+    ): List<StaticNode> {
         var i = 0
         val astList: MutableList<StaticNode> = mutableListOf()
-        val statementNodes: MutableList<Node> = mutableListOf()
 
         while (i < tokens.size) {
             i = tokenHandler.handle(tokens, i, statementNodes)
-            require(i < tokens.size) {
+            require(i < tokens.size || tokens[i - 1].type == CloseBrace) {
                 "Expected ';' at end of statement. At: " +
-                        "${tokens[tokens.lastIndex].position}"
+                    "${tokens[tokens.lastIndex].position}"
             }
             i = handleEnding(tokens, i, statementNodes, astList)
         }
@@ -32,6 +34,9 @@ class StatementParser(private val tokenHandler: TokenHandler) {
         astList: MutableList<StaticNode>
     ): Int {
         var j = i
+        if (j >= tokenInterfaces.size) {
+            return j
+        }
         if (tokenInterfaces[j].type == Ending) {
             require(statementNodes.isNotEmpty()) {
                 "Didn't expect ';' At: ${tokenInterfaces[j].position}"
@@ -39,14 +44,17 @@ class StatementParser(private val tokenHandler: TokenHandler) {
             addStaticNodeToAstList(statementNodes, astList)
             statementNodes.clear()
             j += 1
-        }
-        else if (tokenInterfaces[j].type == CloseBrace){
-            if(j+1 < tokenInterfaces.size && tokenInterfaces[j+1].type == Else){
-                val subStatementNodes = parseStatement(createSubList(tokenInterfaces, j+1, tokenInterfaces.lastIndex))
+        } else if (tokenInterfaces[j].type == CloseBrace) {
+            if (j + 1 < tokenInterfaces.size && tokenInterfaces[j + 1].type == Else) {
+                val subStatementNodes = parseStatement(
+                    createSubList(
+                        tokenInterfaces, j + 1, tokenInterfaces.lastIndex
+                    ),
+                    statementNodes
+                )
                 addStaticNodeToAstList(subStatementNodes.toMutableList(), astList)
                 j = tokenInterfaces.lastIndex
-            }
-            else{
+            } else {
                 addStaticNodeToAstList(statementNodes, astList)
                 j += 1
             }
@@ -71,7 +79,7 @@ class StatementParser(private val tokenHandler: TokenHandler) {
         require(startIndex in 0..originalList.size) { "Start index out of bounds" }
         require(endIndex in startIndex..originalList.size) { "End index out of bounds" }
         val newList = mutableListOf<T>()
-        for (i in startIndex until endIndex) {
+        for (i in startIndex..endIndex) {
             newList.add(originalList[i])
         }
         return newList

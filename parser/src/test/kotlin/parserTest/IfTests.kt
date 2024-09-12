@@ -1,4 +1,3 @@
-package parserTest
 
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
@@ -9,8 +8,20 @@ import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import parser.elements.ParserProvider
-import token.*
+import token.Assignment
 import token.Boolean
+import token.CloseBrace
+import token.CloseParenthesis
+import token.Else
+import token.Ending
+import token.Identifier
+import token.If
+import token.NativeMethod
+import token.OpenBrace
+import token.OpenParenthesis
+import token.Position
+import token.StringLiteral
+import token.Token
 
 class IfTests {
 
@@ -74,9 +85,10 @@ class IfTests {
         val output = parser.iterator()
 
         val expected = IfElseType(
-            listOf(PrintLnType(LiteralType(LiteralValue.StringValue("Hello, World!"))),
+            listOf(
+                PrintLnType(LiteralType(LiteralValue.StringValue("Hello, World!"))),
                 ExpressionType(
-                    VariableType("a", null, true),
+                    VariableType("a", null),
                     LiteralType(LiteralValue.StringValue("I lost the Game"))
                 )
             ),
@@ -121,7 +133,9 @@ class IfTests {
                 IfElseType(
                     listOf(PrintLnType(LiteralType(LiteralValue.StringValue("Hello, World!")))),
                     LiteralType(LiteralValue.BooleanValue(true)),
-                    null)),
+                    null
+                )
+            ),
             LiteralType(LiteralValue.BooleanValue(true)),
             null
         )
@@ -129,7 +143,7 @@ class IfTests {
         assertEquals(expected.format("1.1"), output.next().format("1.1"))
     }
 
-    private fun pos(number: Int) : Position {
+    private fun pos(number: Int): Position {
         return Position(number, 0, 0)
     }
 
@@ -162,12 +176,13 @@ class IfTests {
         val output = parser.iterator()
 
         val expected = IfElseType(
-            listOf(PrintLnType(LiteralType(LiteralValue.StringValue("Hello, World!"))),
+            listOf(
+                PrintLnType(LiteralType(LiteralValue.StringValue("Hello, World!"))),
             ),
             LiteralType(LiteralValue.BooleanValue(true)),
             listOf(
                 ExpressionType(
-                    VariableType("a", null, true),
+                    VariableType("a", null),
                     LiteralType(LiteralValue.StringValue("I lost the Game"))
                 )
             )
@@ -211,19 +226,21 @@ class IfTests {
         val output = parser.iterator()
 
         val expected = IfElseType(
-            listOf(PrintLnType(LiteralType(LiteralValue.StringValue("Hello, World!"))),
+            listOf(
+                PrintLnType(LiteralType(LiteralValue.StringValue("Hello, World!"))),
             ),
             LiteralType(LiteralValue.BooleanValue(true)),
-            listOf(IfElseType(
-                listOf(
-                    ExpressionType(
-                        VariableType("a", null, true),
-                        LiteralType(LiteralValue.StringValue("I lost the Game"))
-                    )
-                ),
-                LiteralType(LiteralValue.BooleanValue(false)),
-                null
-            )
+            listOf(
+                IfElseType(
+                    listOf(
+                        ExpressionType(
+                            VariableType("a", null),
+                            LiteralType(LiteralValue.StringValue("I lost the Game"))
+                        )
+                    ),
+                    LiteralType(LiteralValue.BooleanValue(false)),
+                    null
+                )
             )
         )
 

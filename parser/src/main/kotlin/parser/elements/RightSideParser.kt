@@ -67,7 +67,7 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
                         opStack.add(node)
                     }
                     Identifier -> {
-                        val node = VariableType(currentToken.text, null, false)
+                        val node = VariableType(currentToken.text, null)
                         opStack.add(node)
                     }
                     Multiply -> {

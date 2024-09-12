@@ -8,7 +8,7 @@ import parser.elements.TokenHandler
 import token.OpenBrace
 import token.TokenInterface
 
-class ElseStrategy : ParseStrategy{
+class ElseStrategy : ParseStrategy {
 
     var tokenHandler: TokenHandler? = null
 
@@ -17,23 +17,25 @@ class ElseStrategy : ParseStrategy{
         currentIndex: Int,
         statementNodes: MutableList<Node>
     ): Int {
-        require(currentIndex + 1 < tokenInterfaces.size && tokenInterfaces[currentIndex + 1].type == OpenBrace){
+        require(currentIndex + 1 < tokenInterfaces.size && tokenInterfaces[currentIndex + 1].type == OpenBrace) {
             "else missing '{' for condition at: ${tokenInterfaces[currentIndex].position}"
         }
         val statementParser = StatementParser(tokenHandler!!)
 
         val ifNode = statementNodes.last()
-        require(ifNode is IfElseType) { "Missing if statement before else at: ${tokenInterfaces[currentIndex].position}" }
+        require(ifNode is IfElseType) {
+            "Missing if statement before else at: ${tokenInterfaces[currentIndex].position}"
+        }
 
         val elseBlock: List<StaticNode> = statementParser.parseStatement(
-            createSubList(tokenInterfaces, 2, tokenInterfaces.lastIndex))
+            createSubList(tokenInterfaces, 2, tokenInterfaces.lastIndex)
+        )
         val updatedIf = createIf(ifNode, elseBlock)
         statementNodes.add(updatedIf)
         return tokenInterfaces.lastIndex
-        TODO("Not yet implemented")
     }
 
-    private fun createIf(ifNode: IfElseType, elseBlock: List<StaticNode>): IfElseType{
+    private fun createIf(ifNode: IfElseType, elseBlock: List<StaticNode>): IfElseType {
         val ifBranch = ifNode.ifBranch
         val boolValue = ifNode.boolean
         return IfElseType(ifBranch, boolValue, elseBlock)

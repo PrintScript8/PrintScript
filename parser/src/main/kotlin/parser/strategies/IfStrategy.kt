@@ -1,7 +1,6 @@
 package parser.strategies
 
 import node.Node
-import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.VariableType
@@ -9,10 +8,20 @@ import node.staticpkg.IfElseType
 import node.staticpkg.StaticNode
 import parser.elements.StatementParser
 import parser.elements.TokenHandler
-import token.*
 import token.Boolean
+import token.CloseBrace
+import token.CloseParenthesis
+import token.Identifier
+import token.OpenBrace
+import token.OpenParenthesis
+import token.TokenInterface
 
-class IfStrategy : ParseStrategy{
+class IfStrategy : ParseStrategy {
+
+    companion object {
+        const val INDEX_JUMP_LOW = 2
+        const val INDEX_JUMP_HIGH = 5
+    }
 
     var tokenHandler: TokenHandler? = null
 
@@ -25,49 +34,65 @@ class IfStrategy : ParseStrategy{
         val statementParser: StatementParser = StatementParser(tokenHandler!!)
         verifySyntax(currentIndex, tokenInterfaces)
         // ya puedo incrementar indice a +4
-        val argumentToken: TokenInterface = tokenInterfaces[currentIndex+2]
-        val argument = if(argumentToken.type == Identifier){
-            VariableType(argumentToken.text, null, true)
-        }
-        else{
+        val argumentToken: TokenInterface = tokenInterfaces[currentIndex + 2]
+        val argument = if (argumentToken.type == Identifier) {
+            VariableType(argumentToken.text, null)
+        } else {
             LiteralType(LiteralValue.BooleanValue(argumentToken.text == "true"))
         }
 
         // El ultimo elemento de la lista es la } que representa que termino el if original
         // Por esto, lo unico que me interesa es lo que hay entre el indice despues del currentIndex+4 hasta last-1
 
+        val lastIndex = findBraces(tokenInterfaces, INDEX_JUMP_HIGH)
         val trueBlock: List<StaticNode> = statementParser.parseStatement(
-            createSubList(tokenInterfaces, 5, tokenInterfaces.lastIndex))
+            createSubList(tokenInterfaces, INDEX_JUMP_HIGH, lastIndex)
+        )
         val ifNode = IfElseType(trueBlock, argument, null)
         statementNodes.add(ifNode)
-        return tokenInterfaces.lastIndex
-
-        TODO("Not yet implemented")
+        return lastIndex
     }
 
-
+    private fun findBraces(list: List<TokenInterface>, startingIndex: Int): Int {
+        var level: Int = 1
+        for (i in startingIndex until list.size) {
+            val token = list[i]
+            if (token.type is OpenBrace) level++
+            if (token.type is CloseBrace) level--
+            if (level == 0) return i
+        }
+        return list.size
+    }
 
     private fun verifySyntax(currentIndex: Int, tokenInterfaces: List<TokenInterface>) {
-        require(currentIndex + 1 < tokenInterfaces.size && tokenInterfaces[currentIndex + 1].type == OpenParenthesis) {
+        require(
+            currentIndex + 1 < tokenInterfaces.size &&
+                tokenInterfaces[currentIndex + 1].type == OpenParenthesis
+        ) {
             "If missing '(' for condition at: ${tokenInterfaces[currentIndex].position}"
         }
         // ya puedo incrementar indice a +1
         require(
-            currentIndex + 2 < tokenInterfaces.size && (tokenInterfaces[currentIndex + 2].type == Identifier
-                    || tokenInterfaces[currentIndex + 2].type == Boolean)
+            currentIndex + 2 < tokenInterfaces.size &&
+                (
+                    tokenInterfaces[currentIndex + INDEX_JUMP_LOW].type == Identifier ||
+                        tokenInterfaces[currentIndex + INDEX_JUMP_LOW].type == Boolean
+                    )
         ) {
-            "Invalid argument ${tokenInterfaces[currentIndex + 2].type} passed to if statement at: " +
-                    "${tokenInterfaces[currentIndex + 2].position}"
+            "Invalid argument ${tokenInterfaces[currentIndex + INDEX_JUMP_LOW].type} passed to if statement at: " +
+                "${tokenInterfaces[currentIndex + INDEX_JUMP_LOW].position}"
         }
         require(
-            currentIndex + 3 < tokenInterfaces.size && tokenInterfaces[currentIndex + 3].type == CloseParenthesis
+            currentIndex + INDEX_JUMP_LOW + 1 < tokenInterfaces.size &&
+                tokenInterfaces[currentIndex + INDEX_JUMP_LOW + 1].type == CloseParenthesis
         ) {
-            "If missing ')' for condition at: ${tokenInterfaces[currentIndex + 2].position}"
+            "If missing ')' for condition at: ${tokenInterfaces[currentIndex + INDEX_JUMP_LOW].position}"
         }
         require(
-            currentIndex + 4 < tokenInterfaces.size && tokenInterfaces[currentIndex + 4].type == OpenBrace
+            currentIndex + INDEX_JUMP_HIGH - 1 < tokenInterfaces.size &&
+                tokenInterfaces[currentIndex + INDEX_JUMP_HIGH - 1].type == OpenBrace
         ) {
-            "If missing '{' for condition at: ${tokenInterfaces[currentIndex + 3].position}"
+            "If missing '{' for condition at: ${tokenInterfaces[currentIndex + INDEX_JUMP_LOW + 1].position}"
         }
     }
 
@@ -80,9 +105,7 @@ class IfStrategy : ParseStrategy{
         }
         return newList
     }
-
 }
-
 
 // LA IDEA ES QUE LA REGLA DEL IF MANDE A PARSEAR DE A UNA SUS EXPRESIONES Y SE LAS GUARDE EN LA LISTA
 // DEL LADO QUE CORRESPONDE.

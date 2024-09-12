@@ -3,7 +3,13 @@ package parser.elements
 import node.PrimType
 import parser.Parser
 import parser.ParserInterface
-import parser.strategies.*
+import parser.strategies.AssignationStrategy
+import parser.strategies.DeclarationStrategy
+import parser.strategies.ElseStrategy
+import parser.strategies.IfStrategy
+import parser.strategies.MethodStrategy
+import parser.strategies.ModifierStrategy
+import parser.strategies.ParseStrategy
 import token.Assignment
 import token.Boolean
 import token.CloseBrace

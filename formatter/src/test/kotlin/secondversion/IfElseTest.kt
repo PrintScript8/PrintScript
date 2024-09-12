@@ -41,7 +41,7 @@ class IfElseTest {
         val version = "1.1"
         val list = listOf(
             ifElseType,
-            PrintLnType(VariableType("testLeft", null, true))
+            PrintLnType(VariableType("testLeft", null))
         )
 
         val formatter = FormatterProvider(list.iterator()).provideFormatter(version)

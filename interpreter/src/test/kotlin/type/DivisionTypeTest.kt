@@ -40,14 +40,14 @@ class DivisionTypeTest {
             LiteralType(LiteralValue.BooleanValue(true))
         )
         val divisionType = ExpressionType(
-            VariableType("a", null, true),
+            VariableType("a", null),
             DivisionType(
                 LiteralType(LiteralValue.NumberValue(1)),
-                VariableType("a", null, true),
+                VariableType("a", null),
                 null
             )
         )
-        val printLnType = PrintLnType(VariableType("a", null, true))
+        val printLnType = PrintLnType(VariableType("a", null))
         val interpreter = InterpreterProvider(
             listOf(
                 assignationType, divisionType, printLnType
@@ -71,14 +71,14 @@ class DivisionTypeTest {
             LiteralType(LiteralValue.NumberValue(5))
         )
         val divisionType = ExpressionType(
-            VariableType("a", null, true),
+            VariableType("a", null),
             DivisionType(
                 LiteralType(LiteralValue.NumberValue(1)),
-                VariableType("a", null, true),
+                VariableType("a", null),
                 null
             )
         )
-        val printLnType = PrintLnType(VariableType("a", null, true))
+        val printLnType = PrintLnType(VariableType("a", null))
         val interpreter = InterpreterProvider(
             listOf(
                 assignationType, divisionType, printLnType

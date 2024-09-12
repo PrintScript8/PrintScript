@@ -30,7 +30,7 @@ class DeclarationStrategy(private val types: Array<PrimType>) : ParseStrategy {
             return currentIndex + INDEX_JUMP
         } else {
             // In this branch an identifier node is parsed instead of a declaration
-            statementNodes.add(VariableType(tokenInterfaces[currentIndex].text, null, false))
+            statementNodes.add(VariableType(tokenInterfaces[currentIndex].text, null))
             return currentIndex + (INDEX_JUMP - 2)
         }
     }

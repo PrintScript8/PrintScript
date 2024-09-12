@@ -7,7 +7,6 @@ import token.TokenInterface
 
 class ModifierStrategy(private val validMods: Set<String>) : ParseStrategy {
 
-
     override fun parse(
         tokenInterfaces: List<TokenInterface>,
         currentIndex: Int,
@@ -15,9 +14,9 @@ class ModifierStrategy(private val validMods: Set<String>) : ParseStrategy {
     ): Int {
         require(validMods.contains(tokenInterfaces[currentIndex].text)) {
             "Modifier ${tokenInterfaces[currentIndex].text} is not supported in this version at:" +
-                    " ${tokenInterfaces[currentIndex].position}"
+                " ${tokenInterfaces[currentIndex].position}"
         }
-        require(currentIndex + 1 < tokenInterfaces.size && tokenInterfaces[currentIndex+1].type == Identifier) {
+        require(currentIndex + 1 < tokenInterfaces.size && tokenInterfaces[currentIndex + 1].type == Identifier) {
             "Modifier must be used with a variable at: ${tokenInterfaces[currentIndex].position}"
         }
         statementNodes.add(parseModifier(tokenInterfaces, currentIndex))

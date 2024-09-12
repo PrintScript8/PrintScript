@@ -42,8 +42,8 @@ class ExpressionTypeTest {
             LiteralType(LiteralValue.NumberValue(1))
         )
         val expressionType = ExpressionType(
-            VariableType("a", null, false),
-            VariableType("b", null, false)
+            VariableType("a", null),
+            VariableType("b", null)
         )
         val list = listOf(assignationTypeA, assignationTypeB, expressionType)
         val interpreter = InterpreterProvider(list.iterator()).provideInterpreter("1.0")
@@ -78,10 +78,10 @@ class ExpressionTypeTest {
             LiteralType(LiteralValue.NumberValue(2))
         )
         val expressionType = ExpressionType(
-            VariableType("a", null, false),
-            VariableType("b", null, false)
+            VariableType("a", null),
+            VariableType("b", null)
         )
-        val printLnType = PrintLnType(VariableType("a", null, false))
+        val printLnType = PrintLnType(VariableType("a", null))
         val list = listOf(assignationTypeA, assignationTypeB, expressionType, printLnType)
         val interpreter = InterpreterProvider(list.iterator()).provideInterpreter("1.0")
         assertEquals("2", interpreter.iterator().next())

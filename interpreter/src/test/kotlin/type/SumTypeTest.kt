@@ -41,10 +41,10 @@ class SumTypeTest {
             LiteralType(LiteralValue.BooleanValue(true))
         )
         val multiplyType = ExpressionType(
-            VariableType("a", null, true),
+            VariableType("a", null),
             MultiplyType(
                 LiteralType(LiteralValue.BooleanValue(true)),
-                VariableType("a", null, true),
+                VariableType("a", null),
                 null
             )
         )
@@ -71,7 +71,7 @@ class SumTypeTest {
                 null
             )
         )
-        val printLnType = PrintLnType(VariableType("a", null, true))
+        val printLnType = PrintLnType(VariableType("a", null))
         val interpreter = InterpreterProvider(
             listOf(assignationType, printLnType).iterator()
         ).provideInterpreter("1.0")
@@ -93,7 +93,7 @@ class SumTypeTest {
                 null
             )
         )
-        val printLnType = PrintLnType(VariableType("a", null, true))
+        val printLnType = PrintLnType(VariableType("a", null))
         val interpreter = InterpreterProvider(
             listOf(assignationType, printLnType).iterator()
         ).provideInterpreter("1.0")
@@ -112,14 +112,14 @@ class SumTypeTest {
             LiteralType(LiteralValue.NumberValue(5))
         )
         val sumType = ExpressionType(
-            VariableType("a", null, true),
+            VariableType("a", null),
             SumType(
                 LiteralType(LiteralValue.NumberValue(1)),
-                VariableType("a", null, true),
+                VariableType("a", null),
                 null
             )
         )
-        val printLnType = PrintLnType(VariableType("a", null, true))
+        val printLnType = PrintLnType(VariableType("a", null))
         val interpreter = InterpreterProvider(
             listOf(assignationType, sumType, printLnType).iterator()
         ).provideInterpreter("1.0")
