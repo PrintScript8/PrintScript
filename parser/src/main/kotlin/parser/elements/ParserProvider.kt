@@ -1,6 +1,8 @@
 package parser.elements
 
 import node.PrimType
+import parser.Parser
+import parser.ParserInterface
 import parser.strategies.AssignationStrategy
 import parser.strategies.DeclarationStrategy
 import parser.strategies.MethodStrategy
