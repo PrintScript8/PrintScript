@@ -19,8 +19,9 @@ class DeclarationType(val modifier: ModifierType, val type: IdentifierType, val 
         return StaticResult(newMap, emptyList())
     }
 
-    override fun format(version: String): String {
-        return "${modifier.format(version)} $name: ${type.format(version)};"
+    override fun format(version: String, indentLevel: Int): String {
+        val indent = "  ".repeat(indentLevel)
+        return "${indent}${modifier.format(version, indentLevel)} $name: ${type.format(version, indentLevel)};"
     }
 
     override fun toString(): String {

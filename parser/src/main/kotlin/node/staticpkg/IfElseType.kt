@@ -41,19 +41,28 @@ class IfElseType(
         return StaticResult(valueMapCopy, output)
     }
 
-    override fun format(version: String): String {
-        val ifBody = ifBranch.joinToString(separator = "\n") { "    ${it.format(version)}" }
-        val elseBody = elseBranch?.joinToString(separator = "\n") { "    ${it.format(version)}" }
+    override fun format(version: String, indentLevel: Int): String {
+        val indent = "    ".repeat(indentLevel)
+        val innerIndent = "".repeat(indentLevel + 1)
+
+        val ifBody = ifBranch.joinToString(separator = "\n") {
+            "$innerIndent${it.format(version, indentLevel + 1)}"
+        }
+
+        val elseBody = elseBranch?.joinToString(separator = "\n") {
+            "$innerIndent${it.format(version, indentLevel + 1)}"
+        }
+
         return if (elseBody == null) {
-            "if (${boolean.format(version)}) {\n" +
+            "${indent}if (${boolean.format(version)}) {\n" +
                 "$ifBody\n" +
-                "}"
+                "$indent}"
         } else {
-            "if (${boolean.format(version)}) {\n" +
+            "${indent}if (${boolean.format(version)}) {\n" +
                 "$ifBody\n" +
-                "} else {\n" +
+                "$indent} else {\n" +
                 "$elseBody\n" +
-                "}"
+                "$indent}"
         }
     }
 }

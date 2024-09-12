@@ -15,8 +15,9 @@ class ModifierType(val value: String, val canModify: Boolean) : StaticNode {
         return StaticResult(valueMap, emptyList())
     }
 
-    override fun format(version: String): String {
-        return value
+    override fun format(version: String, indentLevel: Int): String {
+        val indent = "  ".repeat(indentLevel)
+        return "$indent$value"
     }
 
     override fun toString(): String {
