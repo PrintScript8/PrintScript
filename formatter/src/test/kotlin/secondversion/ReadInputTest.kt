@@ -16,7 +16,7 @@ class ReadInputTest {
 
         val readInputType = ReadInputType(LiteralType(LiteralValue.StringValue("Enter a number")), null)
         val expression = ExpressionType(
-            VariableType("input", LiteralValue.StringValue(""), true),
+            VariableType("input", LiteralValue.StringValue("")),
             readInputType
         )
 

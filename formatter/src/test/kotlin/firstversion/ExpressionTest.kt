@@ -14,7 +14,7 @@ class ExpressionTest {
     @Test
     fun testExpression() {
         val expression: StaticNode = ExpressionType(
-            VariableType("name", null, false),
+            VariableType("name", null),
             LiteralType(LiteralValue.NumberValue(10))
         )
 

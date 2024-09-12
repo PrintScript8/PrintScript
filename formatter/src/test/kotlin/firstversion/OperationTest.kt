@@ -142,7 +142,7 @@ class OperationTest {
 
         val multiplyType = SumType(
             LiteralType(LiteralValue.NumberValue(1)),
-            VariableType("a", null, false),
+            VariableType("a", null),
             null
         )
 
@@ -170,13 +170,13 @@ class OperationTest {
 
         val sumType = SumType(
             LiteralType(LiteralValue.NumberValue(1)),
-            VariableType("\"x\"", null, false),
+            VariableType("\"x\"", null),
             null
         )
 
         val sumType2 = SumType(
             LiteralType(LiteralValue.NumberValue(1)),
-            VariableType("a", null, false),
+            VariableType("a", null),
             null
         )
 

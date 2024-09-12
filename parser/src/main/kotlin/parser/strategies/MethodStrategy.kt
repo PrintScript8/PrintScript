@@ -12,7 +12,7 @@ import token.TokenInterface
 import token.TokenType
 
 class MethodStrategy(
-    private val allowedTypes: Set<TokenType>,
+    allowedTypes: Set<TokenType>,
     private val versionMethods: Set<String>
 ) : ParseStrategy {
 

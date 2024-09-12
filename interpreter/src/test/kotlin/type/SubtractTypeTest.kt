@@ -40,14 +40,14 @@ class SubtractTypeTest {
             LiteralType(LiteralValue.NumberValue(5))
         )
         val substractType = ExpressionType(
-            VariableType("a", null, true),
+            VariableType("a", null),
             SubtractType(
                 LiteralType(LiteralValue.NumberValue(5)),
                 LiteralType(LiteralValue.BooleanValue(false)),
                 null
             )
         )
-        val printLnType = PrintLnType(VariableType("a", null, true))
+        val printLnType = PrintLnType(VariableType("a", null))
         val interpreter = InterpreterProvider(
             listOf(assignationType, substractType, printLnType).iterator()
         ).provideInterpreter("1.0")
@@ -68,14 +68,14 @@ class SubtractTypeTest {
             LiteralType(LiteralValue.NumberValue(5))
         )
         val substractType = ExpressionType(
-            VariableType("a", null, true),
+            VariableType("a", null),
             SubtractType(
                 LiteralType(LiteralValue.NumberValue(1)),
-                VariableType("a", null, true),
+                VariableType("a", null),
                 null
             )
         )
-        val printLnType = PrintLnType(VariableType("a", null, true))
+        val printLnType = PrintLnType(VariableType("a", null))
         val interpreter = InterpreterProvider(
             listOf(assignationType, substractType, printLnType).iterator()
         ).provideInterpreter("1.0")

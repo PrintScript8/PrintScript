@@ -23,11 +23,11 @@ fun main() {
     val readInputType = ReadInputType(LiteralType(LiteralValue.StringValue("Enter a number")), null)
 
     val expression = ExpressionType(
-        VariableType("input", LiteralValue.NumberValue(3), true),
+        VariableType("input", LiteralValue.NumberValue(3)),
         readInputType
     )
 
-    val printLn = PrintLnType(VariableType("input", LiteralValue.StringValue(""), true))
+    val printLn = PrintLnType(VariableType("input", LiteralValue.StringValue("")))
 
     val astList = listOf(declaration, expression, printLn)
     val version = "1.1"

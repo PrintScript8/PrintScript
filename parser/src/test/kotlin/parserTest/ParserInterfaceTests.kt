@@ -10,7 +10,7 @@ import node.staticpkg.ExpressionType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import parser.elements.ParserInterface
+import parser.ParserInterface
 import parser.elements.ParserProvider
 import token.Assignment
 import token.Boolean
@@ -51,6 +51,19 @@ class ParserInterfaceTests {
         Assertions.assertEquals(true, node.modifier.canModify)
         Assertions.assertEquals("name", node.name)
         Assertions.assertEquals(PrimType.STRING, node.type.type)
+    }
+
+    @Test
+    fun testIncompleteDeclaration() {
+        val tokenList: List<Token> = listOf(
+            Token(Modifier, "let", Position(1, 1, 1)),
+            Token(Ending, ";", Position(1, 1, 1))
+        )
+        val parserProvider = ParserProvider(tokenList.iterator())
+        val parserInterface: ParserInterface = parserProvider.getParser("1.0")
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            parserInterface.parse()
+        }
     }
 
     @Test

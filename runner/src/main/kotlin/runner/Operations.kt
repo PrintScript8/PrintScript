@@ -8,7 +8,7 @@ import interpreter.InterpreterProvider
 import lexer.LexerInterface
 import linter.LinterProvider
 import node.staticpkg.StaticNode
-import parser.elements.ParserInterface
+import parser.ParserInterface
 import parser.elements.ParserProvider
 import provider.FormatterProvider
 import provider.LexerProvider
