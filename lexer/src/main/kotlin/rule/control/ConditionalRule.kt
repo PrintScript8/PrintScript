@@ -20,7 +20,8 @@ abstract class ConditionalRule(private val keyword: String) : TokenRule {
                     break
                 }
             }
-            if (match && (lastIndex == input.length || input[lastIndex].isWhitespace())) {
+            val validSyntax = lastIndex == input.length || input[lastIndex].isWhitespace() || input[lastIndex] == '('
+            if (match && validSyntax) {
                 val tokenType = if (keyword == "if") If else Else
                 token = Token(
                     tokenType, keyword,
