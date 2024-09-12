@@ -15,9 +15,9 @@ class OutputRunner {
         }
     }
 
-    fun execute(sourceFile: String, version: String): String {
+    fun execute(sourceFile: String, version: String, provider: Iterator<String>): String {
         println("Executing file with version $version...")
-        val operations = Operations(sourceFile.byteInputStream(), version)
+        val operations = Operations(sourceFile.byteInputStream(), version, provider)
         return try {
             val result: Iterator<String> = operations.execute()
             val output = StringBuilder()

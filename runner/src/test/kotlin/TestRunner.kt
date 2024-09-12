@@ -1,26 +1,28 @@
-
 import node.staticpkg.AssignationType
 import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Test
 import runner.Operations
 import java.io.File
 import java.nio.file.Paths
+import java.util.Collections.emptyIterator
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class TestRunner {
 
+    private val provider: Iterator<String> = emptyIterator()
+
     @Test
     fun `Test lexer and parser`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file1")))
-        val runner = Operations(input.byteInputStream(), "1.0")
-        assertIs<AssignationType>(runner.validate().get(0))
+        val runner = Operations(input.byteInputStream(), "1.0", provider)
+        assertIs<AssignationType>(runner.validate()[0])
     }
 
     @Test
     fun `Test interpreter`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file2")))
-        val runner = Operations(input.byteInputStream(), "1.0")
+        val runner = Operations(input.byteInputStream(), "1.1", provider)
         val output = runner.execute()
         assertEquals(
             "1.57",
@@ -31,7 +33,7 @@ class TestRunner {
     @Test
     fun `Test formatter`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file3")))
-        val runner = Operations(input.byteInputStream(), "1.0")
+        val runner = Operations(input.byteInputStream(), "1.0", provider)
         assertEquals(
             runner.format(),
             "let something: string = \"a really cool thing\";\n" +
@@ -44,7 +46,7 @@ class TestRunner {
     @Test
     fun `Test linter`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file4")))
-        val runner = Operations(input.byteInputStream(), "1.0")
+        val runner = Operations(input.byteInputStream(), "1.0", provider)
         assertEquals(runner.analyze("{}"), listOf())
     }
 
@@ -64,7 +66,7 @@ class TestRunner {
             "println(\"This is a text\");\n" +
             "println(\"This is a text\");\n" +
             "println(\"This is a text\");"
-        val runner = Operations(input.byteInputStream(), "1.0")
+        val runner = Operations(input.byteInputStream(), "1.0", provider)
         assertIs<PrintLnType>(runner.validate().get(0))
     }
 }

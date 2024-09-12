@@ -4,13 +4,15 @@ import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.default
 import operation.Operation
+import java.util.Collections.emptyIterator
 
 fun main(args: Array<String>) {
-    val cli = Cli()
+    val cli = Cli(emptyIterator())
     cli.run(args)
 }
 
-class Cli {
+class Cli(private val provider: Iterator<String>) {
+
     fun run(args: Array<String>): String {
         val parser = ArgParser("CLI-Tool")
 
@@ -27,7 +29,7 @@ class Cli {
 
         return when (operation) {
             Operation.Validation -> operations.validate(sourceFile)
-            Operation.Execution -> operations.execute(sourceFile, version)
+            Operation.Execution -> operations.execute(sourceFile, version, provider)
             Operation.Formatting -> operations.format(sourceFile, configFile)
             Operation.Analyzing -> operations.analyze(sourceFile)
             null -> throw IllegalArgumentException("No operation provided")

@@ -37,7 +37,7 @@ class IfElseTest {
         )
 
         val boolean = LiteralType(LiteralValue.BooleanValue(true))
-        val ifElseType = IfElseType(ifBranch, boolean, elseBranch)
+        val ifElseType = IfElseType(listOf(ifBranch, ifBranch, ifBranch), boolean, listOf(elseBranch, elseBranch))
         val version = "1.1"
         val list = listOf(
             ifElseType,
@@ -49,7 +49,10 @@ class IfElseTest {
         val expected =
             "if (true) {\n" +
                 "    let testLeft: number = 1;\n" +
+                "    let testLeft: number = 1;\n" +
+                "    let testLeft: number = 1;\n" +
                 "} else {\n" +
+                "    let testRight: number = 3;\n" +
                 "    let testRight: number = 3;\n" +
                 "}\n" +
                 "println(testLeft);"

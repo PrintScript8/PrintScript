@@ -37,7 +37,7 @@ class IfElseTypeTest {
         )
 
         val boolean = LiteralType(LiteralValue.BooleanValue(true))
-        val ifElseType = IfElseType(ifBranch, boolean, elseBranch)
+        val ifElseType = IfElseType(listOf(ifBranch), boolean, listOf(elseBranch))
         val version = "1.1"
         val printLnTypeLeft = PrintLnType(VariableType("testLeft", null, true))
         val printLnTypeRight = PrintLnType(VariableType("testRight", null, true))
@@ -50,8 +50,8 @@ class IfElseTypeTest {
         val invalidInterpreter = InterpreterProvider(invalidInput.iterator()).provideInterpreter(version)
 
         // Assert
-        val output = validInterpreter.execute()
-        val invalidOutput = invalidInterpreter.execute()
+        val output = validInterpreter.iterator()
+        val invalidOutput = invalidInterpreter.iterator()
         assertEquals("1", output.next())
         assertThrows<IllegalArgumentException> {
             invalidOutput.asSequence().toList()
@@ -79,7 +79,7 @@ class IfElseTypeTest {
         )
 
         val boolean = LiteralType(LiteralValue.BooleanValue(false))
-        val ifElseType = IfElseType(ifBranch, boolean, elseBranch)
+        val ifElseType = IfElseType(listOf(ifBranch), boolean, listOf(elseBranch))
         val version = "1.1"
         val printLnTypeLeft = PrintLnType(VariableType("testLeft", null, true))
         val printLnTypeRight = PrintLnType(VariableType("testRight", null, true))
@@ -92,8 +92,8 @@ class IfElseTypeTest {
         val invalidInterpreter = InterpreterProvider(invalidInput.iterator()).provideInterpreter(version)
 
         // Assert
-        val output = validInterpreter.execute()
-        val invalidOutput = invalidInterpreter.execute()
+        val output = validInterpreter.iterator()
+        val invalidOutput = invalidInterpreter.iterator()
         assertEquals("3", output.next())
         assertThrows<IllegalArgumentException> {
             invalidOutput.asSequence().toList()
@@ -121,7 +121,7 @@ class IfElseTypeTest {
         )
 
         val boolean = LiteralType(LiteralValue.BooleanValue(true))
-        val ifElseType = IfElseType(ifBranch, boolean, elseBranch)
+        val ifElseType = IfElseType(listOf(ifBranch), boolean, listOf(elseBranch))
         val version = "1.1"
         val printLnTypeLeft = PrintLnType(VariableType("testLeft", null, true))
         val printLnTypeRight = PrintLnType(VariableType("testRight", null, true))
@@ -134,8 +134,8 @@ class IfElseTypeTest {
         val invalidInterpreter = InterpreterProvider(invalidInput.iterator()).provideInterpreter(version)
 
         // Assert
-        val output = validInterpreter.execute()
-        val invalidOutput = invalidInterpreter.execute()
+        val output = validInterpreter.iterator()
+        val invalidOutput = invalidInterpreter.iterator()
         assertEquals("1", output.next())
         assertThrows<IllegalArgumentException> {
             invalidOutput.asSequence().toList()

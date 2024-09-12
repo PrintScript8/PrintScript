@@ -2,57 +2,23 @@ package runner
 
 import error.Error
 import formatter.FormatterInterface
+import inputreader.InputQueueService
 import interpreter.Interpreter
 import interpreter.InterpreterProvider
-import lexer.Lexer
 import lexer.LexerInterface
 import linter.LinterProvider
 import node.staticpkg.StaticNode
 import parser.ParserInterface
 import parser.elements.ParserProvider
 import provider.FormatterProvider
+import provider.LexerProvider
 import reader.InputStreamReader
-import rule.basic.EndingRule
-import rule.basic.IdentifierRule
-import rule.basic.LetRule
-import rule.basic.WhiteSpaceRule
-import rule.control.CloseParenthesisRule
-import rule.control.OpenParenthesisRule
-import rule.control.ParenthesisRule
-import rule.expression.AssignationRule
-import rule.expression.DeclarationRule
-import rule.inherent.PrintlnRule
-import rule.literal.NumberLiteralRule
-import rule.literal.StringLiteralRule
-import rule.operation.DivideOperation
-import rule.operation.MinusOperation
-import rule.operation.MultiplyOperation
-import rule.operation.OperationRule
-import rule.operation.PlusOperation
-import rule.typeid.BooleanIdRule
-import rule.typeid.NumberIdRule
-import rule.typeid.StringIdRule
 import token.TokenInterface
 import java.io.InputStream
 
-class Operations(private var sourceFile: InputStream, private var version: String) {
+class Operations(sourceFile: InputStream, private var version: String, provider: Iterator<String>? = null) {
 
-    private val lexerRules = listOf(
-        LetRule(),
-        PrintlnRule(),
-        NumberIdRule(),
-        BooleanIdRule(),
-        StringIdRule(),
-        WhiteSpaceRule(),
-        IdentifierRule(),
-        NumberLiteralRule(),
-        StringLiteralRule(),
-        DeclarationRule(),
-        AssignationRule(),
-        EndingRule(),
-        OperationRule(listOf(PlusOperation, MinusOperation, MultiplyOperation, DivideOperation)),
-        ParenthesisRule(listOf(OpenParenthesisRule, CloseParenthesisRule))
-    )
+    constructor(sourceFile: InputStream, version: String) : this(sourceFile, version, null)
 
     private val lexer: LexerInterface
     private val tokenIterator: Iterator<TokenInterface>
@@ -61,11 +27,12 @@ class Operations(private var sourceFile: InputStream, private var version: Strin
     private val formatter: FormatterInterface
 
     init {
-        lexer = Lexer(lexerRules, InputStreamReader(sourceFile))
+        lexer = LexerProvider(InputStreamReader(sourceFile)).getLexer(version)
         tokenIterator = lexer.iterator()
         parser = ParserProvider(tokenIterator).getParser(version)
         interpreter = InterpreterProvider(parser.iterator()).provideInterpreter(version)
         formatter = FormatterProvider(parser.iterator()).provideFormatter(version)
+        provider?.let { InputQueueService.initialize(it) }
     }
 
     fun validate(): List<StaticNode> {
@@ -73,7 +40,7 @@ class Operations(private var sourceFile: InputStream, private var version: Strin
     }
 
     fun execute(): Iterator<String> {
-        return interpreter.execute()
+        return interpreter.iterator()
     }
 
     fun format(): String {

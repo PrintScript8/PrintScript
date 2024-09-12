@@ -25,6 +25,6 @@ class StringTypeTest {
                 numberPrintLnType
             ).iterator()
         ).provideInterpreter("1.0")
-        assertEquals("Hello", interpreter.execute().next())
+        assertEquals("Hello", interpreter.iterator().next())
     }
 }

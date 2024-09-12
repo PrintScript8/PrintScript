@@ -33,7 +33,7 @@ fun main() {
     val version = "1.1"
 
     val interpreter = InterpreterProvider(astList.iterator()).provideInterpreter(version)
-    val output: Iterator<String> = interpreter.execute()
+    val output: Iterator<String> = interpreter.iterator()
     val expected = "10"
 
     print(expected == output.next())
