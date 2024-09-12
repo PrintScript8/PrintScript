@@ -1,4 +1,4 @@
-package parser.elements
+package parser
 
 import node.staticpkg.StaticNode
 

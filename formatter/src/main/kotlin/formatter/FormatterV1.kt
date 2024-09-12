@@ -24,7 +24,7 @@ class FormatterV1(var iterator: Iterator<StaticNode>) : FormatterInterface {
         when (node) {
             is AssignationType, is DeclarationType, is ExpressionType,
             is IdentifierType, is ModifierType, is PrintLnType -> {
-                val result = node.format("1.0")
+                val result = node.format("1.0", 0)
                 output.add(result)
             }
             else -> throw IllegalArgumentException("Operation not supported")

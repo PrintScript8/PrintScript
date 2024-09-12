@@ -1,8 +1,12 @@
 package parser.elements
 
 import node.PrimType
+import parser.Parser
+import parser.ParserInterface
 import parser.strategies.AssignationStrategy
 import parser.strategies.DeclarationStrategy
+import parser.strategies.ElseStrategy
+import parser.strategies.IfStrategy
 import parser.strategies.MethodStrategy
 import parser.strategies.ModifierStrategy
 import parser.strategies.ParseStrategy
@@ -66,7 +70,9 @@ class ParserProvider(private val iterator: Iterator<TokenInterface>) {
         Modifier to ModifierStrategy(setOf("let", "const")),
         Identifier to DeclarationStrategy(arrayOf(PrimType.STRING, PrimType.NUMBER, PrimType.BOOLEAN)),
         NativeMethod to methodStrategy2,
-        Assignment to AssignationStrategy(tokenTypes2, methodStrategy2)
+        Assignment to AssignationStrategy(tokenTypes2, methodStrategy2),
+        If to IfStrategy(),
+        Else to ElseStrategy()
     )
 
     private val parsers: Map<String, ParserInterface> = mapOf(

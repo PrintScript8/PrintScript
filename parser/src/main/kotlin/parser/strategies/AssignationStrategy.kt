@@ -13,7 +13,7 @@ import token.TokenInterface
 import token.TokenType
 
 class AssignationStrategy(
-    private val allowedTypes: Set<TokenType>,
+    allowedTypes: Set<TokenType>,
     private val methodStrategy: MethodStrategy
 ) : ParseStrategy {
 
@@ -40,7 +40,7 @@ class AssignationStrategy(
         if (tokens[currentIndex + 1].type == NativeMethod) {
             // Logica de Native method
             val nextIndex = methodStrategy.parse(tokens, currentIndex + 1, statementNodes)
-            val methodNode = statementNodes[statementNodes.lastIndex]
+            val methodNode = statementNodes.last()
             require(methodNode is DynamicNode) { "Something went wrong at: ${tokens[currentIndex + 1].position}" }
             val expressionNode = ExpressionType(variableNode, methodNode)
             statementNodes.add(expressionNode)

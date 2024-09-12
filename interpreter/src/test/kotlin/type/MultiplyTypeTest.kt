@@ -40,14 +40,14 @@ class MultiplyTypeTest {
             LiteralType(LiteralValue.BooleanValue(true))
         )
         val multiplyType = ExpressionType(
-            VariableType("a", null, true),
+            VariableType("a", null),
             MultiplyType(
                 LiteralType(LiteralValue.NumberValue(1)),
-                VariableType("a", null, true),
+                VariableType("a", null),
                 null
             )
         )
-        val printLnType = PrintLnType(VariableType("a", null, true))
+        val printLnType = PrintLnType(VariableType("a", null))
         val interpreter = InterpreterProvider(
             listOf(assignationType, multiplyType, printLnType).iterator()
         ).provideInterpreter("1.0")
@@ -68,14 +68,14 @@ class MultiplyTypeTest {
             LiteralType(LiteralValue.NumberValue(5))
         )
         val multiplyType = ExpressionType(
-            VariableType("a", null, true),
+            VariableType("a", null),
             MultiplyType(
                 LiteralType(LiteralValue.NumberValue(1)),
-                VariableType("a", null, true),
+                VariableType("a", null),
                 null
             )
         )
-        val printLnType = PrintLnType(VariableType("a", null, true))
+        val printLnType = PrintLnType(VariableType("a", null))
         val interpreter = InterpreterProvider(
             listOf(assignationType, multiplyType, printLnType).iterator()
         ).provideInterpreter("1.0")

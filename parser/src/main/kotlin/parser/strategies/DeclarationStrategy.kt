@@ -19,6 +19,7 @@ class DeclarationStrategy(private val types: Array<PrimType>) : ParseStrategy {
     override fun parse(tokenInterfaces: List<TokenInterface>, currentIndex: Int, statementNodes: MutableList<Node>):
         Int {
         if (isDeclaration(tokenInterfaces, currentIndex)) {
+            // In this branch a declaration node is parsed
             val modifier: ModifierType = statementNodes[statementNodes.lastIndex] as ModifierType
             val identifierToken = tokenInterfaces[currentIndex]
             val typeToken = tokenInterfaces[currentIndex + 2]
@@ -28,7 +29,8 @@ class DeclarationStrategy(private val types: Array<PrimType>) : ParseStrategy {
             statementNodes.add(declarationNode)
             return currentIndex + INDEX_JUMP
         } else {
-            statementNodes.add(VariableType(tokenInterfaces[currentIndex].text, null, false))
+            // In this branch an identifier node is parsed instead of a declaration
+            statementNodes.add(VariableType(tokenInterfaces[currentIndex].text, null))
             return currentIndex + (INDEX_JUMP - 2)
         }
     }
