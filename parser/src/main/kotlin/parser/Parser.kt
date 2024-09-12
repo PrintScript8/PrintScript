@@ -3,10 +3,7 @@ package parser
 import node.staticpkg.StaticNode
 import parser.elements.StatementParser
 import parser.elements.TokenHandler
-import token.CloseBrace
-import token.Ending
-import token.OpenBrace
-import token.TokenInterface
+import token.*
 
 class Parser(tokenHandler: TokenHandler, private val tokenIterator: Iterator<TokenInterface>) :
     ParserInterface {
@@ -49,6 +46,7 @@ class Parser(tokenHandler: TokenHandler, private val tokenIterator: Iterator<Tok
 
         while (tokenIterator.hasNext()) {
             currentToken = tokenIterator.next()
+            if (currentToken.type !is Else && blockLevel == 0)
             blockTokens.add(currentToken)
 
             // Solo se incrementa o decrementa el blockLevel si se encuentra '{' o '}'
@@ -63,8 +61,16 @@ class Parser(tokenHandler: TokenHandler, private val tokenIterator: Iterator<Tok
             if (blockLevel == 0) {
                 // TODO: ESTO DEBE VERIFICAR QUE NO HAY UN ELSE INMEDIATAMENTE DESPUES ANTES DE DEVOLVER LO PARSEADO
                 // ESTO ES ASI YA QUE SI HAY UN ELSE DESPUES, ES PARTE DEL NODO IF CREADO
-
-                return statementParser.parseStatement(blockTokens).firstOrNull() ?: throw IllegalStateException("Error parsing block")
+                if(!tokenIterator.hasNext()){
+                    return statementParser.parseStatement(blockTokens).firstOrNull() ?: throw IllegalStateException("Error parsing block")
+                }
+                currentToken = tokenIterator.next()
+                if(currentToken.type !is Else){
+                    blockTokens.add(currentToken)
+                }
+                else{
+                    return statementParser.parseStatement(blockTokens).firstOrNull() ?: throw IllegalStateException("Error parsing block")
+                }
             }
         }
         throw IllegalStateException("Block not closed properly at: ${currentToken.position}")

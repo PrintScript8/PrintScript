@@ -32,7 +32,7 @@ class StatementParser(private val tokenHandler: TokenHandler) {
         astList: MutableList<StaticNode>
     ): Int {
         var j = i
-        if (tokenInterfaces[j].type == Ending || tokenInterfaces[j].type == CloseBrace) {
+        if (tokenInterfaces[j].type == Ending) {
             require(statementNodes.isNotEmpty()) {
                 "Didn't expect ';' At: ${tokenInterfaces[j].position}"
             }
@@ -40,17 +40,15 @@ class StatementParser(private val tokenHandler: TokenHandler) {
             statementNodes.clear()
             j += 1
         }
-        if (tokenInterfaces[j].type == CloseBrace){
-            // Aca va la logica de else
-            // LOGICA ELSE
-            // YO PUEDO ENCARGARME DE HACER EL IF Y AGREGARLO AL STATEMENT NODES
-            // INMEDIATAMENTE SEGUIDO A ESO SI HAY UN ELSE PARSEO EL ELSE SOLO SI EL ULTIMO NODO EN STATEMENT NODES ES UN IF!!!!!
-            // SI NO ES UN IF TIRO ROR. SI ES UN IF LO SACO DE LA LISTA Y CREO UNO NUEVO IF AGREGANDOLE LAS COSAS DEL ELSE
-            // UNA VEZ TERMINADO DE PARSEAR EL ELSE, PUEDO DEVOLVER EL NODO
+        else if (tokenInterfaces[j].type == CloseBrace){
             if(j+1 < tokenInterfaces.size && tokenInterfaces[j+1].type == Else){
                 val subStatementNodes = parseStatement(createSubList(tokenInterfaces, j+1, tokenInterfaces.lastIndex))
                 addStaticNodeToAstList(subStatementNodes.toMutableList(), astList)
                 j = tokenInterfaces.lastIndex
+            }
+            else{
+                addStaticNodeToAstList(statementNodes, astList)
+                j += 1
             }
         }
         return j
