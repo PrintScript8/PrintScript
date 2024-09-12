@@ -63,7 +63,7 @@ class RightSideParser(private val allowedTypes: Set<TokenType>) {
                         opStack.add(node)
                     }
                     Boolean -> {
-                        val node = LiteralType(LiteralValue.StringValue(currentToken.text))
+                        val node = LiteralType(LiteralValue.BooleanValue(currentToken.text == "true"))
                         opStack.add(node)
                     }
                     Identifier -> {
