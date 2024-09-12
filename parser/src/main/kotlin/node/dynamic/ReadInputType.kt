@@ -8,13 +8,12 @@ class ReadInputType(val argument: DynamicNode, override var result: LiteralValue
 
     override fun execute(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): TypeValue {
 
-        require(version != "1.0") { "ReadEnv method not supported by version 1.0" }
+        require(version != "1.0") { "ReadInput method not supported by version 1.0" }
 
         require(argument.execute(valueMap, version).component2() == PrimType.STRING) {
             "readInput method can only have String arguments, not ${argument.execute(valueMap, version).component2()}"
         }
-        print("${argument.execute(valueMap, version).value}\n> ")
-        val input = InputQueueService.getInput()
+        val input = InputQueueService.getInput() // "[Name:, Hello World]"
 
         return if (input != null) {
             when {

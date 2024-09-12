@@ -2,6 +2,7 @@ package node.staticpkg
 
 import node.TypeValue
 import node.dynamic.DynamicNode
+import node.dynamic.ReadInputType
 import node.dynamic.VariableType
 import operations.StaticVisitorV1
 
@@ -15,8 +16,13 @@ class ExpressionType(val variable: VariableType, val value: DynamicNode) : Stati
         version: String
     ): StaticResult {
         val result = value.execute(valueMap, version)
+        val outList: MutableList<String> = mutableListOf()
+        if (value is ReadInputType && version != "1.0") {
+            val (_, inputText) = PrintLnType(value.argument).execute(valueMap, version)
+            outList.addAll(inputText)
+        }
         val updatedMap = updateValueMap(valueMap, variable.name, result)
-        return StaticResult(updatedMap, emptyList())
+        return StaticResult(updatedMap, outList)
     }
 
     override fun format(version: String): String {

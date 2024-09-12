@@ -2,6 +2,7 @@ package node.staticpkg
 
 import node.TypeValue
 import node.dynamic.DynamicNode
+import node.dynamic.ReadInputType
 import operations.StaticVisitorV1
 
 class AssignationType(val declaration: DeclarationType, val value: DynamicNode) : StaticNode {
@@ -14,8 +15,13 @@ class AssignationType(val declaration: DeclarationType, val value: DynamicNode) 
         version: String
     ): StaticResult {
         val (map, _) = declaration.execute(valueMap, version)
+        val outList: MutableList<String> = mutableListOf()
+        if (value is ReadInputType && version != "1.0") {
+            val (_, inputText) = PrintLnType(value.argument).execute(map, version)
+            outList.addAll(inputText)
+        }
         val output = value.execute(map, version)
-        return StaticResult(updateValueMap(map, declaration.name, output), emptyList())
+        return StaticResult(updateValueMap(map, declaration.name, output), outList)
     }
 
     override fun format(version: String): String {
