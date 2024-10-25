@@ -5,10 +5,7 @@ import json.parseJsonRules
 import node.Node
 import node.staticpkg.*
 import strategy.*
-import strategy.staticStrategy.AssignationStrategy
-import strategy.staticStrategy.DeclarationStrategy
-import strategy.staticStrategy.ExpressionStrategy
-import strategy.staticStrategy.PrintLnStrategy
+import strategy.staticStrategy.*
 import java.io.StringWriter
 
 class Formatter(rules: String) {
@@ -18,6 +15,7 @@ class Formatter(rules: String) {
         AssignationType::class.java to AssignationStrategy(),
         PrintLnType::class.java to PrintLnStrategy(),
         ExpressionType::class.java to ExpressionStrategy(),
+        IfElseType::class.java to IfElseStrategy(),
     )
 
     private val parsedRules: FormattingRules = parseJsonRules(rules)
@@ -60,5 +58,13 @@ class Formatter(rules: String) {
         val strategy = strategies[node.javaClass] as? FormatStrategy<StaticNode>
         strategy?.apply(node, parsedRules, writer)
         parsedRules.newlineBeforePrintln = originalRuleNumber
+    }
+
+    fun increaseIndentation() {
+        parsedRules.indentation++
+    }
+
+    fun decreaseIndentation() {
+        parsedRules.indentation--
     }
 }
