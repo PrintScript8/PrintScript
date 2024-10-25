@@ -1,8 +1,8 @@
-package strategy
+package strategy.staticStrategy
 
 import json.FormattingRules
 import node.staticpkg.DeclarationType
-import node.staticpkg.StaticNode
+import strategy.FormatStrategy
 import java.io.Writer
 
 class DeclarationStrategy : FormatStrategy<DeclarationType> {
@@ -14,7 +14,14 @@ class DeclarationStrategy : FormatStrategy<DeclarationType> {
         modifierStrategy.apply(node.modifier, rules, writer)
         writer.write(" ")
         writer.write(node.name)
-        writer.write(": ")
+
+        if (rules.spaceBeforeColon) {
+            writer.write(" ")
+        }
+        writer.write(":")
+        if (rules.spaceAfterColon) {
+            writer.write(" ")
+        }
         identifierStrategy.apply(node.type, rules, writer)
     }
 }

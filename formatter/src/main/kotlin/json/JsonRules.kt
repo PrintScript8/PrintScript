@@ -12,8 +12,6 @@ data class FormattingRules(
     val spaceAroundEquals: Boolean,
     val newlineBeforePrintln: Int,
     val newlineAfterSemicolon: Boolean,
-    val maxSpacesBetweenTokens: Int,
-    val spaceAroundOperators: Boolean
 )
 
 fun parseJsonRules(jsonString: String): FormattingRules {
@@ -26,7 +24,5 @@ fun parseJsonRules(jsonString: String): FormattingRules {
         spaceAroundEquals = jsonObject["spaceAroundEquals"]!!.jsonPrimitive.boolean,
         newlineBeforePrintln = jsonObject["newlineBeforePrintln"]!!.jsonPrimitive.int,
         newlineAfterSemicolon = jsonObject["newlineAfterSemicolon"]!!.jsonPrimitive.boolean,
-        maxSpacesBetweenTokens = jsonObject["maxSpacesBetweenTokens"]!!.jsonPrimitive.int,
-        spaceAroundOperators = jsonObject["spaceAroundOperators"]!!.jsonPrimitive.boolean
     )
 }

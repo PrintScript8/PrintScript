@@ -1,7 +1,9 @@
-package strategy
+package strategy.staticStrategy
 
 import json.FormattingRules
 import node.staticpkg.AssignationType
+import strategy.dynamicStrategy.DynamicStrategyFactory
+import strategy.FormatStrategy
 import java.io.Writer
 
 class AssignationStrategy : FormatStrategy<AssignationType> {
@@ -13,7 +15,11 @@ class AssignationStrategy : FormatStrategy<AssignationType> {
 
         declarationStrategy.apply(node.declaration, rules, writer)
 
-        writer.write(" = ")
+        if (rules.spaceAroundEquals) {
+            writer.write(" = ")
+        } else {
+            writer.write("=")
+        }
 
         val dynamicStrategy = dynamicFactory.getStrategy(node.value)
 

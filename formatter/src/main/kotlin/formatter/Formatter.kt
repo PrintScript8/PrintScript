@@ -3,9 +3,10 @@ package formatter
 import json.FormattingRules
 import json.parseJsonRules
 import node.Node
-import node.dynamic.LiteralType
 import node.staticpkg.*
 import strategy.*
+import strategy.staticStrategy.AssignationStrategy
+import strategy.staticStrategy.DeclarationStrategy
 import java.io.StringWriter
 
 class Formatter(private val rules: String) {
@@ -16,10 +17,12 @@ class Formatter(private val rules: String) {
 
     private val parsedRules: FormattingRules = parseJsonRules(rules)
 
-    fun format(node: Node): String {
+    fun format(nodes: Iterator<StaticNode>): String {
         val writer = StringWriter()
-        val strategy = strategies[node::class.java] ?: throw IllegalArgumentException("No strategy for node type ${node::class.java}")
-        (strategy as FormatStrategy<Node>).apply(node, parsedRules, writer)
+        nodes.forEach { node ->
+            val strategy = strategies[node.javaClass] as? FormatStrategy<StaticNode>
+            strategy?.apply(node, parsedRules, writer)
+        }
         return writer.toString()
     }
 }

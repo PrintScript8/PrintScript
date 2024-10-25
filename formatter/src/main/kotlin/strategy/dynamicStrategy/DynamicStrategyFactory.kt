@@ -1,7 +1,8 @@
-package strategy
+package strategy.dynamicStrategy
 
 import node.dynamic.DynamicNode
 import node.dynamic.LiteralType
+import strategy.FormatStrategy
 
 class DynamicStrategyFactory {
 

@@ -1,7 +1,8 @@
-package strategy
+package strategy.dynamicStrategy
 
 import json.FormattingRules
 import node.dynamic.LiteralType
+import strategy.FormatStrategy
 import java.io.Writer
 
 class LiteralTypeStrategy : FormatStrategy<LiteralType> {

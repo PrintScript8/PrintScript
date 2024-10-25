@@ -2,10 +2,7 @@ import formatter.Formatter
 import node.PrimType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
-import node.staticpkg.AssignationType
-import node.staticpkg.DeclarationType
-import node.staticpkg.IdentifierType
-import node.staticpkg.ModifierType
+import node.staticpkg.*
 
 fun main() {
 
@@ -18,21 +15,25 @@ fun main() {
         LiteralType(LiteralValue.StringValue("2"))
     )
 
+    val println = PrintLnType(
+        LiteralType(LiteralValue.StringValue("Hello, World!"))
+    )
+
+    val nodes = listOf(assignation, println).listIterator()
+
     val rules = """{
         "rules": {
-            "spaceBeforeColon": true,
+            "spaceBeforeColon": false,
             "spaceAfterColon": true,
             "spaceAroundEquals": true,
             "newlineBeforePrintln": 1,
-            "newlineAfterSemicolon": true,
-            "maxSpacesBetweenTokens": 2,
-            "spaceAroundOperators": true
+            "newlineAfterSemicolon": true
         }
     }"""
 
     val formatter = Formatter(rules)
 
-    val output = formatter.format(assignation)
+    val output = formatter.format(nodes)
 
     println(output)
 }

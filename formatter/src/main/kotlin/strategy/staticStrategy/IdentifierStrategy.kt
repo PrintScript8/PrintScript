@@ -1,7 +1,8 @@
-package strategy
+package strategy.staticStrategy
 
 import json.FormattingRules
 import node.staticpkg.IdentifierType
+import strategy.FormatStrategy
 import java.io.Writer
 
 class IdentifierStrategy: FormatStrategy<IdentifierType> {
