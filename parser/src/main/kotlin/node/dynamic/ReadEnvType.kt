@@ -38,8 +38,4 @@ class ReadEnvType(val argument: DynamicNode, override var result: LiteralValue?)
             )
         }
     }
-
-    override fun format(version: String): String {
-        return "readEnv(${argument.format(version)})"
-    }
 }

@@ -6,7 +6,7 @@ class OutputRunner {
 
     fun validate(sourceFile: String): String {
         println("Validating file...")
-        val operations = Operations(sourceFile.byteInputStream(), "1.0")
+        val operations = Operations(sourceFile.byteInputStream(), "1.1")
         return try {
             operations.validate()
             "Validation successful"
@@ -35,7 +35,7 @@ class OutputRunner {
 
     fun format(sourceFile: String, configFile: String?): String {
         println("Formatting file with config file $configFile...")
-        val operations = Operations(sourceFile.byteInputStream(), "1.0")
+        val operations = Operations(sourceFile.byteInputStream(), "1.1")
         return try {
             val formatted = operations.format()
             "Formatted: $formatted"
@@ -46,7 +46,7 @@ class OutputRunner {
 
     fun analyze(sourceFile: String): String {
         println("Analyzing file...")
-        val operations = Operations(sourceFile.byteInputStream(), "1.0")
+        val operations = Operations(sourceFile.byteInputStream(), "1.1")
         return try {
             val errorList = operations.analyze("{}")
             if (errorList.isEmpty()) {

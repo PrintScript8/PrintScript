@@ -7,7 +7,6 @@ import node.dynamic.VariableType
 import node.staticpkg.ExpressionType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import provider.FormatterProvider
 
 class ReadInputTest {
 

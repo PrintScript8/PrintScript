@@ -25,11 +25,6 @@ class ExpressionType(val variable: VariableType, val value: DynamicNode) : Stati
         return StaticResult(updatedMap, outList)
     }
 
-    override fun format(version: String, indentLevel: Int): String {
-        val indent = "  ".repeat(indentLevel)
-        return "${indent}${variable.format(version)} = ${value.format(version)};"
-    }
-
     override fun toString(): String {
         return "ExpressionType(variable='$variable', value=$value)"
     }

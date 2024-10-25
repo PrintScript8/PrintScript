@@ -1,7 +1,6 @@
 package runner
 
 import error.Error
-import formatter.FormatterInterface
 import inputreader.InputQueueService
 import interpreter.Interpreter
 import interpreter.InterpreterProvider
@@ -10,7 +9,6 @@ import linter.LinterProvider
 import node.staticpkg.StaticNode
 import parser.ParserInterface
 import parser.elements.ParserProvider
-import provider.FormatterProvider
 import provider.LexerProvider
 import reader.InputStreamReader
 import token.TokenInterface

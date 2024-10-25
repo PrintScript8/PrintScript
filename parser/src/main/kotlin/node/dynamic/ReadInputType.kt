@@ -38,8 +38,4 @@ class ReadInputType(val argument: DynamicNode, override var result: LiteralValue
             )
         }
     }
-
-    override fun format(version: String): String {
-        return "readInput(${argument.format(version)})"
-    }
 }

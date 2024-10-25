@@ -7,5 +7,4 @@ import operations.StaticVisitorV1
 sealed interface StaticNode : Node {
     fun visit(visitor: StaticVisitorV1)
     fun execute(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): StaticResult
-    fun format(version: String, indentLevel: Int): String
 }

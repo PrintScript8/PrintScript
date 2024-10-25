@@ -12,7 +12,6 @@ import node.staticpkg.ModifierType
 import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import provider.FormatterProvider
 
 class UnsupportedTypeTest {
 

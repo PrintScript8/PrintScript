@@ -6,7 +6,6 @@ import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import provider.FormatterProvider
 
 class DeclarationTest {
 

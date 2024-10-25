@@ -17,10 +17,6 @@ class IdentifierType(val type: PrimType) : StaticNode {
         return StaticResult(valueMap, emptyList())
     }
 
-    override fun format(version: String, indentLevel: Int): String {
-        return type.name.lowercase()
-    }
-
     override fun toString(): String {
         return "IdentifierType($type)"
     }

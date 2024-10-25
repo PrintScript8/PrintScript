@@ -10,7 +10,6 @@ import node.staticpkg.ModifierType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import provider.FormatterProvider
 
 class AssignationTest {
 

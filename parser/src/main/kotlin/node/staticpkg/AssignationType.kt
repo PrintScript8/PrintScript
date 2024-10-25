@@ -24,12 +24,6 @@ class AssignationType(val declaration: DeclarationType, val value: DynamicNode) 
         return StaticResult(updateValueMap(map, declaration.name, output), outList)
     }
 
-    override fun format(version: String, indentLevel: Int): String {
-        val indent = "  ".repeat(indentLevel)
-        val decl = (declaration.format(version, indentLevel)).dropLast(1)
-        return "${indent}$decl = ${value.format(version)};"
-    }
-
     override fun toString(): String {
         return "AssignationType(declaration='$declaration', value=$value)"
     }
