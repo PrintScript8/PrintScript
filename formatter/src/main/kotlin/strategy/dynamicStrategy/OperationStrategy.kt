@@ -3,6 +3,7 @@ package strategy.dynamicStrategy
 import json.FormattingRules
 import node.dynamic.*
 import strategy.FormatStrategy
+import strategy.dynamicStrategy.utils.DynamicStrategyFactory
 import java.io.Writer
 
 class OperationStrategy: FormatStrategy<DynamicNode> {

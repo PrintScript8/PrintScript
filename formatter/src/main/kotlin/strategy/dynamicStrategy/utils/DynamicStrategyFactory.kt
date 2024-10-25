@@ -1,7 +1,10 @@
-package strategy.dynamicStrategy
+package strategy.dynamicStrategy.utils
 
 import node.dynamic.*
 import strategy.FormatStrategy
+import strategy.dynamicStrategy.LiteralTypeStrategy
+import strategy.dynamicStrategy.OperationStrategy
+import strategy.dynamicStrategy.ReadTypeStrategy
 
 class DynamicStrategyFactory {
 
@@ -9,7 +12,8 @@ class DynamicStrategyFactory {
         return when (node) {
             is LiteralType -> LiteralTypeStrategy() as FormatStrategy<DynamicNode>
             is SumType, is SubtractType,
-            is MultiplyType, is DivisionType -> OperationStrategy() as FormatStrategy<DynamicNode>
+            is MultiplyType, is DivisionType -> OperationStrategy()
+            is ReadInputType, is ReadEnvType -> ReadTypeStrategy()
             else -> throw IllegalArgumentException("Unknown node type: $node")
         }
     }

@@ -7,6 +7,7 @@ import node.staticpkg.*
 import strategy.*
 import strategy.staticStrategy.AssignationStrategy
 import strategy.staticStrategy.DeclarationStrategy
+import strategy.staticStrategy.ExpressionStrategy
 import strategy.staticStrategy.PrintLnStrategy
 import java.io.StringWriter
 
@@ -16,6 +17,7 @@ class Formatter(rules: String) {
         DeclarationType::class.java to DeclarationStrategy(),
         AssignationType::class.java to AssignationStrategy(),
         PrintLnType::class.java to PrintLnStrategy(),
+        ExpressionType::class.java to ExpressionStrategy(),
     )
 
     private val parsedRules: FormattingRules = parseJsonRules(rules)
@@ -23,6 +25,17 @@ class Formatter(rules: String) {
     fun format(nodes: Iterator<StaticNode>): String {
         val writer = StringWriter()
 
+        processFirstNode(nodes, writer)
+
+        nodes.forEach { node ->
+            val strategy = strategies[node.javaClass] as? FormatStrategy<StaticNode>
+            strategy?.apply(node, parsedRules, writer)
+            writeNewLine(nodes, writer)
+        }
+        return writer.toString()
+    }
+
+    private fun processFirstNode(nodes: Iterator<StaticNode>, writer: StringWriter) {
         if (nodes.hasNext()) {
             val firstNode = nodes.next()
             if (firstNode is PrintLnType) {
@@ -32,12 +45,13 @@ class Formatter(rules: String) {
                 strategy?.apply(firstNode, parsedRules, writer)
             }
         }
+        writeNewLine(nodes, writer)
+    }
 
-        nodes.forEach { node ->
-            val strategy = strategies[node.javaClass] as? FormatStrategy<StaticNode>
-            strategy?.apply(node, parsedRules, writer)
+    private fun writeNewLine(nodes: Iterator<StaticNode> , writer: StringWriter) {
+        if (nodes.hasNext()) {
+            writer.write("\n")
         }
-        return writer.toString()
     }
 
     private fun printLnAsFirstNode(node: PrintLnType, writer: StringWriter) {

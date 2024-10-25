@@ -3,7 +3,7 @@ package strategy.staticStrategy
 import json.FormattingRules
 import node.staticpkg.PrintLnType
 import strategy.FormatStrategy
-import strategy.dynamicStrategy.DynamicStrategyFactory
+import strategy.dynamicStrategy.utils.DynamicStrategyFactory
 import java.io.Writer
 
 class PrintLnStrategy: FormatStrategy<PrintLnType> {
@@ -22,6 +22,6 @@ class PrintLnStrategy: FormatStrategy<PrintLnType> {
         val dynamicStrategy = dynamicFactory.getStrategy(node.argument)
         dynamicStrategy.apply(node.argument, rules, writer)
 
-        writer.write(");\n")
+        writer.write(");")
     }
 }
