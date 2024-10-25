@@ -10,7 +10,7 @@ data class FormattingRules(
     val spaceBeforeColon: Boolean,
     val spaceAfterColon: Boolean,
     val spaceAroundEquals: Boolean,
-    val newlineBeforePrintln: Int,
+    var newlineBeforePrintln: Int,
     val newlineAfterSemicolon: Boolean,
 )
 
