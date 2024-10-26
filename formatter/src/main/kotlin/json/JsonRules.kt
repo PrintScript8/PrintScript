@@ -12,7 +12,7 @@ data class FormattingRules(
     val spaceAroundEquals: Boolean,
     var newlineBeforePrintln: Int,
     val newlineAfterSemicolon: Boolean,
-    var indentation: Int = 1
+    var indentation: Int = 0
 )
 
 fun parseJsonRules(jsonString: String): FormattingRules {

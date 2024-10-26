@@ -16,6 +16,7 @@ class PrintLnStrategy: FormatStrategy<PrintLnType> {
         if (newlineBeforePrintln > 0) {
             writer.write("\n".repeat(newlineBeforePrintln))
         }
+        writer.write("    ".repeat(rules.indentation))
 
         writer.write("println(")
 

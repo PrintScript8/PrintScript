@@ -43,6 +43,28 @@ fun main() {
             null)
     )
 
+    val ifStructure = IfElseType(
+        listOf(
+            ExpressionType(
+                VariableType("a", null),
+                LiteralType(LiteralValue.NumberValue(2)),
+            )
+        ),
+        LiteralType(LiteralValue.BooleanValue(false)),
+        null
+    )
+
+    val ifElseStructure = IfElseType(
+        listOf(
+            ExpressionType(
+                VariableType("a", null),
+                LiteralType(LiteralValue.NumberValue(2)),
+            )
+        ),
+        LiteralType(LiteralValue.BooleanValue(true)),
+        listOf(ifStructure)
+    )
+
     val rules = """{
         "rules": {
             "spaceBeforeColon": false,
@@ -61,7 +83,8 @@ fun main() {
     val output2 = formatter.format(listOf(println).listIterator())
     val output3 = formatter.format(listOf(readInputAssignment, assignation).listIterator())
     val output4 = formatter.format(listOf(readEnvAssignation, readInputAssignment).listIterator())
-
+    val output5 = formatter.format(listOf(ifStructure).listIterator())
+    val output6 = formatter.format(listOf(ifElseStructure).listIterator())
 
     println(output1)
     println("-----------------")
@@ -69,5 +92,9 @@ fun main() {
     println("-----------------")
     println(output3)
     println("-----------------")
-    print(output4)
+    println(output4)
+    println("-----------------")
+    println(output5)
+    println("-----------------")
+    println(output6)
 }

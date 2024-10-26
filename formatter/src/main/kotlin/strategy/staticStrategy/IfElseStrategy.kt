@@ -14,28 +14,39 @@ class IfElseStrategy: FormatStrategy<IfElseType> {
 
     override fun apply(node: IfElseType, rules: FormattingRules, writer: Writer) {
 
+        val nodeIterator = node.ifBranch.iterator()
+
+        writer.write("    ".repeat(rules.indentation))
         writer.write("if (")
-        val strategyCondition = dynamicStrategyFactory.getStrategy(node.boolean)
-        strategyCondition.apply(node.boolean, rules, writer)
+
+        val strategy = dynamicStrategyFactory.getStrategy(node.boolean)
+        strategy.apply(node.boolean, rules, writer)
+
         writer.write(") {\n")
-        writer.write(" ".repeat(rules.indentation * 4))
-        for (child in node.ifBranch) {
-            val strategy = staticStrategyFactory.getStrategy(child)
-            strategy.apply(child, rules, writer)
-            if (child !is IfElseType) {
-                writer.write("\n")
-                writer.write(" ".repeat(rules.indentation * 4))
+
+        rules.indentation++
+        writer.write("    ".repeat(rules.indentation))
+        nodeIterator.forEach {
+            val staticStrategy = staticStrategyFactory.getStrategy(it)
+            staticStrategy.apply(it, rules, writer)
+            writer.write("\n")
+            if (nodeIterator.hasNext()) {
+                writer.write("    ".repeat(rules.indentation))
             }
         }
-        writer.write("} else {\n")
-        writer.write(" ".repeat(rules.indentation * 4))
-        if (node.elseBranch?.isNotEmpty() == true) {
-            for (child in node.elseBranch!!) {
-                val strategy = staticStrategyFactory.getStrategy(child)
-                strategy.apply(child, rules, writer)
-                if (child !is IfElseType) {
-                    writer.write("\n")
-                    writer.write(" ".repeat(rules.indentation * 4))
+
+        if (node.elseBranch != null) {
+            rules.indentation--
+            writer.write("} else {\n")
+            rules.indentation++
+            writer.write("    ".repeat(rules.indentation))
+            val elseIterator = node.elseBranch!!.iterator()
+            elseIterator.forEach {
+                val staticStrategy = staticStrategyFactory.getStrategy(it)
+                staticStrategy.apply(it, rules, writer)
+                writer.write("\n")
+                if (elseIterator.hasNext()) {
+                    writer.write("    ".repeat(rules.indentation))
                 }
             }
         }
