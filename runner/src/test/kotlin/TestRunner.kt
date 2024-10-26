@@ -34,8 +34,17 @@ class TestRunner {
     fun `Test formatter`() {
         val input = readFile(File(getAbsolutePath("src/test/kotlin/testfile/file3")))
         val runner = Operations(input.byteInputStream(), "1.0", provider)
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
         assertEquals(
-            runner.format(),
+            runner.format(rules),
             "let something: string = \"a really cool thing\";\n" +
                 "let another_thing: string = \"another really cool thing\";\n" +
                 "let twice_thing: string = \"another really cool thing twice\";\n" +

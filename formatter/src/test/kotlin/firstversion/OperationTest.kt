@@ -14,6 +14,7 @@ import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 import kotlin.test.assertEquals
 
 class OperationTest {
@@ -38,8 +39,20 @@ class OperationTest {
         )
 
         val astList = listOf(assignation)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected = "let a: number = 5 + 5;"
 
         assertEquals(expected, result)
@@ -65,8 +78,20 @@ class OperationTest {
         )
 
         val astList = listOf(assignation)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected = "let a: number = 5 - 5;"
 
         assertEquals(expected, result)
@@ -92,8 +117,20 @@ class OperationTest {
         )
 
         val astList = listOf(assignation)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected = "let a: number = 5 * 5;"
 
         assertEquals(expected, result)
@@ -119,8 +156,20 @@ class OperationTest {
         )
 
         val astList = listOf(assignation)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected = "let a: number = 5 / 5;"
 
         assertEquals(expected, result)
@@ -151,8 +200,20 @@ class OperationTest {
         )
 
         val astList = listOf(assignationType, assignation)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected = "let a: number = 5;\n" +
             "let a: number = 1 + a;"
 
@@ -202,8 +263,20 @@ class OperationTest {
         )
 
         val astList = listOf(assignation, assignation2)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected =
             "let a: number = 1 + \"x\" * 5;\n" +
                 "let a: number = 1 + a * 5;"

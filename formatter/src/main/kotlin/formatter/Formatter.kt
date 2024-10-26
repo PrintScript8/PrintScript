@@ -1,24 +1,12 @@
 package formatter
 
 import json.FormattingRules
-import json.parseJsonRules
 import node.Node
 import node.staticpkg.*
 import strategy.*
-import strategy.staticStrategy.*
 import java.io.StringWriter
 
-class Formatter(rules: String) {
-
-    private val strategies: Map<Class<out Node>, FormatStrategy<out Node>> = mapOf(
-        DeclarationType::class.java to DeclarationStrategy(),
-        AssignationType::class.java to AssignationStrategy(),
-        PrintLnType::class.java to PrintLnStrategy(),
-        ExpressionType::class.java to ExpressionStrategy(),
-        IfElseType::class.java to IfElseStrategy(),
-    )
-
-    private val parsedRules: FormattingRules = parseJsonRules(rules)
+class Formatter(private val rules: FormattingRules, private val strategies: Map<Class<out Node>, FormatStrategy<out Node>>) {
 
     fun format(nodes: Iterator<StaticNode>): String {
         val writer = StringWriter()
@@ -27,9 +15,11 @@ class Formatter(rules: String) {
 
         nodes.forEach { node ->
             val strategy = strategies[node.javaClass] as? FormatStrategy<StaticNode>
-            strategy?.apply(node, parsedRules, writer)
+                ?: throw IllegalArgumentException("Unsupported node type: ${node.javaClass} for version ${rules.version}")
+            strategy.apply(node, rules, writer)
             writeNewLine(nodes, writer)
         }
+        rules.indentation = 0
         return writer.toString()
     }
 
@@ -40,7 +30,10 @@ class Formatter(rules: String) {
                 printLnAsFirstNode(firstNode, writer)
             } else {
                 val strategy = strategies[firstNode.javaClass] as? FormatStrategy<StaticNode>
-                strategy?.apply(firstNode, parsedRules, writer)
+                if (strategy == null) {
+                    throw IllegalArgumentException("Unsupported node type: ${firstNode.javaClass} for version ${rules.version}")
+                }
+                strategy?.apply(firstNode, rules, writer)
             }
         }
         writeNewLine(nodes, writer)
@@ -53,18 +46,10 @@ class Formatter(rules: String) {
     }
 
     private fun printLnAsFirstNode(node: PrintLnType, writer: StringWriter) {
-        val originalRuleNumber = parsedRules.newlineBeforePrintln
-        parsedRules.newlineBeforePrintln = 0
+        val originalRuleNumber = rules.newlineBeforePrintln
+        rules.newlineBeforePrintln = 0
         val strategy = strategies[node.javaClass] as? FormatStrategy<StaticNode>
-        strategy?.apply(node, parsedRules, writer)
-        parsedRules.newlineBeforePrintln = originalRuleNumber
-    }
-
-    fun increaseIndentation() {
-        parsedRules.indentation++
-    }
-
-    fun decreaseIndentation() {
-        parsedRules.indentation--
+        strategy?.apply(node, rules, writer)
+        rules.newlineBeforePrintln = originalRuleNumber
     }
 }

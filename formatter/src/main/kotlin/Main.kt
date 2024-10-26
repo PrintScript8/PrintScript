@@ -1,7 +1,7 @@
-import formatter.Formatter
 import node.PrimType
 import node.dynamic.*
 import node.staticpkg.*
+import provider.FormatterProvider
 
 fun main() {
 
@@ -75,7 +75,7 @@ fun main() {
         }
     }"""
 
-    val formatter = Formatter(rules)
+    val formatter = FormatterProvider().provideFormatter(rules, "1.1")
 
     val nodes = listOf(println, assignation, println).listIterator()
 

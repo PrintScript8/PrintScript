@@ -10,6 +10,7 @@ import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 
 class PrintLnTest {
 
@@ -21,8 +22,20 @@ class PrintLnTest {
         assertNotNull(printType)
 
         val astList = listOf(printType)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected = "println(\"Hello, World!\");"
 
         assertEquals(expected, result)
@@ -39,8 +52,20 @@ class PrintLnTest {
         val printType: StaticNode = PrintLnType(sum)
 
         val astList = listOf(printType)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected = "println(1 + 2);"
 
         assertEquals(expected, result)
@@ -52,8 +77,20 @@ class PrintLnTest {
         val printType: StaticNode = PrintLnType(variable)
 
         val astList = listOf(printType)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected = "println(a);"
 
         assertEquals(expected, result)
@@ -76,8 +113,20 @@ class PrintLnTest {
         val printType: StaticNode = PrintLnType(SumType(sum, multiply, null))
 
         val astList = listOf(printType)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected = "println(x + \"y\" + 3 * 4);"
 
         assertEquals(expected, result)

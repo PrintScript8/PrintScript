@@ -7,6 +7,7 @@ import node.dynamic.VariableType
 import node.staticpkg.ExpressionType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 
 class ReadInputTest {
 
@@ -21,9 +22,20 @@ class ReadInputTest {
 
         val astList = listOf(expression)
         val version = "1.1"
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter(version)
 
-        val formatted = formatter.format()
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, version)
+
+        val formatted = formatter.format(astList.iterator())
         val expected = "input = readInput(\"Enter a number\");"
         assertEquals(expected, formatted)
     }

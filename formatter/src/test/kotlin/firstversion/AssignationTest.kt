@@ -10,6 +10,7 @@ import node.staticpkg.ModifierType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 
 class AssignationTest {
 
@@ -43,8 +44,19 @@ class AssignationTest {
             )
 
         val astList = listOf(assignationTree, assignationTree2)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
         val expected = "val name: string = \"Tomy\";\n" +
             "let i: number = 0;"
 

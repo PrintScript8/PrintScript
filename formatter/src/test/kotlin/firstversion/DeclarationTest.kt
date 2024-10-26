@@ -6,6 +6,7 @@ import node.staticpkg.IdentifierType
 import node.staticpkg.ModifierType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 
 class DeclarationTest {
 
@@ -24,8 +25,19 @@ class DeclarationTest {
         )
 
         val astList = listOf(nameDeclaration, variableDeclaration)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
         val expected = "val name: string;\n" +
             "let i: string;"
 

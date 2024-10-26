@@ -3,12 +3,12 @@ package strategy.staticStrategy
 import json.FormattingRules
 import node.staticpkg.PrintLnType
 import strategy.FormatStrategy
-import strategy.dynamicStrategy.utils.DynamicStrategyFactory
+import strategy.provider.DynamicStrategyProvider
 import java.io.Writer
 
 class PrintLnStrategy: FormatStrategy<PrintLnType> {
 
-    private val dynamicFactory = DynamicStrategyFactory()
+    private val dynamicFactory = DynamicStrategyProvider()
 
     override fun apply(node: PrintLnType, rules: FormattingRules, writer: Writer) {
 
@@ -20,7 +20,7 @@ class PrintLnStrategy: FormatStrategy<PrintLnType> {
 
         writer.write("println(")
 
-        val dynamicStrategy = dynamicFactory.getStrategy(node.argument)
+        val dynamicStrategy = dynamicFactory.getStrategy(node.argument, rules.version)
         dynamicStrategy.apply(node.argument, rules, writer)
 
         writer.write(");")

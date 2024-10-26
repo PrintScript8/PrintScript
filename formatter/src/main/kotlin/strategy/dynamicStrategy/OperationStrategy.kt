@@ -3,12 +3,12 @@ package strategy.dynamicStrategy
 import json.FormattingRules
 import node.dynamic.*
 import strategy.FormatStrategy
-import strategy.dynamicStrategy.utils.DynamicStrategyFactory
+import strategy.provider.DynamicStrategyProvider
 import java.io.Writer
 
 class OperationStrategy: FormatStrategy<DynamicNode> {
 
-    private val dynamicFactory = DynamicStrategyFactory()
+    private val dynamicFactory = DynamicStrategyProvider()
 
     override fun apply(node: DynamicNode, rules: FormattingRules, writer: Writer) {
 
@@ -42,10 +42,10 @@ class OperationStrategy: FormatStrategy<DynamicNode> {
     }
 
     private fun writeOperation(left: DynamicNode, operator: String, right: DynamicNode, rules: FormattingRules, writer: Writer) {
-        val leftStrategy = dynamicFactory.getStrategy(left)
+        val leftStrategy = dynamicFactory.getStrategy(left, rules.version)
         leftStrategy.apply(left, rules, writer)
         writer.write(" $operator ")
-        val rightStrategy = dynamicFactory.getStrategy(right)
+        val rightStrategy = dynamicFactory.getStrategy(right, rules.version)
         rightStrategy.apply(right, rules, writer)
     }
 }

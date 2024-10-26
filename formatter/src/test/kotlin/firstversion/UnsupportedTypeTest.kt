@@ -12,6 +12,7 @@ import node.staticpkg.ModifierType
 import node.staticpkg.PrintLnType
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 
 class UnsupportedTypeTest {
 
@@ -43,10 +44,20 @@ class UnsupportedTypeTest {
             PrintLnType(VariableType("testLeft", null))
         )
 
-        val formatter = FormatterProvider(list.iterator()).provideFormatter(version)
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, version)
 
         assertThrows(IllegalArgumentException::class.java) {
-            formatter.format()
+            formatter.format(list.iterator())
         }
     }
 }

@@ -7,6 +7,7 @@ import node.staticpkg.ExpressionType
 import node.staticpkg.StaticNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import provider.FormatterProvider
 
 class ExpressionTest {
 
@@ -18,8 +19,20 @@ class ExpressionTest {
         )
 
         val astList = listOf(expression)
-        val formatter = FormatterProvider(astList.iterator()).provideFormatter("1.0")
-        val result = formatter.format()
+
+        val rules = """{
+        "rules": {
+            "spaceBeforeColon": false,
+            "spaceAfterColon": true,
+            "spaceAroundEquals": true,
+            "newlineBeforePrintln": 2,
+            "newlineAfterSemicolon": true
+        }
+    }"""
+
+        val formatter = FormatterProvider().provideFormatter(rules, "1.0")
+        val result = formatter.format(astList.iterator())
+
         val expected = "name = 10;"
 
         assertEquals(expected, result)

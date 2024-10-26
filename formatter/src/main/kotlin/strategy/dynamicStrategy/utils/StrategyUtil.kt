@@ -2,18 +2,19 @@ package strategy.dynamicStrategy.utils
 
 import json.FormattingRules
 import node.dynamic.DynamicNode
+import strategy.provider.DynamicStrategyProvider
 import java.io.Writer
 
 object StrategyUtil {
 
-    fun applyDynamicStrategy(node: DynamicNode, rules: FormattingRules, writer: Writer, dynamicStrategyFactory: DynamicStrategyFactory) {
+    fun applyDynamicStrategy(node: DynamicNode, rules: FormattingRules, writer: Writer, dynamicStrategyProvider: DynamicStrategyProvider) {
         if (rules.spaceAroundEquals) {
             writer.write(" = ")
         } else {
             writer.write("=")
         }
 
-        val dynamicStrategy = dynamicStrategyFactory.getStrategy(node)
+        val dynamicStrategy = dynamicStrategyProvider.getStrategy(node, rules.version)
         dynamicStrategy.apply(node, rules, writer)
         writer.write(";")
     }
