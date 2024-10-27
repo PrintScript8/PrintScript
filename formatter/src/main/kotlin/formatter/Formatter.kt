@@ -3,7 +3,7 @@ package formatter
 import json.FormattingRules
 import node.Node
 import node.staticpkg.*
-import strategy.*
+import strategy.formatstrategy.FormatStrategy
 import java.io.StringWriter
 
 class Formatter(private val rules: FormattingRules, private val strategies: Map<Class<out Node>, FormatStrategy<out Node>>) {

@@ -2,8 +2,8 @@ package strategy.provider
 
 import node.Node
 import node.staticpkg.*
-import strategy.FormatStrategy
-import strategy.staticStrategy.*
+import strategy.formatstrategy.FormatStrategy
+import strategy.strategies.staticStrategy.*
 
 class StrategyProvider {
 

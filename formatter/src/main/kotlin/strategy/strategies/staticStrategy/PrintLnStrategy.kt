@@ -1,12 +1,13 @@
-package strategy.staticStrategy
+package strategy.strategies.staticStrategy
 
 import json.FormattingRules
+import node.dynamic.DynamicNode
 import node.staticpkg.PrintLnType
-import strategy.FormatStrategy
+import strategy.formatstrategy.FormatStrategy
 import strategy.provider.DynamicStrategyProvider
 import java.io.Writer
 
-class PrintLnStrategy: FormatStrategy<PrintLnType> {
+class PrintLnStrategy : FormatStrategy<PrintLnType> {
 
     private val dynamicFactory = DynamicStrategyProvider()
 

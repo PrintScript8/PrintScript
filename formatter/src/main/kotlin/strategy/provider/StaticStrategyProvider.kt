@@ -1,8 +1,17 @@
 package strategy.provider
 
-import node.staticpkg.*
-import strategy.FormatStrategy
-import strategy.staticStrategy.*
+import node.staticpkg.AssignationType
+import node.staticpkg.DeclarationType
+import node.staticpkg.ExpressionType
+import node.staticpkg.IfElseType
+import node.staticpkg.PrintLnType
+import node.staticpkg.StaticNode
+import strategy.formatstrategy.FormatStrategy
+import strategy.strategies.staticStrategy.AssignationStrategy
+import strategy.strategies.staticStrategy.DeclarationStrategy
+import strategy.strategies.staticStrategy.ExpressionStrategy
+import strategy.strategies.staticStrategy.IfElseStrategy
+import strategy.strategies.staticStrategy.PrintLnStrategy
 
 class StaticStrategyProvider {
 
@@ -21,5 +30,4 @@ class StaticStrategyProvider {
             else -> throw IllegalArgumentException("Unknown node type")
         }
     }
-
 }

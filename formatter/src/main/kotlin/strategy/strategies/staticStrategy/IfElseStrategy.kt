@@ -1,13 +1,13 @@
-package strategy.staticStrategy
+package strategy.strategies.staticStrategy
 
 import json.FormattingRules
 import node.staticpkg.IfElseType
-import strategy.FormatStrategy
+import strategy.formatstrategy.FormatStrategy
 import strategy.provider.DynamicStrategyProvider
 import strategy.provider.StaticStrategyProvider
 import java.io.Writer
 
-class IfElseStrategy: FormatStrategy<IfElseType> {
+class IfElseStrategy : FormatStrategy<IfElseType> {
 
     private val dynamicStrategyProvider = DynamicStrategyProvider()
     private val staticStrategyProvider = StaticStrategyProvider()

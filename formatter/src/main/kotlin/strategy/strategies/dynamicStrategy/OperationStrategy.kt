@@ -1,12 +1,16 @@
-package strategy.dynamicStrategy
+package strategy.strategies.dynamicStrategy
 
 import json.FormattingRules
-import node.dynamic.*
-import strategy.FormatStrategy
+import node.dynamic.DivisionType
+import node.dynamic.DynamicNode
+import node.dynamic.MultiplyType
+import node.dynamic.SubtractType
+import node.dynamic.SumType
+import strategy.formatstrategy.FormatStrategy
 import strategy.provider.DynamicStrategyProvider
 import java.io.Writer
 
-class OperationStrategy: FormatStrategy<DynamicNode> {
+class OperationStrategy : FormatStrategy<DynamicNode> {
 
     private val dynamicFactory = DynamicStrategyProvider()
 
@@ -42,10 +46,10 @@ class OperationStrategy: FormatStrategy<DynamicNode> {
     }
 
     private fun writeOperation(left: DynamicNode, operator: String, right: DynamicNode, rules: FormattingRules, writer: Writer) {
-        val leftStrategy = dynamicFactory.getStrategy(left, rules.version)
+        val leftStrategy = dynamicFactory.getStrategy(left, rules.version) as FormatStrategy<DynamicNode>
         leftStrategy.apply(left, rules, writer)
         writer.write(" $operator ")
-        val rightStrategy = dynamicFactory.getStrategy(right, rules.version)
+        val rightStrategy = dynamicFactory.getStrategy(right, rules.version) as FormatStrategy<DynamicNode>
         rightStrategy.apply(right, rules, writer)
     }
 }

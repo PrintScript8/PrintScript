@@ -1,14 +1,14 @@
-package strategy.staticStrategy
+package strategy.strategies.staticStrategy
 
 import json.FormattingRules
 import node.staticpkg.ExpressionType
-import strategy.FormatStrategy
+import strategy.formatstrategy.FormatStrategy
 import strategy.provider.DynamicStrategyProvider
-import strategy.dynamicStrategy.VariableStrategy
-import strategy.dynamicStrategy.utils.StrategyUtil
+import strategy.strategies.dynamicStrategy.VariableStrategy
+import strategy.strategies.dynamicStrategy.utils.StrategyUtil
 import java.io.Writer
 
-class ExpressionStrategy: FormatStrategy<ExpressionType> {
+class ExpressionStrategy : FormatStrategy<ExpressionType> {
 
     private val variableStrategy = VariableStrategy()
     private val dynamicStrategyProvider = DynamicStrategyProvider()

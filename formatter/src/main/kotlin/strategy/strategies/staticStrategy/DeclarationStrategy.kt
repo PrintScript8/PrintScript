@@ -1,8 +1,8 @@
-package strategy.staticStrategy
+package strategy.strategies.staticStrategy
 
 import json.FormattingRules
 import node.staticpkg.DeclarationType
-import strategy.FormatStrategy
+import strategy.formatstrategy.FormatStrategy
 import java.io.Writer
 
 class DeclarationStrategy : FormatStrategy<DeclarationType> {
@@ -32,4 +32,3 @@ class DeclarationStrategy : FormatStrategy<DeclarationType> {
         }
     }
 }
-

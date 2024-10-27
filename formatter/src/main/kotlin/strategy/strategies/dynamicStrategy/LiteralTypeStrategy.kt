@@ -3,7 +3,7 @@ package strategy.dynamicStrategy
 import json.FormattingRules
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
-import strategy.FormatStrategy
+import strategy.formatstrategy.FormatStrategy
 import java.io.Writer
 
 class LiteralTypeStrategy : FormatStrategy<LiteralType> {

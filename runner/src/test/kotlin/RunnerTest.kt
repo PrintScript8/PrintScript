@@ -8,7 +8,7 @@ import java.util.Collections.emptyIterator
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
-class TestRunner {
+class RunnerTest {
 
     private val provider: Iterator<String> = emptyIterator()
 

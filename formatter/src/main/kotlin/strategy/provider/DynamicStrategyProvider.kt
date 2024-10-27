@@ -1,14 +1,14 @@
 package strategy.provider
 
 import node.dynamic.*
-import strategy.FormatStrategy
 import strategy.dynamicStrategy.LiteralTypeStrategy
-import strategy.dynamicStrategy.OperationStrategy
-import strategy.dynamicStrategy.ReadTypeStrategy
-import strategy.dynamicStrategy.VariableStrategy
+import strategy.formatstrategy.FormatStrategy
+import strategy.strategies.dynamicStrategy.OperationStrategy
+import strategy.strategies.dynamicStrategy.ReadTypeStrategy
+import strategy.strategies.dynamicStrategy.VariableStrategy
 
 class DynamicStrategyProvider {
-
+    
     fun getStrategy(node: DynamicNode, version: String): FormatStrategy<DynamicNode> {
         return when (node) {
             is LiteralType -> LiteralTypeStrategy() as FormatStrategy<DynamicNode>

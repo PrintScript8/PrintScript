@@ -1,4 +1,4 @@
-package strategy
+package strategy.formatstrategy
 
 import json.FormattingRules
 import node.Node

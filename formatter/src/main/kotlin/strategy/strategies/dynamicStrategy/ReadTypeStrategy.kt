@@ -1,14 +1,14 @@
-package strategy.dynamicStrategy
+package strategy.strategies.dynamicStrategy
 
 import json.FormattingRules
 import node.dynamic.DynamicNode
 import node.dynamic.ReadEnvType
 import node.dynamic.ReadInputType
-import strategy.FormatStrategy
+import strategy.formatstrategy.FormatStrategy
 import strategy.provider.DynamicStrategyProvider
 import java.io.Writer
 
-class ReadTypeStrategy: FormatStrategy<DynamicNode> {
+class ReadTypeStrategy : FormatStrategy<DynamicNode> {
 
     private val dynamicStrategyProvider = DynamicStrategyProvider()
 
@@ -34,7 +34,7 @@ class ReadTypeStrategy: FormatStrategy<DynamicNode> {
     }
 
     private fun writeOperation(argument: DynamicNode, rules: FormattingRules, writer: Writer) {
-        val argumentStrategy = dynamicStrategyProvider.getStrategy(argument, rules.version)
+        val argumentStrategy = dynamicStrategyProvider.getStrategy(argument, rules.version) as FormatStrategy<DynamicNode>
         argumentStrategy.apply(argument, rules, writer)
     }
 }
