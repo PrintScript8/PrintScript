@@ -12,7 +12,6 @@ data class FormattingRules(
     val spaceAfterColon: Boolean,
     val spaceAroundEquals: Boolean,
     var newlineBeforePrintln: Int,
-    val newlineAfterSemicolon: Boolean,
     var indentation: Int = 0,
     val version: String
 )
@@ -35,7 +34,6 @@ fun parseJsonRules(jsonString: String): FormattingRules {
             spaceAfterColon = rulesObject["spaceAfterColon"]!!.jsonPrimitive.boolean,
             spaceAroundEquals = rulesObject["spaceAroundEquals"]!!.jsonPrimitive.boolean,
             newlineBeforePrintln = rulesObject["newlineBeforePrintln"]!!.jsonPrimitive.int,
-            newlineAfterSemicolon = rulesObject["newlineAfterSemicolon"]!!.jsonPrimitive.boolean,
             version = version
         )
     } catch (e: Exception) {
@@ -80,8 +78,7 @@ private fun getExpectedStructure(): String {
                     "spaceBeforeColon": boolean,
                     "spaceAfterColon": boolean,
                     "spaceAroundEquals": boolean,
-                    "newlineBeforePrintln": Int,
-                    "newlineAfterSemicolon": boolean
+                    "newlineBeforePrintln": Int
                 }
             }
     """.trimIndent()
