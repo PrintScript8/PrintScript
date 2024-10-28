@@ -1,7 +1,6 @@
 package strategy.strategies.staticStrategy
 
 import json.FormattingRules
-import node.dynamic.DynamicNode
 import node.staticpkg.PrintLnType
 import strategy.formatstrategy.FormatStrategy
 import strategy.provider.DynamicStrategyProvider

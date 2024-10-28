@@ -53,15 +53,17 @@ fun formatCode(operations: Operations) {
         println("Formatting code...")
         val totalSteps = 100
         ProgressBar("Formatting", totalSteps.toLong()).use { pb ->
-            val formattedCode = operations.format("""{
-        "rules": {
-            "spaceBeforeColon": false,
-            "spaceAfterColon": true,
-            "spaceAroundEquals": true,
-            "newlineBeforePrintln": 2,
-            "newlineAfterSemicolon": true
-        }
-    }""")
+            val formattedCode = operations.format(
+                """{
+                "rules": {
+                "spaceBeforeColon": false,
+                "spaceAfterColon": true,
+                "spaceAroundEquals": true,
+                "newlineBeforePrintln": 2,
+                "newlineAfterSemicolon": true
+                }
+                }"""
+            )
             // Pass the appropriate JSON string if needed
             for (i in 1..totalSteps) {
                 pb.step()
@@ -69,8 +71,7 @@ fun formatCode(operations: Operations) {
             }
             println("\nFormatted code: $formattedCode")
         }
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         println("Formatting failed: ${e.message}")
     }
 }
@@ -87,8 +88,7 @@ fun executeCode(operations: Operations) {
             }
             println("\nExecution output: $output")
         }
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         println("Execution failed: ${e.message}")
     }
 }
@@ -105,8 +105,7 @@ fun analyzeCode(operations: Operations) {
             }
             println("\nAnalysis complete! Errors: $errors")
         }
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         println("Analysis failed: ${e.message}")
     }
 }

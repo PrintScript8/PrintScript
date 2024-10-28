@@ -2,7 +2,8 @@ package formatter
 
 import json.FormattingRules
 import node.Node
-import node.staticpkg.*
+import node.staticpkg.PrintLnType
+import node.staticpkg.StaticNode
 import strategy.formatstrategy.FormatStrategy
 import java.io.StringWriter
 
@@ -39,7 +40,7 @@ class Formatter(private val rules: FormattingRules, private val strategies: Map<
         writeNewLine(nodes, writer)
     }
 
-    private fun writeNewLine(nodes: Iterator<StaticNode> , writer: StringWriter) {
+    private fun writeNewLine(nodes: Iterator<StaticNode>, writer: StringWriter) {
         if (nodes.hasNext()) {
             writer.write("\n")
         }

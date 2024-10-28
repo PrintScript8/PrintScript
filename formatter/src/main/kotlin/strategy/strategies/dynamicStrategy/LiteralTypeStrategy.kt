@@ -11,7 +11,7 @@ class LiteralTypeStrategy : FormatStrategy<LiteralType> {
     override fun apply(node: LiteralType, rules: FormattingRules, writer: Writer) {
 
         when (node.result) {
-            is LiteralValue.StringValue -> writer.write("\"${node.result.toString()}\"")
+            is LiteralValue.StringValue -> writer.write("\"${node.result}\"")
             is LiteralValue.NumberValue -> writer.write(node.result.toString())
             is LiteralValue.BooleanValue -> writer.write(node.result.toString())
             else -> throw IllegalArgumentException("Unknown node type")

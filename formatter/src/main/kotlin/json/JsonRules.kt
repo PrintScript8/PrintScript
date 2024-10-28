@@ -2,10 +2,10 @@ package json
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.json.buildJsonObject
 
 data class FormattingRules(
     val spaceBeforeColon: Boolean,
@@ -38,13 +38,14 @@ fun parseJsonRules(jsonString: String): FormattingRules {
             newlineAfterSemicolon = rulesObject["newlineAfterSemicolon"]!!.jsonPrimitive.boolean,
             version = version
         )
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         // show a message of the json structure so the user can copy it
-        throw IllegalArgumentException("Invalid JSON structure:\n" +
+        throw IllegalArgumentException(
+            "Invalid JSON structure:\n" +
                 getActualStructure(jsonString) + "\n\n" +
                 "Expected structure:\n" +
-                getExpectedStructure())
+                getExpectedStructure()
+        )
     }
 }
 
@@ -83,5 +84,5 @@ private fun getExpectedStructure(): String {
                     "newlineAfterSemicolon": boolean
                 }
             }
-        """.trimIndent()
+    """.trimIndent()
 }
