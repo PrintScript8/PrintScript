@@ -7,5 +7,5 @@ on:
           - 'dev'
 
 jobs:
-  call_workflow:
-    uses: ezequielrickert/ingsis-library/.github/workflows/on-pull-request.yml@main
+  workflow_call:
+    uses: PrintScript8/ingsis-library/.github/workflows/on-pull-request.yml@main
