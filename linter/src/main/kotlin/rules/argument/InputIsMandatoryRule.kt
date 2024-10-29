@@ -7,7 +7,8 @@ import node.dynamic.LiteralType
 import node.dynamic.ReadInputType
 import node.dynamic.VariableType
 
-class InputIsMandatoryRule(private val isMandatory: Boolean) : ArgumentRule {
+class
+InputIsMandatoryRule(private val isMandatory: Boolean) : ArgumentRule {
     override fun analyzeArguments(node: Node): List<Error> {
         if (node !is ReadInputType) {
             return listOf()

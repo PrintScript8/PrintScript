@@ -3,12 +3,8 @@ package node.staticpkg
 import node.TypeValue
 import node.dynamic.DynamicNode
 import node.dynamic.ReadInputType
-import operations.StaticVisitorV1
 
 class AssignationType(val declaration: DeclarationType, val value: DynamicNode) : StaticNode {
-    override fun visit(visitor: StaticVisitorV1) {
-        visitor.acceptAssignation(this)
-    }
 
     override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
@@ -22,12 +18,6 @@ class AssignationType(val declaration: DeclarationType, val value: DynamicNode) 
         }
         val output = value.execute(map, version)
         return StaticResult(updateValueMap(map, declaration.name, output), outList)
-    }
-
-    override fun format(version: String, indentLevel: Int): String {
-        val indent = "  ".repeat(indentLevel)
-        val decl = (declaration.format(version, indentLevel)).dropLast(1)
-        return "${indent}$decl = ${value.format(version)};"
     }
 
     override fun toString(): String {

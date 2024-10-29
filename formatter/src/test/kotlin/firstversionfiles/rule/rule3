@@ -1,0 +1,8 @@
+{
+    "rules": {
+        "spaceBeforeColon": false,
+        "spaceAfterColon": true,
+        "spaceAroundEquals": false,
+        "newlineBeforePrintln": 2
+    }
+}

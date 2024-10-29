@@ -1,12 +1,8 @@
 package node.staticpkg
 
 import node.TypeValue
-import operations.StaticVisitorV1
 
 class DeclarationType(val modifier: ModifierType, val type: IdentifierType, val name: String) : StaticNode {
-    override fun visit(visitor: StaticVisitorV1) {
-        visitor.acceptDeclaration(this)
-    }
 
     override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
@@ -17,11 +13,6 @@ class DeclarationType(val modifier: ModifierType, val type: IdentifierType, val 
         }
         val newMap = valueMap + (name to Pair(modifier.canModify, TypeValue(null, type.type)))
         return StaticResult(newMap, emptyList())
-    }
-
-    override fun format(version: String, indentLevel: Int): String {
-        val indent = "  ".repeat(indentLevel)
-        return "${indent}${modifier.format(version, indentLevel)} $name: ${type.format(version, indentLevel)};"
     }
 
     override fun toString(): String {

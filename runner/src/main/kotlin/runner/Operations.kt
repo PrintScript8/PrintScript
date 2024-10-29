@@ -1,7 +1,6 @@
 package runner
 
 import error.Error
-import formatter.FormatterInterface
 import inputreader.InputQueueService
 import interpreter.Interpreter
 import interpreter.InterpreterProvider
@@ -24,14 +23,12 @@ class Operations(sourceFile: InputStream, private var version: String, provider:
     private val tokenIterator: Iterator<TokenInterface>
     private val parser: ParserInterface
     private val interpreter: Interpreter
-    private val formatter: FormatterInterface
 
     init {
         lexer = LexerProvider(InputStreamReader(sourceFile)).getLexer(version)
         tokenIterator = lexer.iterator()
         parser = ParserProvider(tokenIterator).getParser(version)
         interpreter = InterpreterProvider(parser.iterator()).provideInterpreter(version)
-        formatter = FormatterProvider(parser.iterator()).provideFormatter(version)
         provider?.let { InputQueueService.initialize(it) }
     }
 
@@ -43,8 +40,9 @@ class Operations(sourceFile: InputStream, private var version: String, provider:
         return interpreter.iterator()
     }
 
-    fun format(): String {
-        return formatter.format()
+    fun format(json: String): String {
+        val formatter = FormatterProvider().provideFormatter(json, version)
+        return formatter.format(parser.iterator())
     }
 
     fun analyze(json: String): List<Error> {

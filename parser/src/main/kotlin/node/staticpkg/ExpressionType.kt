@@ -4,12 +4,8 @@ import node.TypeValue
 import node.dynamic.DynamicNode
 import node.dynamic.ReadInputType
 import node.dynamic.VariableType
-import operations.StaticVisitorV1
 
 class ExpressionType(val variable: VariableType, val value: DynamicNode) : StaticNode {
-    override fun visit(visitor: StaticVisitorV1) {
-        visitor.acceptExpression(this)
-    }
 
     override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,
@@ -23,11 +19,6 @@ class ExpressionType(val variable: VariableType, val value: DynamicNode) : Stati
         }
         val updatedMap = updateValueMap(valueMap, variable.name, result)
         return StaticResult(updatedMap, outList)
-    }
-
-    override fun format(version: String, indentLevel: Int): String {
-        val indent = "  ".repeat(indentLevel)
-        return "${indent}${variable.format(version)} = ${value.format(version)};"
     }
 
     override fun toString(): String {
