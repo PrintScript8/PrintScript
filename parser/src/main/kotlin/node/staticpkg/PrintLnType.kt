@@ -2,12 +2,8 @@ package node.staticpkg
 
 import node.TypeValue
 import node.dynamic.DynamicNode
-import operations.StaticVisitorV1
 
 class PrintLnType(val argument: DynamicNode) : StaticNode {
-    override fun visit(visitor: StaticVisitorV1) {
-        visitor.acceptPrintLn(this)
-    }
 
     override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,

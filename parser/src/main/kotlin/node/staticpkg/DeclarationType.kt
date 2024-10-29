@@ -1,12 +1,8 @@
 package node.staticpkg
 
 import node.TypeValue
-import operations.StaticVisitorV1
 
 class DeclarationType(val modifier: ModifierType, val type: IdentifierType, val name: String) : StaticNode {
-    override fun visit(visitor: StaticVisitorV1) {
-        visitor.acceptDeclaration(this)
-    }
 
     override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,

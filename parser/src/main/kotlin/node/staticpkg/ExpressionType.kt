@@ -4,12 +4,8 @@ import node.TypeValue
 import node.dynamic.DynamicNode
 import node.dynamic.ReadInputType
 import node.dynamic.VariableType
-import operations.StaticVisitorV1
 
 class ExpressionType(val variable: VariableType, val value: DynamicNode) : StaticNode {
-    override fun visit(visitor: StaticVisitorV1) {
-        visitor.acceptExpression(this)
-    }
 
     override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,

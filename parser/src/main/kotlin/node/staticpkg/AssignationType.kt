@@ -3,12 +3,8 @@ package node.staticpkg
 import node.TypeValue
 import node.dynamic.DynamicNode
 import node.dynamic.ReadInputType
-import operations.StaticVisitorV1
 
 class AssignationType(val declaration: DeclarationType, val value: DynamicNode) : StaticNode {
-    override fun visit(visitor: StaticVisitorV1) {
-        visitor.acceptAssignation(this)
-    }
 
     override fun execute(
         valueMap: Map<String, Pair<Boolean, TypeValue>>,

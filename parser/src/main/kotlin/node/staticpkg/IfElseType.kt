@@ -3,16 +3,12 @@ package node.staticpkg
 import node.TypeValue
 import node.dynamic.DynamicNode
 import node.dynamic.LiteralValue
-import operations.StaticVisitorV1
 
 class IfElseType(
     val ifBranch: List<StaticNode>,
     val boolean: DynamicNode,
     val elseBranch: List<StaticNode>?
 ) : StaticNode {
-    override fun visit(visitor: StaticVisitorV1) {
-        TODO("Not yet implemented")
-    }
 
     override fun execute(valueMap: Map<String, Pair<Boolean, TypeValue>>, version: String): StaticResult {
         require(version != "1.0") { "IfElse is not supported in version 1.0" }
