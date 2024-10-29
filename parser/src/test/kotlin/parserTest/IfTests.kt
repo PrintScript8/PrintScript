@@ -1,4 +1,3 @@
-
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
 import node.dynamic.VariableType

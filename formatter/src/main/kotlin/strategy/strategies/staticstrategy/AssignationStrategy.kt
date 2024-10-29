@@ -1,10 +1,10 @@
-package strategy.strategies.staticStrategy
+package strategy.strategies.staticstrategy
 
 import json.FormattingRules
 import node.staticpkg.AssignationType
 import strategy.formatstrategy.FormatStrategy
 import strategy.provider.DynamicStrategyProvider
-import strategy.strategies.dynamicStrategy.utils.StrategyUtil
+import strategy.strategies.dynamicstrategy.utils.StrategyUtil
 import java.io.Writer
 
 class AssignationStrategy : FormatStrategy<AssignationType> {

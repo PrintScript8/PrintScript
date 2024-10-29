@@ -4,6 +4,6 @@ import json.FormattingRules
 import node.Node
 import java.io.Writer
 
-interface FormatStrategy<N : Node> {
-    fun apply(node: N, rules: FormattingRules, writer: Writer)
+interface FormatStrategy<out N : Node> {
+    fun apply(node: @UnsafeVariance N, rules: FormattingRules, writer: Writer)
 }

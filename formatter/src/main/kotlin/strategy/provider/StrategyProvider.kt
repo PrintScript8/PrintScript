@@ -7,15 +7,15 @@ import node.staticpkg.ExpressionType
 import node.staticpkg.IfElseType
 import node.staticpkg.PrintLnType
 import strategy.formatstrategy.FormatStrategy
-import strategy.strategies.staticStrategy.AssignationStrategy
-import strategy.strategies.staticStrategy.DeclarationStrategy
-import strategy.strategies.staticStrategy.ExpressionStrategy
-import strategy.strategies.staticStrategy.IfElseStrategy
-import strategy.strategies.staticStrategy.PrintLnStrategy
+import strategy.strategies.staticstrategy.AssignationStrategy
+import strategy.strategies.staticstrategy.DeclarationStrategy
+import strategy.strategies.staticstrategy.ExpressionStrategy
+import strategy.strategies.staticstrategy.IfElseStrategy
+import strategy.strategies.staticstrategy.PrintLnStrategy
 
 class StrategyProvider {
 
-    fun provideStrategy(version: String): Map<Class<out Node>, FormatStrategy<out Node>> {
+    fun provideStrategy(version: String): Map<Class<out Node>, FormatStrategy<Node>> {
         return when (version) {
             "1.0" -> mapOf(
                 PrintLnType::class.java to PrintLnStrategy(),

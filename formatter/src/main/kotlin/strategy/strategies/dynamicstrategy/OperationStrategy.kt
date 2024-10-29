@@ -1,4 +1,4 @@
-package strategy.strategies.dynamicStrategy
+package strategy.strategies.dynamicstrategy
 
 import json.FormattingRules
 import node.dynamic.DivisionType
@@ -45,7 +45,13 @@ class OperationStrategy : FormatStrategy<DynamicNode> {
         }
     }
 
-    private fun writeOperation(left: DynamicNode, operator: String, right: DynamicNode, rules: FormattingRules, writer: Writer) {
+    private fun writeOperation(
+        left: DynamicNode,
+        operator: String,
+        right: DynamicNode,
+        rules: FormattingRules,
+        writer: Writer
+    ) {
         val leftStrategy = dynamicFactory.getStrategy(left, rules.version) as FormatStrategy<DynamicNode>
         leftStrategy.apply(left, rules, writer)
         writer.write(" $operator ")

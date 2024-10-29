@@ -1,4 +1,4 @@
-package strategy.dynamicStrategy
+package dynamicstrategy
 
 import json.FormattingRules
 import node.dynamic.LiteralType

@@ -1,7 +1,7 @@
 package provider
 
 import formatter.Formatter
-import json.parseJsonRules
+import json.JsonRules
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -16,7 +16,7 @@ class FormatterProvider {
         val parsedRules = Json.parseToJsonElement(rules).jsonObject
         val addConfig = mapOf("version" to JsonPrimitive(version))
         val config = addElementsToJson(parsedRules, addConfig)
-        val formattingRules = parseJsonRules(config.toString())
+        val formattingRules = JsonRules().parseJsonRules(config.toString())
         val strategies = StrategyProvider().provideStrategy(version)
 
         return when (version) {

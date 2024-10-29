@@ -7,25 +7,25 @@ import node.staticpkg.IfElseType
 import node.staticpkg.PrintLnType
 import node.staticpkg.StaticNode
 import strategy.formatstrategy.FormatStrategy
-import strategy.strategies.staticStrategy.AssignationStrategy
-import strategy.strategies.staticStrategy.DeclarationStrategy
-import strategy.strategies.staticStrategy.ExpressionStrategy
-import strategy.strategies.staticStrategy.IfElseStrategy
-import strategy.strategies.staticStrategy.PrintLnStrategy
+import strategy.strategies.staticstrategy.AssignationStrategy
+import strategy.strategies.staticstrategy.DeclarationStrategy
+import strategy.strategies.staticstrategy.ExpressionStrategy
+import strategy.strategies.staticstrategy.IfElseStrategy
+import strategy.strategies.staticstrategy.PrintLnStrategy
 
 class StaticStrategyProvider {
 
     fun getStrategy(node: StaticNode, version: String): FormatStrategy<StaticNode> {
         return when (node) {
-            is DeclarationType -> DeclarationStrategy() as FormatStrategy<StaticNode>
-            is AssignationType -> AssignationStrategy() as FormatStrategy<StaticNode>
-            is PrintLnType -> PrintLnStrategy() as FormatStrategy<StaticNode>
-            is ExpressionType -> ExpressionStrategy() as FormatStrategy<StaticNode>
+            is DeclarationType -> DeclarationStrategy()
+            is AssignationType -> AssignationStrategy()
+            is PrintLnType -> PrintLnStrategy()
+            is ExpressionType -> ExpressionStrategy()
             is IfElseType -> {
-                if (version == "1.0") {
-                    throw IllegalArgumentException("If-Else structure is not supported in version 1.1")
+                require(version == "1.1") {
+                    "IfElseType method not supported for version $version"
                 }
-                IfElseStrategy() as FormatStrategy<StaticNode>
+                IfElseStrategy()
             }
             else -> throw IllegalArgumentException("Unknown node type")
         }

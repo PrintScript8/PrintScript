@@ -21,6 +21,7 @@ class OperationExecutor {
             Action.FORMAT -> formatCode(operations, jsonInput)
             Action.EXECUTE -> executeCode(operations)
             Action.ANALYZE -> analyzeCode(operations, jsonInput)
+            Action.EXIT -> println("Saliendo...")
         }
     }
 

@@ -1,4 +1,4 @@
-package strategy.strategies.dynamicStrategy.utils
+package strategy.strategies.dynamicstrategy.utils
 
 import json.FormattingRules
 import node.dynamic.DynamicNode
@@ -8,7 +8,12 @@ import java.io.Writer
 
 object StrategyUtil {
 
-    fun applyDynamicStrategy(node: DynamicNode, rules: FormattingRules, writer: Writer, dynamicStrategyProvider: DynamicStrategyProvider) {
+    fun applyDynamicStrategy(
+        node: DynamicNode,
+        rules: FormattingRules,
+        writer: Writer,
+        dynamicStrategyProvider: DynamicStrategyProvider
+    ) {
         if (rules.spaceAroundEquals) {
             writer.write(" = ")
         } else {

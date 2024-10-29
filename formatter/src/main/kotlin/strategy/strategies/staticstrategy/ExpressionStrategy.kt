@@ -1,11 +1,11 @@
-package strategy.strategies.staticStrategy
+package strategy.strategies.staticstrategy
 
 import json.FormattingRules
 import node.staticpkg.ExpressionType
 import strategy.formatstrategy.FormatStrategy
 import strategy.provider.DynamicStrategyProvider
-import strategy.strategies.dynamicStrategy.VariableStrategy
-import strategy.strategies.dynamicStrategy.utils.StrategyUtil
+import strategy.strategies.dynamicstrategy.VariableStrategy
+import strategy.strategies.dynamicstrategy.utils.StrategyUtil
 import java.io.Writer
 
 class ExpressionStrategy : FormatStrategy<ExpressionType> {

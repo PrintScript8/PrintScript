@@ -1,5 +1,6 @@
 package strategy.provider
 
+import dynamicstrategy.LiteralTypeStrategy
 import node.dynamic.DivisionType
 import node.dynamic.DynamicNode
 import node.dynamic.LiteralType
@@ -9,11 +10,10 @@ import node.dynamic.ReadInputType
 import node.dynamic.SubtractType
 import node.dynamic.SumType
 import node.dynamic.VariableType
-import strategy.dynamicStrategy.LiteralTypeStrategy
 import strategy.formatstrategy.FormatStrategy
-import strategy.strategies.dynamicStrategy.OperationStrategy
-import strategy.strategies.dynamicStrategy.ReadTypeStrategy
-import strategy.strategies.dynamicStrategy.VariableStrategy
+import strategy.strategies.dynamicstrategy.OperationStrategy
+import strategy.strategies.dynamicstrategy.ReadTypeStrategy
+import strategy.strategies.dynamicstrategy.VariableStrategy
 
 class DynamicStrategyProvider {
 
@@ -23,11 +23,10 @@ class DynamicStrategyProvider {
             is SumType, is SubtractType,
             is MultiplyType, is DivisionType -> OperationStrategy()
             is ReadInputType, is ReadEnvType -> {
-                if (version == "1.1") {
-                    ReadTypeStrategy()
-                } else {
-                    throw IllegalArgumentException("ReadType method not supported in version 1.1")
+                require(version == "1.1") {
+                    "ReadType method not supported for version $version"
                 }
+                ReadTypeStrategy()
             }
             is VariableType -> VariableStrategy() as FormatStrategy<DynamicNode>
             else -> throw IllegalArgumentException("Unknown node type: $node")

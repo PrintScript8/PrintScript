@@ -1,4 +1,4 @@
-package strategy.strategies.dynamicStrategy
+package strategy.strategies.dynamicstrategy
 
 import json.FormattingRules
 import node.dynamic.DynamicNode
@@ -14,8 +14,8 @@ class ReadTypeStrategy : FormatStrategy<DynamicNode> {
 
     override fun apply(node: DynamicNode, rules: FormattingRules, writer: Writer) {
 
-        if (rules.version == "1.0") {
-            throw IllegalArgumentException("ReadType method is not supported in version 1.0")
+        require(rules.version == "1.1") {
+            "ReadType method not supported for version ${rules.version}"
         }
 
         when (node) {
@@ -34,7 +34,7 @@ class ReadTypeStrategy : FormatStrategy<DynamicNode> {
     }
 
     private fun writeOperation(argument: DynamicNode, rules: FormattingRules, writer: Writer) {
-        val argumentStrategy = dynamicStrategyProvider.getStrategy(argument, rules.version) as FormatStrategy<DynamicNode>
+        val argumentStrategy = dynamicStrategyProvider.getStrategy(argument, rules.version)
         argumentStrategy.apply(argument, rules, writer)
     }
 }

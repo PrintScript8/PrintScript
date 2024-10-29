@@ -1,4 +1,4 @@
-package strategy.strategies.staticStrategy
+package strategy.strategies.staticstrategy
 
 import json.FormattingRules
 import node.staticpkg.IfElseType
@@ -14,8 +14,8 @@ class IfElseStrategy : FormatStrategy<IfElseType> {
 
     override fun apply(node: IfElseType, rules: FormattingRules, writer: Writer) {
 
-        if (rules.version == "1.0") {
-            throw IllegalArgumentException("IfElse method is not supported in version 1.0")
+        require(rules.version == "1.1") {
+            "IfElseType method not supported for version ${rules.version}"
         }
 
         val nodeIterator = node.ifBranch.iterator()

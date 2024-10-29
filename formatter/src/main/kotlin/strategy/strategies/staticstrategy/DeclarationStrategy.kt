@@ -1,4 +1,4 @@
-package strategy.strategies.staticStrategy
+package strategy.strategies.staticstrategy
 
 import json.FormattingRules
 import node.staticpkg.DeclarationType
