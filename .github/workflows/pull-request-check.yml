@@ -8,4 +8,4 @@ on:
 
 jobs:
   call_workflow:
-    uses: ezequielrickert/ingsis-library/.github/workflows/on-pull-request.yml@main
+    uses: PrintScript8/ingsis-library/.github/workflows/on-pull-request-printscript.yml@main
