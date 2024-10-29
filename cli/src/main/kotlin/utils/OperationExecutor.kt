@@ -1,4 +1,4 @@
-package cli
+package utils
 
 import me.tongfei.progressbar.ProgressBar
 import runner.Operations

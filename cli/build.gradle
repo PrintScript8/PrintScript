@@ -25,7 +25,3 @@ test {
 kotlin {
     jvmToolchain(18)
 }
-
-application {
-    mainClass.set("cli.MainKt")
-}

@@ -1,10 +1,11 @@
-package cli
+package utils
 
 enum class Action {
     VALIDATE,
     FORMAT,
     EXECUTE,
-    ANALYZE;
+    ANALYZE,
+    EXIT;
 
     fun requiresJson(): Boolean {
         return this == FORMAT || this == ANALYZE
