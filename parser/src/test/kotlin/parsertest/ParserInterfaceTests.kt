@@ -1,3 +1,4 @@
+package parsertest
 
 import node.PrimType
 import node.dynamic.LiteralType

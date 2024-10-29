@@ -1,3 +1,5 @@
+package parsertest
+
 import node.dynamic.LiteralValue
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -66,5 +68,13 @@ class LiteralValueTest {
             val stringValue = LiteralValue.StringValue("Hello")
             numberValue1 * stringValue
         }
+    }
+
+    @Test
+    fun testBooleanType() {
+        val booleanValue1 = LiteralValue.BooleanValue(true)
+        val booleanValue2 = LiteralValue.BooleanValue(false)
+        assertEquals("true", booleanValue1.toString())
+        assertEquals("false", booleanValue2.toString())
     }
 }

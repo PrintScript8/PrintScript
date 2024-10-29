@@ -1,3 +1,5 @@
+package parsertest
+
 import node.dynamic.DivisionType
 import node.dynamic.LiteralType
 import node.dynamic.LiteralValue
