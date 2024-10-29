@@ -1,0 +1,2 @@
+let ugly_test :string="ugly test";
+println("ugly test");

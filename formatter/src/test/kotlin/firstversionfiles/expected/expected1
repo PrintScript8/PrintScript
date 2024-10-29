@@ -1,0 +1,5 @@
+let name: string = "Tom";
+let i: number = 0;
+
+
+println(2);

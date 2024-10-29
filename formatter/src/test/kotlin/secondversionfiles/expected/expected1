@@ -1,0 +1,2 @@
+input = readInput("Enter a number");
+env = readEnv("DATABASE_URL");

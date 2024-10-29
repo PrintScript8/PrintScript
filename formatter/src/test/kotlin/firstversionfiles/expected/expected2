@@ -1,0 +1,6 @@
+let a: boolean = true;
+let b: boolean = false;
+
+println(a);
+
+println(b);

@@ -16,7 +16,7 @@ class PrintLnStrategy : FormatStrategy<PrintLnType> {
         if (newlineBeforePrintln > 0) {
             writer.write("\n".repeat(newlineBeforePrintln))
         }
-        writer.write("    ".repeat(rules.indentation))
+        applyIndentation(rules, writer)
 
         writer.write("println(")
 
@@ -24,5 +24,11 @@ class PrintLnStrategy : FormatStrategy<PrintLnType> {
         dynamicStrategy.apply(node.argument, rules, writer)
 
         writer.write(");")
+    }
+
+    private fun applyIndentation(rules: FormattingRules, writer: Writer) {
+        if (rules.indentation - 1 != 0) {
+            writer.write("    ".repeat(rules.indentation))
+        }
     }
 }
